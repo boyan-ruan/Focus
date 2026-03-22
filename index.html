@@ -1614,7 +1614,7 @@ async function generateReview(){
     html+=`</div>`;
   });
   const mdLines=['# 本周复盘'];
-  sections.forEach(sec=>{const items=review[sec.key]||[];if(items.length)mdLines.push(`## ${sec.title}\n${items.map(i=>'- '+i).join('\n')}');});
+  sections.forEach(sec=>{const items=review[sec.key]||[];if(items.length)mdLines.push(`## ${sec.title}\n${items.map(i=>'- '+i).join('\n')}`);});
   const mdText=mdLines.join('\n\n');
   html+=`<button class="ai-btn" style="background:var(--teal);margin-top:.5rem;" onclick="copyToClipboard(${JSON.stringify(mdText)})">复制为 Markdown</button>`;
   const el=document.getElementById('review-result');el.innerHTML=html;el.style.display='block';
