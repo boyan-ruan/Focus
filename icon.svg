@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <!-- White background circle -->
+  <circle cx="96" cy="96" r="96" fill="#ffffff"/>
+  <!-- Back berries (lighter) -->
+  <circle cx="72" cy="112" r="27" fill="#677BB0"/>
+  <circle cx="120" cy="112" r="27" fill="#677BB0"/>
+  <!-- Front center berry -->
+  <circle cx="96" cy="104" r="33" fill="#4B5B8C"/>
+  <!-- Crown on center berry -->
+  <path d="M84 76 Q88 66 96 70 Q104 66 108 76 Q115 70 116 78 Q122 84 116 88 Q119 96 111 93 Q108 101 100 97 Q98 105 96 104 Q94 105 92 97 Q84 101 81 93 Q73 96 76 88 Q70 84 76 78 Q77 70 84 76Z" fill="#57699B"/>
+  <!-- Crown center highlight -->
+  <circle cx="96" cy="82" r="4.5" fill="#7A8AB8"/>
+  <!-- Leaves on top -->
+  <ellipse cx="90" cy="64" rx="4.5" ry="10" fill="#2a5f35" transform="rotate(-22 90 64)"/>
+  <ellipse cx="102" cy="62" rx="4.5" ry="10" fill="#2a5f35" transform="rotate(18 102 62)"/>
+  <!-- Crown dots on back berries -->
+  <circle cx="72" cy="90" r="3.5" fill="#8A9AC6"/>
+  <circle cx="120" cy="90" r="3.5" fill="#8A9AC6"/>
+  <!-- Subtle highlight on front berry -->
+  <ellipse cx="86" cy="92" rx="8" ry="10" fill="rgba(255,255,255,0.09)" transform="rotate(-30 86 92)"/>
+</svg>
