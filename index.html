@@ -124,10 +124,7 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
 .score-pct{font-size:11px;font-family:'DM Mono',monospace;color:var(--brand);width:30px;text-align:right;}
 
 /* ── DISCIPLINE: VIEW TOGGLE ── */
-.view-toggle-row{display:flex;align-items:center;margin-bottom:.75rem;gap:6px;}
-.vtog{display:flex;gap:3px;background:var(--surface);border-radius:20px;padding:3px;}
-.vtog-btn{padding:4px 12px;border-radius:20px;font-size:11px;border:none;cursor:pointer;color:var(--ink3);background:transparent;font-family:'DM Sans','Noto Sans SC',sans-serif;transition:all .15s;}
-.vtog-btn.on{background:white;color:var(--ink);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,.08);}
+.task-header-row{display:flex;align-items:center;justify-content:flex-end;margin-bottom:.75rem;}
 .add-task-btn{margin-left:auto;display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;border:.5px solid var(--line);background:white;color:var(--brand);cursor:pointer;font-family:'DM Sans','Noto Sans SC',sans-serif;}
 
 /* ── DISCIPLINE: PROGRESS VIEW ── */
@@ -157,20 +154,6 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
 .done-items.open{display:block;}
 
 /* ── DISCIPLINE: BOARD VIEW ── */
-.board-wrap{overflow-x:auto;margin:0 -.25rem;}
-.board-wrap::-webkit-scrollbar{display:none;}
-.board-inner{display:flex;gap:8px;padding:.25rem .25rem 8px;}
-.board-col{flex-shrink:0;width:155px;background:var(--surface);border-radius:var(--r-sm);padding:8px;border:1.5px solid transparent;transition:border .15s,background .15s;}
-.board-col.drag-over{border-color:var(--brand);background:var(--brand-light);}
-.bcol-title{font-size:10px;font-weight:500;color:var(--ink3);letter-spacing:.04em;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;}
-.bcol-count{background:white;border-radius:20px;padding:1px 6px;font-size:9px;}
-.col-add-btn{background:none;border:none;cursor:pointer;color:var(--ink3);font-size:15px;line-height:1;padding:0 2px;}
-.col-add-btn:hover{color:var(--brand);}
-.bcard{background:white;border-radius:var(--r-xs);padding:8px 9px;margin-bottom:5px;border:.5px solid var(--line);cursor:grab;}
-.bcard:active{cursor:grabbing;opacity:.8;}
-.bcard:last-child{margin-bottom:0;}
-.bcard-name{font-size:12px;line-height:1.4;}
-.bcard-foot{display:flex;align-items:center;gap:5px;margin-top:5px;}
 
 /* ── SECTION DIVIDER ── */
 .section-divider{display:flex;align-items:center;gap:8px;margin:1.25rem 0 .875rem;}
@@ -377,8 +360,6 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
   .content-topbar{display:flex;}
   .metric-grid{grid-template-columns:repeat(4,1fr);}
   #toast{bottom:24px;}
-  .board-col{width:auto;}
-  .board-inner{display:grid;grid-template-columns:repeat(4,1fr);}
 }
 @media(min-width:1200px){
   .app{display:flex;flex-direction:row;}
@@ -538,27 +519,15 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
         </div>
       </div>
 
-      <!-- 视图切换 + 任务 -->
-      <div class="view-toggle-row">
-        <div class="vtog">
-          <button class="vtog-btn on" id="btn-progress" onclick="switchDisciplineView('progress')">进度视图</button>
-          <button class="vtog-btn" id="btn-board" onclick="switchDisciplineView('board')">看板视图</button>
-        </div>
+      <!-- 任务 -->
+      <div class="task-header-row">
         <button class="add-task-btn" onclick="showAddTask('todo')">
           <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
           添加
         </button>
       </div>
 
-      <!-- 进度视图 -->
-      <div id="view-progress">
-        <div id="task-groups-container"></div>
-      </div>
-
-      <!-- 看板视图 -->
-      <div id="view-board" style="display:none;">
-        <div class="board-wrap"><div class="board-inner" id="task-board"></div></div>
-      </div>
+      <div id="task-groups-container"></div>
 
       <!-- 专注分割线 -->
       <div class="section-divider">
@@ -870,12 +839,6 @@ const DAY_NAMES = ['周一','周二','周三','周四','周五','周六','周日
 const MEAL_LABELS = {breakfast:'早',lunch:'午',dinner:'晚',snack:'加'};
 const MEAL_NAMES_ZH = {breakfast:'早餐',lunch:'午餐',dinner:'晚餐',snack:'加餐'};
 const MEAL_TYPES = ['breakfast','lunch','dinner','snack'];
-const COL_DEFS = [
-  {status:'todo',label:'待处理'},
-  {status:'doing',label:'进行中'},
-  {status:'blocked',label:'阻塞'},
-  {status:'done',label:'已完成'},
-];
 const TASK_CATEGORIES = ['学业','科研','工作','生活','其他'];
 const DEFAULT_SETTINGS = {
   apiKey:'',
@@ -1376,19 +1339,9 @@ async function importAppleHealth(file){
 }
 
 // ── DISCIPLINE ──
-let _discView='progress';
-function switchDisciplineView(v){
-  _discView=v;
-  document.getElementById('view-progress').style.display=v==='progress'?'block':'none';
-  document.getElementById('view-board').style.display=v==='board'?'block':'none';
-  document.getElementById('btn-progress').classList.toggle('on',v==='progress');
-  document.getElementById('btn-board').classList.toggle('on',v==='board');
-}
-
 function renderDiscipline(){
   renderWeekScore();
   renderTaskProgressView();
-  renderTaskBoard();
   renderHabitsCard();
   pomoRefreshUI();
   renderRightPanel();
@@ -1490,44 +1443,6 @@ function toggleTaskDone(taskId){
   saveTasks(tasks);renderDiscipline();
 }
 
-function renderTaskBoard(){
-  const tasks=loadTasks();let html='';
-  COL_DEFS.forEach(col=>{
-    const colTasks=tasks.filter(t=>t.status===col.status).sort((a,b)=>{
-      if(!a.dueDate&&!b.dueDate)return 0;if(!a.dueDate)return 1;if(!b.dueDate)return -1;
-      return a.dueDate.localeCompare(b.dueDate);
-    });
-    html+=`<div class="board-col" data-status="${col.status}"
-      ondragover="event.preventDefault();this.classList.add('drag-over')"
-      ondragleave="this.classList.remove('drag-over')"
-      ondrop="handleDrop(event,this)">
-      <div class="bcol-title">${col.label}
-        <div style="display:flex;align-items:center;gap:2px;">
-          <span class="bcol-count">${colTasks.length}</span>
-          <button class="col-add-btn" onclick="event.stopPropagation();showAddTask('${col.status}')">+</button>
-        </div>
-      </div>`;
-    colTasks.forEach(task=>{
-      html+=`<div class="bcard" draggable="true" data-id="${task.id}"
-        ondragstart="_dragTaskId=this.dataset.id;this.classList.add('dragging')"
-        ondragend="this.classList.remove('dragging')"
-        onclick="openTaskEdit('${task.id}')">
-        <div class="bcard-name">${task.name}</div>
-        <div class="bcard-foot">${task.dueDate?`<span style="font-size:9px;color:var(--ink3);">${fmtDate(task.dueDate)}</span>`:''}</div>
-      </div>`;
-    });
-    html+=`</div>`;
-  });
-  const board=document.getElementById('task-board');if(board)board.innerHTML=html;
-}
-
-let _dragTaskId=null;
-function handleDrop(e,col){
-  e.preventDefault();col.classList.remove('drag-over');if(!_dragTaskId)return;
-  const tasks=loadTasks();const task=tasks.find(t=>t.id===_dragTaskId);
-  if(task)task.status=col.dataset.status;
-  saveTasks(tasks);_dragTaskId=null;renderTaskBoard();renderTaskProgressView();renderWeekScore();
-}
 
 function showAddTask(defaultStatus='todo'){
   document.getElementById('sheet-content').innerHTML=`
@@ -1570,7 +1485,7 @@ function saveNewTask(){
     createdAt:new Date().toISOString()
   };
   const tasks=loadTasks();tasks.unshift(task);saveTasks(tasks);
-  closeSheet();renderTaskProgressView();renderTaskBoard();renderWeekScore();showToast('任务已创建');
+  closeSheet();renderTaskProgressView();renderWeekScore();showToast('任务已创建');
 }
 
 function openTaskEdit(taskId){
@@ -1928,7 +1843,7 @@ async function generateReview(){
   const tasks=loadTasks();const habits=s.habits||[];
   const focusData=weekDates.map((d,i)=>{const log=loadFocusLog(d);return `${DAY_NAMES[i]}: 专注${log.deepWorkHours||0}h 番茄${log.pomodoroCount||0}个`;}).join('\n');
   const habitData=habits.map(h=>{const n=weekDates.filter(d=>loadHabitLog(d)[h]).length;return `${h}: ${n}/7天`;}).join('\n');
-  const taskSummary=COL_DEFS.map(c=>`${c.label}${tasks.filter(t=>t.status===c.status).length}项`).join('，');
+  const taskSummary=[{status:'todo',label:'待处理'},{status:'doing',label:'进行中'},{status:'blocked',label:'阻塞'},{status:'done',label:'已完成'}].map(c=>`${c.label}${tasks.filter(t=>t.status===c.status).length}项`).join('，');
   const prompt=`分析我本周的自律情况，生成复盘报告。
 任务：${taskSummary}
 专注记录：\n${focusData}
