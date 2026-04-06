@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>健康自律</title>
+<title>ByFocus</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -142,10 +142,6 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
 .task-item:last-child{border-bottom:none;}
 .task-item:hover{background:var(--surface);}
 .task-item.done .t-name{text-decoration:line-through;color:var(--ink3);}
-.pri-bar{width:3px;height:32px;border-radius:2px;flex-shrink:0;}
-.pri-bar.p1{background:var(--red);}
-.pri-bar.p2{background:var(--amber);}
-.pri-bar.p3{background:var(--yellow);}
 .t-info{flex:1;}
 .t-name{font-size:13px;}
 .t-meta{display:flex;align-items:center;gap:6px;margin-top:3px;}
@@ -175,10 +171,6 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
 .bcard:last-child{margin-bottom:0;}
 .bcard-name{font-size:12px;line-height:1.4;}
 .bcard-foot{display:flex;align-items:center;gap:5px;margin-top:5px;}
-.bpill{font-size:9px;padding:1px 6px;border-radius:10px;}
-.bp-red{background:var(--red-bg);color:#8a2a30;}
-.bp-amber{background:var(--amber-bg);color:#8a4520;}
-.bp-yellow{background:var(--yellow-bg);color:#7a6020;}
 
 /* ── SECTION DIVIDER ── */
 .section-divider{display:flex;align-items:center;gap:8px;margin:1.25rem 0 .875rem;}
@@ -407,7 +399,7 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
   <!-- ── SIDEBAR (tablet/desktop) ── -->
   <aside class="sidebar">
     <div class="sidebar-logo">
-      <div class="sidebar-logo-title">健康自律</div>
+      <div class="sidebar-logo-title">ByFocus</div>
       <div class="sidebar-logo-sub" id="sidebar-week-sub">Health · Discipline</div>
     </div>
     <nav class="sidebar-nav-list">
@@ -1124,7 +1116,10 @@ function renderOverview(){
   });
   document.getElementById('ov-habits').innerHTML=habHtml||`<div class="empty-small">在设置页配置习惯列表</div>`;
   // In-progress tasks
-  const doingTasks=tasks.filter(t=>t.status==='doing').slice(0,3);
+  const doingTasks=tasks.filter(t=>t.status==='doing').sort((a,b)=>{
+    if(!a.dueDate&&!b.dueDate)return 0;if(!a.dueDate)return 1;if(!b.dueDate)return -1;
+    return a.dueDate.localeCompare(b.dueDate);
+  }).slice(0,3);
   let tHtml='';
   doingTasks.forEach(t=>{
     tHtml+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:.5px solid var(--line2);">
@@ -1437,7 +1432,10 @@ function renderTaskProgressView(){
   TASK_CATEGORIES.forEach(cat=>{
     const catTasks=groups[cat];if(!catTasks.length)return;
     const doneTasks=catTasks.filter(t=>t.status==='done');
-    const activeTasks=catTasks.filter(t=>t.status!=='done');
+    const activeTasks=catTasks.filter(t=>t.status!=='done').sort((a,b)=>{
+      if(!a.dueDate&&!b.dueDate)return 0;if(!a.dueDate)return 1;if(!b.dueDate)return -1;
+      return a.dueDate.localeCompare(b.dueDate);
+    });
     const pct=catTasks.length?Math.round(doneTasks.length/catTasks.length*100):0;
     html+=`<div class="task-group">
       <div class="tg-header">
@@ -1447,9 +1445,7 @@ function renderTaskProgressView(){
       </div>
       <div class="task-list">`;
     activeTasks.forEach(task=>{
-      const pc={P1:'p1',P2:'p2',P3:'p3'}[task.priority]||'p3';
       html+=`<div class="task-item" onclick="openTaskEdit('${task.id}')">
-        <div class="pri-bar ${pc}"></div>
         <div class="t-info">
           <div class="t-name">${task.name}</div>
           <div class="t-meta"><span class="t-cat">${{todo:'待处理',doing:'进行中',blocked:'阻塞',done:'已完成'}[task.status]||task.status}</span>${task.dueDate?`<span class="t-date">${fmtDate(task.dueDate)}</span>`:''}</div>
@@ -1468,7 +1464,6 @@ function renderTaskProgressView(){
         <div class="done-items">`;
       doneTasks.forEach(task=>{
         html+=`<div class="task-item done" onclick="openTaskEdit('${task.id}')">
-          <div class="pri-bar" style="background:var(--green);"></div>
           <div class="t-info"><div class="t-name">${task.name}</div></div>
           <div class="task-chk on" onclick="event.stopPropagation();toggleTaskDone('${task.id}')">
             <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -1498,7 +1493,10 @@ function toggleTaskDone(taskId){
 function renderTaskBoard(){
   const tasks=loadTasks();let html='';
   COL_DEFS.forEach(col=>{
-    const colTasks=tasks.filter(t=>t.status===col.status);
+    const colTasks=tasks.filter(t=>t.status===col.status).sort((a,b)=>{
+      if(!a.dueDate&&!b.dueDate)return 0;if(!a.dueDate)return 1;if(!b.dueDate)return -1;
+      return a.dueDate.localeCompare(b.dueDate);
+    });
     html+=`<div class="board-col" data-status="${col.status}"
       ondragover="event.preventDefault();this.classList.add('drag-over')"
       ondragleave="this.classList.remove('drag-over')"
@@ -1510,13 +1508,12 @@ function renderTaskBoard(){
         </div>
       </div>`;
     colTasks.forEach(task=>{
-      const bp={P1:'bp-red',P2:'bp-amber',P3:'bp-yellow'}[task.priority]||'bp-yellow';
       html+=`<div class="bcard" draggable="true" data-id="${task.id}"
         ondragstart="_dragTaskId=this.dataset.id;this.classList.add('dragging')"
         ondragend="this.classList.remove('dragging')"
         onclick="openTaskEdit('${task.id}')">
         <div class="bcard-name">${task.name}</div>
-        <div class="bcard-foot"><span class="bpill ${bp}">${task.priority||'P3'}</span>${task.dueDate?`<span style="font-size:9px;color:var(--ink3);">${fmtDate(task.dueDate)}</span>`:''}</div>
+        <div class="bcard-foot">${task.dueDate?`<span style="font-size:9px;color:var(--ink3);">${fmtDate(task.dueDate)}</span>`:''}</div>
       </div>`;
     });
     html+=`</div>`;
@@ -1536,15 +1533,9 @@ function showAddTask(defaultStatus='todo'){
   document.getElementById('sheet-content').innerHTML=`
     <div class="sheet-title">新建任务</div>
     <div class="form-group"><label class="form-label">任务名称</label><input type="text" id="tk-name" class="s-input" placeholder="任务描述..."></div>
-    <div class="form-row">
-      <div class="form-half form-group">
-        <label class="form-label">优先级</label>
-        <select id="tk-pri" class="s-select" style="width:100%;"><option value="P1">P1 紧急</option><option value="P2" selected>P2 重要</option><option value="P3">P3 普通</option></select>
-      </div>
-      <div class="form-half form-group">
-        <label class="form-label">分类</label>
-        <select id="tk-cat" class="s-select" style="width:100%;">${TASK_CATEGORIES.map(c=>`<option value="${c}">${c}</option>`).join('')}</select>
-      </div>
+    <div class="form-group">
+      <label class="form-label">分类</label>
+      <select id="tk-cat" class="s-select" style="width:100%;">${TASK_CATEGORIES.map(c=>`<option value="${c}">${c}</option>`).join('')}</select>
     </div>
     <div class="form-row">
       <div class="form-half form-group">
@@ -1574,7 +1565,6 @@ function saveNewTask(){
   const task={
     id:Date.now().toString(36)+Math.random().toString(36).slice(2),
     name,status:document.getElementById('tk-status').value,
-    priority:document.getElementById('tk-pri').value,
     dueDate:document.getElementById('tk-due').value,
     category:document.getElementById('tk-cat').value,
     createdAt:new Date().toISOString()
@@ -1588,15 +1578,9 @@ function openTaskEdit(taskId){
   document.getElementById('sheet-content').innerHTML=`
     <div class="sheet-title">编辑任务</div>
     <div class="form-group"><label class="form-label">任务名称</label><input type="text" id="et-name" class="s-input" value="${task.name}"></div>
-    <div class="form-row">
-      <div class="form-half form-group">
-        <label class="form-label">优先级</label>
-        <select id="et-pri" class="s-select" style="width:100%;"><option value="P1" ${task.priority==='P1'?'selected':''}>P1 紧急</option><option value="P2" ${task.priority==='P2'?'selected':''}>P2 重要</option><option value="P3" ${task.priority==='P3'?'selected':''}>P3 普通</option></select>
-      </div>
-      <div class="form-half form-group">
-        <label class="form-label">分类</label>
-        <select id="et-cat" class="s-select" style="width:100%;">${TASK_CATEGORIES.map(c=>`<option value="${c}" ${task.category===c?'selected':''}>${c}</option>`).join('')}</select>
-      </div>
+    <div class="form-group">
+      <label class="form-label">分类</label>
+      <select id="et-cat" class="s-select" style="width:100%;">${TASK_CATEGORIES.map(c=>`<option value="${c}" ${task.category===c?'selected':''}>${c}</option>`).join('')}</select>
     </div>
     <div class="form-row">
       <div class="form-half form-group">
@@ -1622,7 +1606,6 @@ function openTaskEdit(taskId){
 function updateTask(id){
   const tasks=loadTasks();const t=tasks.find(t=>t.id===id);if(!t)return;
   t.name=document.getElementById('et-name').value.trim()||t.name;
-  t.priority=document.getElementById('et-pri').value;
   t.status=document.getElementById('et-status').value;
   t.dueDate=document.getElementById('et-due').value;
   t.category=document.getElementById('et-cat').value;
