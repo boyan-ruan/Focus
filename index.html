@@ -107,29 +107,30 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
 .ex-tip{font-size:11px;color:var(--ink3);padding:0 0 4px 28px;line-height:1.4;}
 .health-status{display:flex;align-items:center;gap:8px;padding:10px;background:var(--surface);border-radius:var(--r-sm);border:.5px solid var(--line);margin-bottom:1rem;}
 
-/* ── DISCIPLINE: SCORE RING ── */
-.score-card{background:white;border-radius:var(--r);border:.5px solid var(--line);padding:1rem;margin-bottom:1rem;display:flex;align-items:center;gap:1rem;}
-.ring-wrap{position:relative;flex-shrink:0;}
-.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.ring-val{font-family:'Noto Serif SC',serif;font-size:1.5rem;font-weight:700;color:var(--brand);line-height:1;}
-.ring-sub{font-size:10px;color:var(--ink3);margin-top:2px;}
-.score-details{flex:1;display:flex;flex-direction:column;gap:7px;}
-.score-row{display:flex;align-items:center;gap:8px;}
-.score-lbl{font-size:12px;color:var(--ink2);flex:1;}
-.score-bar{flex:2;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;}
-.score-bar-fill{height:100%;border-radius:2px;}
-.sbf-brand{background:var(--brand);}
-.sbf-green{background:var(--green);}
-.sbf-amber{background:var(--amber);}
-.score-pct{font-size:11px;font-family:'DM Mono',monospace;color:var(--brand);width:30px;text-align:right;}
+/* ── POMO INLINE WIDGET ── */
+.pomo-inline{background:white;border-radius:var(--r);border:.5px solid var(--line);padding:1rem;margin-bottom:.875rem;display:flex;align-items:flex-start;gap:1rem;}
+.pomo-inline-ring{position:relative;width:86px;height:86px;flex-shrink:0;}
+.pomo-inline-ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.pomo-time-lg{font-family:'DM Mono',monospace;font-size:1.25rem;font-weight:500;color:var(--ink);line-height:1;}
+.pomo-ph-sm{font-size:9px;color:var(--brand);margin-top:3px;}
+.pomo-inline-right{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;}
+.pomo-inline-prog{display:flex;flex-direction:column;gap:2px;}
+.pomo-ctrl-row{display:flex;gap:5px;flex-wrap:wrap;}
+.pomo-goal-row{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--ink3);}
+/* Ambient noise */
+.noise-row{display:flex;align-items:center;gap:7px;padding-top:5px;border-top:.5px solid var(--line2);}
+.noise-lbl{font-size:9.5px;color:var(--ink3);flex-shrink:0;}
+.noise-btns{display:flex;gap:4px;flex-wrap:wrap;}
+.noise-btn{width:28px;height:28px;border-radius:6px;background:var(--surface);border:.5px solid var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink2);transition:all .15s;padding:0;}
+.noise-btn:hover{background:var(--surface2);}
+.noise-btn.on{background:var(--brand-light);border-color:var(--brand);color:var(--brand);}
 
 /* ── DISCIPLINE ── */
-.disc-top{display:flex;gap:8px;margin-bottom:.875rem;align-items:flex-start;}
 .task-header-row{display:flex;align-items:center;justify-content:flex-end;margin-bottom:.75rem;}
 .add-task-btn{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;border:.5px solid var(--line);background:white;color:var(--brand);cursor:pointer;font-family:'DM Sans','Noto Sans SC',sans-serif;}
 
 /* Calendar card */
-.cal-card{flex:1;min-width:0;background:white;border-radius:var(--r);border:.5px solid var(--line);overflow:hidden;}
+.cal-card{background:white;border-radius:var(--r);border:.5px solid var(--line);overflow:hidden;margin-bottom:.875rem;}
 .cal-nav{display:flex;align-items:center;justify-content:space-between;padding:.5rem .75rem .25rem;}
 .cal-nav-title{font-size:12px;font-weight:500;}
 .cal-arrows{display:flex;gap:1px;}
@@ -236,19 +237,6 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
 .done-tog.open svg{transform:rotate(90deg);}
 .done-fold-items{display:none;}
 .done-fold-items.open{display:block;}
-
-/* Compact Pomo */
-.pomo-compact{width:90px;background:white;border-radius:var(--r);border:.5px solid var(--line);padding:.5rem .5rem .375rem;cursor:pointer;flex-shrink:0;text-align:center;}
-.pomo-compact:hover{background:var(--surface);}
-.pc-ring-wrap{position:relative;width:42px;height:42px;margin:0 auto 4px;}
-.pc-ring-ctr{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
-.pc-time-sm{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;color:var(--ink);}
-.pc-play-row{display:flex;justify-content:center;margin-bottom:3px;}
-.pc-play-btn{width:22px;height:22px;border-radius:50%;background:var(--brand);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;}
-.pc-play-btn.rest-mode{background:var(--green-dark);}
-.pc-play-btn:hover{opacity:.85;}
-.pc-stat{font-size:8px;color:var(--ink3);display:flex;align-items:center;justify-content:center;gap:2px;}
-.pc-hint{font-size:7.5px;color:var(--ink3);margin-top:2px;opacity:.7;}
 
 /* Section divider */
 .section-divider{display:flex;align-items:center;gap:8px;margin:1.25rem 0 .875rem;}
@@ -584,66 +572,101 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
     <!-- ④ 自律 -->
     <div class="panel" id="panel-discipline">
 
-      <!-- 本周综合评分 -->
-      <div class="score-card">
-        <div class="ring-wrap">
-          <svg width="80" height="80" viewBox="0 0 80 80" style="transform:rotate(-90deg)">
-            <circle cx="40" cy="40" r="32" fill="none" stroke="#E5E9F0" stroke-width="7"/>
-            <circle id="disc-ring" cx="40" cy="40" r="32" fill="none" stroke="#5E81AC" stroke-width="7"
-              stroke-dasharray="201" stroke-dashoffset="201" stroke-linecap="round" style="transition:stroke-dashoffset .6s ease;"/>
+      <!-- 番茄钟内联卡片 -->
+      <div class="pomo-inline">
+        <div class="pomo-inline-ring">
+          <svg width="86" height="86" viewBox="0 0 86 86" style="transform:rotate(-90deg)">
+            <circle cx="43" cy="43" r="36" fill="none" stroke="#E5E9F0" stroke-width="7"/>
+            <circle cx="43" cy="43" r="36" fill="none" stroke="#5E81AC" stroke-width="7"
+              stroke-dasharray="226" stroke-dashoffset="0" stroke-linecap="round"
+              id="pomo-ring-focus" style="transition:stroke-dashoffset .9s linear;"/>
+            <circle cx="43" cy="43" r="36" fill="none" stroke="#A3BE8C" stroke-width="7"
+              stroke-dasharray="226" stroke-dashoffset="226" stroke-linecap="round"
+              id="pomo-ring-rest" style="transition:stroke-dashoffset .9s linear;"/>
           </svg>
-          <div class="ring-center">
-            <div class="ring-val" id="disc-score">—</div>
-            <div class="ring-sub">本周</div>
+          <div class="pomo-inline-ctr">
+            <div class="pomo-time-lg" id="pomo-display">25:00</div>
+            <div class="pomo-ph-sm" id="pomo-phase-mini">专注时长</div>
           </div>
         </div>
-        <div class="score-details">
-          <div class="score-row"><div class="score-lbl">任务完成</div><div class="score-bar"><div class="score-bar-fill sbf-brand" id="sb-task" style="width:0%"></div></div><div class="score-pct" id="sp-task">—</div></div>
-          <div class="score-row"><div class="score-lbl">专注达成</div><div class="score-bar"><div class="score-bar-fill sbf-amber" id="sb-focus" style="width:0%"></div></div><div class="score-pct" id="sp-focus">—</div></div>
-          <div class="score-row"><div class="score-lbl">习惯达成</div><div class="score-bar"><div class="score-bar-fill sbf-green" id="sb-habit" style="width:0%"></div></div><div class="score-pct" id="sp-habit">—</div></div>
+        <div class="pomo-inline-right">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div class="pomo-phase-badge idle" id="pomo-badge"><div id="pomo-badge-text">准备开始</div></div>
+            <div style="font-size:10px;color:var(--ink2);" id="pomo-today-stat">今日 0h · 0 个</div>
+          </div>
+          <div class="pomo-inline-prog">
+            <div style="height:3px;background:var(--surface2);border-radius:2px;overflow:hidden;">
+              <div id="pomo-prog-fill" style="height:100%;background:var(--brand);border-radius:2px;width:0%;transition:width .4s;"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--ink3);">
+              <span id="pomo-session-desc">25min 专注 · 5min 休息</span>
+              <span id="pomo-prog-val" style="color:var(--brand);">0h / 2h</span>
+            </div>
+          </div>
+          <div class="pomo-ctrl-row">
+            <button class="pomo-btn pb-main" id="pomo-main-btn" onclick="pomoMainAction()">
+              <svg id="pomo-main-icon" width="12" height="12" viewBox="0 0 12 12" fill="none"><polygon points="3,1.5 11,6 3,10.5" fill="currentColor"/></svg>
+              <span id="pomo-main-label">开始专注</span>
+            </button>
+            <button class="pomo-btn pb-skip" id="pomo-skip-btn" onclick="pomoSkip()" style="display:none">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2l6 4-6 4V2z" fill="currentColor"/><rect x="9" y="2" width="2" height="8" rx="1" fill="currentColor"/></svg>跳过
+            </button>
+            <button class="pomo-btn pb-stop" id="pomo-stop-btn" onclick="pomoStop()" style="display:none">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="1.5" width="9" height="9" rx="1.5" fill="currentColor"/></svg>结束
+            </button>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div id="pomo-dots" style="display:flex;gap:3px;flex-wrap:wrap;"></div>
+            <div id="pomo-seq" class="pomo-seq" style="flex:1;"></div>
+          </div>
+          <div class="pomo-goal-row">
+            <span>目标</span>
+            <input type="number" id="pomo-goal-input" class="pomo-goal-input" value="2" min="0.5" max="12" step="0.5" onchange="pomoUpdateGoal()">
+            <span>h</span>
+            <span id="pomo-goal-count" style="color:var(--brand);">= 4 个</span>
+          </div>
+          <!-- 白噪音 -->
+          <div class="noise-row">
+            <span class="noise-lbl">白噪音</span>
+            <div class="noise-btns">
+              <button class="noise-btn" id="noise-tides" onclick="toggleNoise('tides')" title="潮汐">
+                <svg width="15" height="15" viewBox="0 0 18 18" fill="none"><path d="M1 11c2.5-3.5 4.5 2 7.5-1s4.5-3.5 7.5 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M1 8c2.5-3 4.5 1.5 7.5-1s4.5-3 7.5.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" opacity=".45"/></svg>
+              </button>
+              <button class="noise-btn" id="noise-waves" onclick="toggleNoise('waves')" title="海浪">
+                <svg width="15" height="15" viewBox="0 0 18 18" fill="none"><path d="M1 12c1.5-2.5 3 1.5 5 0s3.5-3 5-.5 2 2.5 3 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </button>
+              <button class="noise-btn" id="noise-rain" onclick="toggleNoise('rain')" title="雨声">
+                <svg width="15" height="15" viewBox="0 0 18 18" fill="none"><path d="M3 5c0-2.5 3.5-4 7-2.5s4 5 1.5 6.5H4C1.5 7.5 3 5 3 5z" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M5 11l-1 4M9 11l-1 4M13 11l-1 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+              </button>
+              <button class="noise-btn" id="noise-cafe" onclick="toggleNoise('cafe')" title="咖啡馆">
+                <svg width="15" height="15" viewBox="0 0 18 18" fill="none"><path d="M4 7h9l-1.5 7H5.5L4 7z" stroke="currentColor" stroke-width="1.3"/><path d="M13 9h2a2 2 0 010 4h-2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M7 5c0-1.2 1-2 2-1.2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              </button>
+              <button class="noise-btn" id="noise-forest" onclick="toggleNoise('forest')" title="森林">
+                <svg width="15" height="15" viewBox="0 0 18 18" fill="none"><path d="M9 2l4 6H5L9 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 8l5 8H4L9 8z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 16v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+              </button>
+              <button class="noise-btn" id="noise-fireplace" onclick="toggleNoise('fireplace')" title="壁炉">
+                <svg width="15" height="15" viewBox="0 0 18 18" fill="none"><rect x="2" y="10" width="14" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 10V7a4 4 0 018 0v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M9 5c0 2-2 2.5-2 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M11 6c0 1.5-1.5 2-1.5 3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" opacity=".6"/></svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- 顶部双栏：日历 + 紧凑番茄 -->
-      <div class="disc-top">
-        <!-- 日历卡片 -->
-        <div class="cal-card">
-          <div class="cal-nav">
-            <div class="cal-nav-title" id="cal-nav-title">2026年4月</div>
-            <div class="cal-arrows">
-              <button class="cal-arrow" onclick="calNav(-1)"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M7 2.5L4 6l3 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <button class="cal-arrow" onclick="calNav(1)"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2.5L8 6l-3 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
+      <!-- 日历卡片（独立全宽） -->
+      <div class="cal-card">
+        <div class="cal-nav">
+          <div class="cal-nav-title" id="cal-nav-title">2026年4月</div>
+          <div class="cal-arrows">
+            <button class="cal-arrow" onclick="calNav(-1)"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M7 2.5L4 6l3 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="cal-arrow" onclick="calNav(1)"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2.5L8 6l-3 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           </div>
-          <div class="cal-vtog">
-            <button class="cal-vtb on" id="cvt-d" onclick="setCalView('day')">日</button>
-            <button class="cal-vtb" id="cvt-w" onclick="setCalView('week')">周</button>
-            <button class="cal-vtb" id="cvt-m" onclick="setCalView('month')">月</button>
-          </div>
-          <div class="cal-body" id="cal-body"></div>
         </div>
-        <!-- 紧凑番茄钟 -->
-        <div class="pomo-compact" onclick="openPomoSheet()">
-          <div class="pc-ring-wrap">
-            <svg width="42" height="42" viewBox="0 0 42 42" style="transform:rotate(-90deg)">
-              <circle cx="21" cy="21" r="17" fill="none" stroke="#E5E9F0" stroke-width="4"/>
-              <circle cx="21" cy="21" r="17" fill="none" stroke="#5E81AC" stroke-width="4"
-                stroke-dasharray="107" stroke-dashoffset="0" stroke-linecap="round"
-                id="pc-ring-f" style="transition:stroke-dashoffset .9s linear;"/>
-              <circle cx="21" cy="21" r="17" fill="none" stroke="#A3BE8C" stroke-width="4"
-                stroke-dasharray="107" stroke-dashoffset="107" stroke-linecap="round"
-                id="pc-ring-r" style="transition:stroke-dashoffset .9s linear;"/>
-            </svg>
-            <div class="pc-ring-ctr"><div class="pc-time-sm" id="pc-time-d">25:00</div></div>
-          </div>
-          <div class="pc-play-row">
-            <button class="pc-play-btn" id="pc-play-btn" onclick="event.stopPropagation();pomoMainAction()">
-              <svg id="pc-play-ic" width="10" height="10" viewBox="0 0 12 12" fill="none"><polygon points="3,1.5 11,6 3,10.5" fill="white"/></svg>
-            </button>
-          </div>
-          <div class="pc-stat"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><path d="M5 3v2.5l1.5 1" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg><span id="pc-stat-n">0 个</span></div>
-          <div class="pc-hint">展开</div>
+        <div class="cal-vtog">
+          <button class="cal-vtb on" id="cvt-d" onclick="setCalView('day')">日</button>
+          <button class="cal-vtb" id="cvt-w" onclick="setCalView('week')">周</button>
+          <button class="cal-vtb" id="cvt-m" onclick="setCalView('month')">月</button>
         </div>
+        <div class="cal-body" id="cal-body"></div>
       </div>
 
       <!-- 添加按钮 -->
@@ -654,21 +677,8 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
         </button>
       </div>
 
-      <!-- 任务列表（随日历视图联动） -->
+      <!-- 任务列表（始终显示所有项目） -->
       <div id="disc-task-list"></div>
-
-      <!-- 今日习惯 -->
-      <div class="section-divider"><div class="sd-line"></div><div class="sd-label">今日习惯</div><div class="sd-line"></div></div>
-      <div class="habit-card" id="habit-card-container">
-        <div class="habit-card-hd">
-          <div class="habit-card-title">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            习惯打卡
-          </div>
-          <div class="habit-streak-info">连续 <span id="habit-streak-days">0</span> 天</div>
-        </div>
-        <div id="habit-list"></div>
-      </div>
 
       <!-- AI 复盘 -->
       <button class="review-btn" onclick="generateReview()">
@@ -837,8 +847,21 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
   <div class="right-panel" id="right-panel">
     <div class="rp-title">今日快览</div>
     <div id="rp-habits-section">
-      <div class="sec-hd" style="margin-top:0;"><div class="sec-title">习惯打卡</div></div>
+      <div class="sec-hd" style="margin-top:0;">
+        <div class="sec-title">习惯打卡</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span id="rp-habit-streak" style="font-size:10px;color:var(--ink3);">连续 0 天</span>
+          <div class="sec-action" onclick="openHabitEditSheet()">编辑</div>
+        </div>
+      </div>
       <div class="card" style="cursor:default;"><div class="card-body"><div id="rp-habits"></div></div></div>
+    </div>
+    <div style="margin-top:1.25rem;" id="rp-tasks-section">
+      <div class="sec-hd" style="margin-top:0;">
+        <div class="sec-title">今日任务</div>
+        <div class="sec-action" onclick="switchTab('discipline')">全部 →</div>
+      </div>
+      <div class="card" style="cursor:default;"><div class="card-body" style="padding:.5rem 0;"><div id="rp-today-tasks"></div></div></div>
     </div>
     <div style="margin-top:1.25rem;">
       <div class="sec-hd" style="margin-top:0;"><div class="sec-title">今日专注</div></div>
@@ -1158,18 +1181,25 @@ function renderOverview(){
   });
   document.getElementById('ov-habits').innerHTML=habHtml||`<div class="empty-small">在设置页配置习惯列表</div>`;
   // In-progress tasks
-  const doingTasks=tasks.filter(t=>t.status==='doing').sort((a,b)=>{
-    if(!a.dueDate&&!b.dueDate)return 0;if(!a.dueDate)return 1;if(!b.dueDate)return -1;
-    return a.dueDate.localeCompare(b.dueDate);
-  }).slice(0,3);
+  const projs=loadProjects();
+  const doingTasks=tasks
+    .filter(t=>t.status!=='done')
+    .sort((a,b)=>(b.date||b.createdAt||'').localeCompare(a.date||a.createdAt||''))
+    .slice(0,4);
+  const statusLabel={todo:'待处理',doing:'进行中',blocked:'阻塞'};
   let tHtml='';
   doingTasks.forEach(t=>{
-    tHtml+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:.5px solid var(--line2);">
-      <span style="font-size:13px;">${t.name}</span>
-      <span class="pill pill-brand">进行中</span>
+    const proj=projs.find(p=>p.id===t.projectId);
+    const dot=proj?`<div style="width:7px;height:7px;border-radius:50%;background:${proj.bg};flex-shrink:0;"></div>`:'';
+    const lbl=statusLabel[t.status]||t.status;
+    const pillCls=t.status==='blocked'?'pill-amber':t.status==='doing'?'pill-brand':'pill-green';
+    tHtml+=`<div style="display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:.5px solid var(--line2);">
+      ${dot}
+      <span style="font-size:13px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${t.name}</span>
+      <span class="pill ${pillCls}">${lbl}</span>
     </div>`;
   });
-  document.getElementById('ov-tasks').innerHTML=tHtml||`<div class="empty-small">暂无进行中任务</div>`;
+  document.getElementById('ov-tasks').innerHTML=tHtml||`<div class="empty-small">暂无未完成任务</div>`;
   // Right panel
   renderRightPanel();
 }
@@ -1186,6 +1216,45 @@ function renderRightPanel(){
     </div>`;
   });
   const rpH=document.getElementById('rp-habits');if(rpH)rpH.innerHTML=habHtml||'<div class="empty-small">在设置页配置习惯</div>';
+
+  // habit streak
+  let streak=0;
+  if(habits.length){
+    const d=new Date();
+    for(let i=0;i<365;i++){
+      const ds=d.toISOString().slice(0,10);
+      const log=loadHabitLog(ds);
+      if(habits.every(h=>log[h])) streak++;
+      else break;
+      d.setDate(d.getDate()-1);
+    }
+  }
+  const rpStr=document.getElementById('rp-habit-streak');if(rpStr)rpStr.textContent=`连续 ${streak} 天`;
+
+  // today tasks
+  const todayTasks=loadTasks()
+    .filter(t=>t.date===today&&t.status!=='done')
+    .sort((a,b)=>(a.timeSlot||'zzz').localeCompare(b.timeSlot||'zzz'))
+    .slice(0,5);
+  const rpTT=document.getElementById('rp-today-tasks');
+  if(rpTT){
+    const projs=loadProjects();
+    rpTT.innerHTML=todayTasks.length
+      ?todayTasks.map(t=>{
+          const proj=projs.find(p=>p.id===t.projectId);
+          const dot=proj?`<div style="width:7px;height:7px;border-radius:50%;background:${proj.bg};flex-shrink:0;margin-top:3px;"></div>`:'<div style="width:7px;height:7px;flex-shrink:0;"></div>';
+          const ts=t.timeSlot?`<span style="font-size:9px;color:var(--brand);font-family:monospace;margin-right:3px;">${t.timeSlot}</span>`:'';
+          return `<div style="display:flex;align-items:flex-start;gap:8px;padding:5px 1rem;border-bottom:.5px solid var(--line2);">
+            ${dot}
+            <div style="flex:1;min-width:0;">${ts}<span style="font-size:12.5px;">${t.name}</span></div>
+            <div class="sub-chk${t.status==='done'?' on':''}" onclick="toggleSubDone('${t.id}')" style="flex-shrink:0;">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3L10 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>`;
+        }).join('')
+      :`<div class="empty-small" style="padding:.5rem 1rem;">今日无安排任务</div>`;
+  }
+
   const log=loadFocusLog(today);
   const rpFH=document.getElementById('rp-focus-h');if(rpFH)rpFH.textContent=(log.deepWorkHours||0)+'h';
   const rpPN=document.getElementById('rp-pomo-n');if(rpPN)rpPN.textContent=log.pomodoroCount||0;
@@ -1423,36 +1492,13 @@ const _td=new Date();
 const CAL={view:'day',y:_td.getFullYear(),m:_td.getMonth()+1,d:_td.getDate()};
 
 function renderDiscipline(){
-  renderWeekScore();
   renderCalendar();
   renderDiscTaskList();
-  renderHabitsCard();
   pomoRefreshUI();
-  pomoRefreshCompact();
   renderRightPanel();
 }
 
-function renderWeekScore(){
-  const wk=getWeekKey();const weekDates=getWeekDates(wk);const s=loadSettings();
-  const tasks=loadTasks();
-  const done=tasks.filter(t=>t.status==='done').length;const total=tasks.length;
-  const taskRate=total?Math.round(done/total*100):0;
-  const focusGoal=s.focusGoalHours||2;
-  const focusTotal=weekDates.reduce((sum,d)=>sum+(loadFocusLog(d).deepWorkHours||0),0);
-  const focusRate=Math.min(100,Math.round(focusTotal/(focusGoal*7)*100));
-  const habits=s.habits||[];
-  const habitRates=weekDates.map(d=>{const log=loadHabitLog(d);return habits.length?habits.filter(h=>log[h]).length/habits.length*100:0;});
-  const habitRate=Math.round(habitRates.reduce((a,b)=>a+b,0)/7);
-  const overall=Math.round((taskRate+focusRate+habitRate)/3);
-  const CIRC=2*Math.PI*32;
-  const ring=document.getElementById('disc-ring');if(ring)ring.style.strokeDashoffset=CIRC*(1-overall/100);
-  const scoreEl=document.getElementById('disc-score');if(scoreEl)scoreEl.textContent=overall;
-  const setBar=(id,pct)=>{const el=document.getElementById(id);if(el)el.style.width=pct+'%';};
-  const setPct=(id,pct)=>{const el=document.getElementById(id);if(el)el.textContent=pct+'%';};
-  setBar('sb-task',taskRate);setPct('sp-task',taskRate);
-  setBar('sb-focus',focusRate);setPct('sp-focus',focusRate);
-  setBar('sb-habit',habitRate);setPct('sp-habit',habitRate);
-}
+function renderWeekScore(){}
 
 // ── CALENDAR ──
 function setCalView(v){
@@ -1460,7 +1506,6 @@ function setCalView(v){
   ['d','w','m'].forEach(x=>{const el=document.getElementById('cvt-'+x);if(el)el.classList.remove('on');});
   const active=document.getElementById('cvt-'+v[0]);if(active)active.classList.add('on');
   renderCalendar();
-  renderDiscTaskList();
 }
 
 function calNav(delta){
@@ -1615,7 +1660,10 @@ function renderDayView(){
     slotTasks.forEach(t=>{
       const proj=projs.find(p=>p.id===t.projectId);
       const bg=proj?proj.bg:'var(--surface)';const stroke=proj?(PROJ_STROKE[proj.bg]||'#5E81AC'):'var(--ink2)';
-      h+=`<div style="border-radius:3px;padding:3px 5px;font-size:9px;line-height:1.3;cursor:pointer;margin-bottom:2px;background:${bg};" onclick="openSubSheet('${t.id}')"><div style="font-weight:500;color:${stroke};">${t.name}</div><div style="opacity:.7;margin-top:1px;font-size:8px;color:${stroke};">${t.timeSlot||''}</div></div>`;
+      const parts=(t.timeSlot||'').split(/[–\-]/);
+      const parseH=s=>parseInt((s||'0').split(':')[0]);
+      const durationH=parts[1]?Math.max(1,parseH(parts[1])-parseH(parts[0])):1;
+      h+=`<div style="border-radius:3px;padding:3px 5px;font-size:9px;line-height:1.3;cursor:pointer;margin-bottom:2px;background:${bg};min-height:${durationH*26}px;" onclick="openSubSheet('${t.id}')"><div style="font-weight:500;color:${stroke};">${t.name}</div><div style="opacity:.7;margin-top:1px;font-size:8px;color:${stroke};">${t.timeSlot||''}</div></div>`;
     });
     if(!slotTasks.length)h+=`<div style="height:18px;cursor:pointer;border-radius:3px;" onclick="quickAddSub('${ds}','${sl}:00')" title="添加任务"></div>`;
     h+=`</div></div>`;
@@ -1637,34 +1685,20 @@ function renderDayView(){
   return h;
 }
 
-// ── TASK LIST (linked to calendar view) ──
+// ── TASK LIST (always all projects, sorted by most recent active task) ──
 function renderDiscTaskList(){
   const container=document.getElementById('disc-task-list');if(!container)return;
   const projs=loadProjects();const tasks=loadTasks();
-  if(CAL.view==='month'){
-    // show all projects with progress
-    let h='';
-    projs.forEach(proj=>{
-      const subs=tasks.filter(t=>t.projectId===proj.id);
-      h+=renderProjCard(proj,subs);
-    });
-    // loose tasks (no project)
-    const loose=tasks.filter(t=>!t.projectId);
-    if(loose.length)h+=renderLooseTasks(loose);
-    container.innerHTML=h||`<div class="empty-small">暂无项目，点击「添加」创建</div>`;
-  } else if(CAL.view==='week'){
-    const ref=new Date(CAL.y,CAL.m-1,CAL.d);
-    const sun=new Date(ref);sun.setDate(ref.getDate()-ref.getDay());
-    const sat=new Date(sun);sat.setDate(sun.getDate()+6);
-    const weekTasks=tasks.filter(t=>{if(!t.date)return false;const d=new Date(t.date);return d>=sun&&d<=sat;});
-    const h=weekTasks.length?weekTasks.map(t=>{const proj=projs.find(p=>p.id===t.projectId);return renderSubRow(t,proj);}).join(''):`<div class="empty-small">本周暂无任务</div>`;
-    container.innerHTML=h;
-  } else {
-    const ds=`${CAL.y}-${String(CAL.m).padStart(2,'0')}-${String(CAL.d).padStart(2,'0')}`;
-    const dayTasks=tasks.filter(t=>t.date===ds);
-    const h=dayTasks.length?dayTasks.map(t=>{const proj=projs.find(p=>p.id===t.projectId);return renderSubRow(t,proj);}).join(''):`<div class="empty-small">今日暂无任务</div>`;
-    container.innerHTML=h;
-  }
+  const latestActive=pid=>tasks.filter(t=>t.projectId===pid&&t.status!=='done').map(t=>t.date||'').sort().reverse()[0]||'';
+  const sorted=[...projs].sort((a,b)=>latestActive(b.id).localeCompare(latestActive(a.id)));
+  let h='';
+  sorted.forEach(proj=>{
+    const subs=tasks.filter(t=>t.projectId===proj.id);
+    if(subs.length) h+=renderProjCard(proj,subs);
+  });
+  const loose=tasks.filter(t=>!t.projectId);
+  if(loose.length) h+=renderLooseTasks(loose);
+  container.innerHTML=h||`<div class="empty-small">暂无项目，点击「添加」创建</div>`;
 }
 
 function renderProjCard(proj,subs){
@@ -1747,7 +1781,7 @@ function toggleFold(btn){
 function toggleSubDone(sid){
   const tasks=loadTasks();const t=tasks.find(t=>t.id===sid);if(!t)return;
   t.status=t.status==='done'?'todo':'done';
-  saveTasks(tasks);renderDiscTaskList();renderWeekScore();
+  saveTasks(tasks);renderDiscTaskList();
 }
 
 // ── ADD MENU ──
@@ -1852,7 +1886,7 @@ function saveNewSub(){
     steps:[],status:'todo',createdAt:new Date().toISOString()
   };
   const tasks=loadTasks();tasks.unshift(task);saveTasks(tasks);
-  closeSheet();renderCalendar();renderDiscTaskList();renderWeekScore();showToast('任务已创建');
+  closeSheet();renderCalendar();renderDiscTaskList();showToast('任务已创建');
 }
 
 function openSubSheet(sid){
@@ -1920,12 +1954,12 @@ function saveSubEdit(sid){
   t.status=document.getElementById('ss-status').value;
   t.date=document.getElementById('ss-date').value;
   t.timeSlot=document.getElementById('ss-time').value.trim();
-  saveTasks(tasks);closeSheet();renderCalendar();renderDiscTaskList();renderWeekScore();showToast('已保存');
+  saveTasks(tasks);closeSheet();renderCalendar();renderDiscTaskList();showToast('已保存');
 }
 
 function deleteSubTask(sid){
   if(!confirm('确定删除这个子任务？'))return;
-  saveTasks(loadTasks().filter(t=>t.id!==sid));closeSheet();renderCalendar();renderDiscTaskList();renderWeekScore();showToast('已删除');
+  saveTasks(loadTasks().filter(t=>t.id!==sid));closeSheet();renderCalendar();renderDiscTaskList();showToast('已删除');
 }
 
 function quickAddSub(date,timeSlot){
@@ -1993,6 +2027,86 @@ const POMO = {
 
 function pomoGetFocusMin(){return parseInt(loadSettings().pomodoroMinutes)||25;}
 function pomoGetRestMin(){return parseInt(loadSettings().restMinutes)||5;}
+
+// ── AMBIENT NOISE ──
+const NOISE = { ctx: null, nodes: {}, active: new Set() };
+
+function noiseGetCtx(){
+  if(!NOISE.ctx) NOISE.ctx = new (window.AudioContext||window.webkitAudioContext)();
+  if(NOISE.ctx.state==='suspended') NOISE.ctx.resume();
+  return NOISE.ctx;
+}
+
+function noiseStart(id){
+  const ctx = noiseGetCtx();
+  const bufSize = 4096;
+  const node = ctx.createScriptProcessor(bufSize, 1, 1);
+  let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0; // brown noise state
+
+  node.onaudioprocess = function(e){
+    const out = e.outputBuffer.getChannelData(0);
+    for(let i=0;i<bufSize;i++){
+      const w = Math.random()*2-1; // white noise
+      if(id==='rain'||id==='forest'){
+        // White noise + light bandpass feel (just filtered white)
+        out[i] = w * 0.18;
+      } else if(id==='cafe'){
+        // Brown noise
+        b0=0.99886*b0+w*0.0555179; b1=0.99332*b1+w*0.0750759;
+        b2=0.96900*b2+w*0.1538520; b3=0.86650*b3+w*0.3104856;
+        b4=0.55000*b4+w*0.5329522; b5=-0.7616*b5-w*0.0168980;
+        out[i]=(b0+b1+b2+b3+b4+b5+b6+w*0.5362)*0.06; b6=w*0.115926;
+      } else if(id==='fireplace'){
+        b0=0.99886*b0+w*0.0555179; b1=0.99332*b1+w*0.0750759;
+        b2=0.96900*b2+w*0.1538520; b3=0.86650*b3+w*0.3104856;
+        b4=0.55000*b4+w*0.5329522; b5=-0.7616*b5-w*0.0168980;
+        out[i]=(b0+b1+b2+b3+b4+b5+b6+w*0.5362)*0.04; b6=w*0.115926;
+      } else {
+        // tides / waves — white noise with mild low-pass
+        b0=0.9*b0+w*0.1;
+        out[i]=b0*(id==='tides'?0.22:0.30);
+      }
+    }
+  };
+
+  // LFO for tides/waves
+  let lfo=null, lfoGain=null;
+  if(id==='tides'||id==='waves'){
+    lfo = ctx.createOscillator();
+    lfoGain = ctx.createGain();
+    lfo.frequency.value = id==='tides' ? 0.07 : 0.18;
+    lfoGain.gain.value = 0.5;
+    lfo.connect(lfoGain);
+    const amp = ctx.createGain();
+    amp.gain.value = 0.5;
+    lfoGain.connect(amp.gain);
+    node.connect(amp);
+    amp.connect(ctx.destination);
+    lfo.start();
+    NOISE.nodes[id] = { node, lfo, amp };
+  } else {
+    node.connect(ctx.destination);
+    NOISE.nodes[id] = { node };
+  }
+}
+
+function noiseStop(id){
+  const n = NOISE.nodes[id]; if(!n) return;
+  const ctx = noiseGetCtx();
+  const now = ctx.currentTime;
+  try {
+    if(n.amp){ n.amp.gain.setTargetAtTime(0, now, 0.3); setTimeout(()=>{try{n.node.disconnect();n.amp.disconnect();if(n.lfo)n.lfo.stop();}catch(e){}},900); }
+    else { setTimeout(()=>{try{n.node.disconnect();}catch(e){}},900); }
+  } catch(e){}
+  delete NOISE.nodes[id];
+}
+
+function toggleNoise(id){
+  if(NOISE.active.has(id)){ NOISE.active.delete(id); noiseStop(id); }
+  else { NOISE.active.add(id); noiseStart(id); }
+  const btn = document.getElementById('noise-'+id);
+  if(btn) btn.classList.toggle('on', NOISE.active.has(id));
+}
 
 function pomoUpdateGoal(){
   const inp=document.getElementById('pomo-goal-input');
@@ -2121,32 +2235,7 @@ function openPomoSheet(){
   pomoUpdateProgress();pomoRenderDots();pomoBuildSeqPills();
 }
 
-function pomoRefreshCompact(){
-  const PC_CIRC=2*Math.PI*17;
-  const rf=document.getElementById('pc-ring-f');
-  const rr=document.getElementById('pc-ring-r');
-  const td=document.getElementById('pc-time-d');
-  const pi=document.getElementById('pc-play-ic');
-  const sn=document.getElementById('pc-stat-n');
-  if(POMO.state==='idle'){
-    const dflt=String(pomoGetFocusMin()).padStart(2,'0')+':00';
-    if(rf)rf.style.strokeDashoffset='0';
-    if(rr)rr.style.strokeDashoffset=PC_CIRC;
-    if(td)td.textContent=dflt;
-  } else {
-    const pct=POMO.currentSecs/Math.max(1,POMO.totalSecs);
-    const offset=PC_CIRC*(1-pct);
-    if(!POMO.isRest){if(rf)rf.style.strokeDashoffset=offset;if(rr)rr.style.strokeDashoffset=PC_CIRC;}
-    else{if(rf)rf.style.strokeDashoffset=PC_CIRC;if(rr)rr.style.strokeDashoffset=offset;}
-    const m=String(Math.floor(POMO.currentSecs/60)).padStart(2,'0');const s=String(POMO.currentSecs%60).padStart(2,'0');
-    if(td)td.textContent=`${m}:${s}`;
-  }
-  const isRunning=POMO.state==='focus'||POMO.state==='rest';
-  if(pi){pi.innerHTML=isRunning
-    ?'<rect x="1.5" y="1" width="3" height="10" rx="1" fill="white"/><rect x="7.5" y="1" width="3" height="10" rx="1" fill="white"/>'
-    :'<polygon points="3,1.5 11,6 3,10.5" fill="white"/>';}
-  if(sn)sn.textContent=POMO.tomoComplete+' 个';
-}
+function pomoRefreshCompact(){}
 
 function pomoMainAction(){
   if(POMO.state==='idle')pomoStartFocus();
@@ -2281,7 +2370,6 @@ function pomoUpdateRing(){
   const rr=document.getElementById('pomo-ring-rest');
   if(!POMO.isRest){if(rf)rf.style.strokeDashoffset=offset;if(rr)rr.style.strokeDashoffset=POMO.CIRC;}
   else{if(rf)rf.style.strokeDashoffset=POMO.CIRC;if(rr)rr.style.strokeDashoffset=offset;}
-  pomoRefreshCompact();
 }
 
 function pomoUpdateTimeDisplay(){
@@ -2418,6 +2506,48 @@ function updateBMR(){
   const bmr=calcBMR(s),tdee=calcTDEE(s);
   document.getElementById('d-bmr').textContent=bmr?bmr.toLocaleString()+' kcal':'—';
   document.getElementById('d-tdee').textContent=tdee?tdee.toLocaleString()+' kcal':'—';
+}
+
+function openHabitEditSheet(){
+  const s=loadSettings();const habits=s.habits||[];
+  document.getElementById('sheet-content').innerHTML=`
+    <div style="font-size:14px;font-weight:600;margin-bottom:1rem;">编辑习惯</div>
+    <div id="sheet-habits-editor">
+      ${habits.map((h,i)=>`<div class="habit-edit-row">
+        <input type="text" class="s-input" style="flex:1;" value="${h}" data-idx="${i}">
+        <button class="del-btn" onclick="sheetRemoveHabit(${i})">×</button>
+      </div>`).join('')}
+    </div>
+    <button class="pj-add-row" style="width:100%;margin-top:8px;" onclick="sheetAddHabit()">
+      <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> 添加习惯
+    </button>
+    <div class="sheet-actions" style="padding-top:1rem;">
+      <button class="sheet-btn sheet-btn-primary" onclick="sheetSaveHabits()">保存</button>
+      <button class="sheet-btn sheet-btn-secondary" onclick="closeSheet()">取消</button>
+    </div>`;
+  openSheet();
+}
+function sheetRenderHabits(){
+  const s=loadSettings();const habits=s.habits||[];
+  const c=document.getElementById('sheet-habits-editor');if(!c)return;
+  c.innerHTML=habits.map((h,i)=>`<div class="habit-edit-row">
+    <input type="text" class="s-input" style="flex:1;" value="${h}" data-idx="${i}">
+    <button class="del-btn" onclick="sheetRemoveHabit(${i})">×</button>
+  </div>`).join('');
+}
+function sheetAddHabit(){
+  const s=loadSettings();if((s.habits||[]).length>=8){showToast('最多 8 个习惯');return;}
+  s.habits=[...(s.habits||[]),''];saveSettingsObj(s);sheetRenderHabits();
+  setTimeout(()=>{const inputs=document.querySelectorAll('#sheet-habits-editor .s-input');if(inputs.length)inputs[inputs.length-1].focus();},50);
+}
+function sheetRemoveHabit(idx){
+  const s=loadSettings();s.habits=(s.habits||[]).filter((_,i)=>i!==idx);saveSettingsObj(s);sheetRenderHabits();
+}
+function sheetSaveHabits(){
+  const inputs=document.querySelectorAll('#sheet-habits-editor .s-input');
+  const habits=Array.from(inputs).map(i=>i.value.trim()).filter(Boolean);
+  const s=loadSettings();s.habits=habits;saveSettingsObj(s);
+  closeSheet();renderRightPanel();showToast('习惯已保存');
 }
 
 function renderHabitsEditor(habits){
