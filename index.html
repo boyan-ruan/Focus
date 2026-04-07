@@ -804,6 +804,14 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
             <button class="link-btn" onclick="syncPush()">↑ 推送到云端</button>
           </div>
         </div>
+        <div class="srow col" id="ical-section" style="display:none;">
+          <label class="slabel">苹果日历订阅链接</label>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <input type="text" id="ical-url" class="s-input" readonly style="font-size:11px;color:var(--ink2);flex:1;">
+            <button class="link-btn" onclick="copyICalUrl()">复制</button>
+          </div>
+          <div class="hint" style="margin-top:4px;">在苹果日历 → 文件 → 新建日历订阅，粘贴此链接即可。任务有日期时自动推送，每小时刷新。</div>
+        </div>
       </div>
 
       <div class="settings-section">
@@ -2365,6 +2373,16 @@ function renderSettings(){
   document.getElementById('s-synckey').value=s.syncKey||'';
   const st=document.getElementById('sync-status-text');
   if(st)st.textContent=(s.workerUrl&&s.syncKey)?'已配置（保存设置后生效）':'未配置';
+  // iCal subscription URL
+  const icalSec=document.getElementById('ical-section');
+  const icalInp=document.getElementById('ical-url');
+  if(s.workerUrl&&s.syncKey){
+    if(icalSec)icalSec.style.display='';
+    const base=s.workerUrl.replace(/\/$/,'');
+    if(icalInp)icalInp.value=`${base}/ical?key=${encodeURIComponent(s.syncKey)}`;
+  } else {
+    if(icalSec)icalSec.style.display='none';
+  }
   document.getElementById('s-gender').value=s.gender||'male';
   document.getElementById('s-age').value=s.age||'';
   document.getElementById('s-height').value=s.height||'';
@@ -2466,6 +2484,15 @@ function saveSettings(){
   saveSettingsObj(s);showToast('设置已保存 ✓');
   Cloud.init(s.workerUrl,s.syncKey);
   const st=document.getElementById('sync-status-text');if(st)st.textContent=(s.workerUrl&&s.syncKey)?'已配置':'未配置';
+  // 更新 iCal 订阅链接
+  const icalSec=document.getElementById('ical-section');const icalInp=document.getElementById('ical-url');
+  if(s.workerUrl&&s.syncKey){
+    if(icalSec)icalSec.style.display='';
+    const base=s.workerUrl.replace(/\/$/,'');
+    if(icalInp)icalInp.value=`${base}/ical?key=${encodeURIComponent(s.syncKey)}`;
+  } else {
+    if(icalSec)icalSec.style.display='none';
+  }
 }
 
 // ── BACKUP ──
@@ -2505,6 +2532,11 @@ async function syncPush(){
   if(!Cloud.ready()){showToast('请先配置 Worker URL 和同步私钥');return;}
   showLoading(true);const n=await Cloud.pushAll();showLoading(false);
   showToast(n>0?`已推送 ${n} 项数据到云端`:'推送失败，请检查配置');
+}
+
+function copyICalUrl(){
+  const inp=document.getElementById('ical-url');if(!inp||!inp.value){showToast('请先配置 Worker URL 和私钥');return;}
+  copyToClipboard(inp.value);showToast('日历链接已复制，去苹果日历订阅吧');
 }
 
 // ── UTILS ──
