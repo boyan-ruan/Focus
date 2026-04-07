@@ -123,69 +123,156 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
 .sbf-amber{background:var(--amber);}
 .score-pct{font-size:11px;font-family:'DM Mono',monospace;color:var(--brand);width:30px;text-align:right;}
 
-/* ── DISCIPLINE: VIEW TOGGLE ── */
+/* ── DISCIPLINE ── */
+.disc-top{display:flex;gap:8px;margin-bottom:.875rem;align-items:flex-start;}
 .task-header-row{display:flex;align-items:center;justify-content:flex-end;margin-bottom:.75rem;}
-.add-task-btn{margin-left:auto;display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;border:.5px solid var(--line);background:white;color:var(--brand);cursor:pointer;font-family:'DM Sans','Noto Sans SC',sans-serif;}
+.add-task-btn{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;border:.5px solid var(--line);background:white;color:var(--brand);cursor:pointer;font-family:'DM Sans','Noto Sans SC',sans-serif;}
 
-/* ── DISCIPLINE: PROGRESS VIEW ── */
-.task-group{margin-bottom:1rem;}
-.tg-header{display:flex;align-items:center;gap:10px;margin-bottom:.5rem;}
-.tg-name{font-size:12px;font-weight:500;color:var(--ink);}
-.tg-count{font-size:11px;color:var(--ink3);}
-.tg-bar{flex:1;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;}
-.tg-bar-fill{height:100%;background:var(--brand);border-radius:2px;transition:width .4s;}
-.task-list{background:white;border-radius:var(--r-sm);border:.5px solid var(--line);overflow:hidden;}
-.task-item{display:flex;align-items:center;gap:10px;padding:.5rem .875rem;border-bottom:.5px solid var(--line2);cursor:pointer;transition:background .1s;}
-.task-item:last-child{border-bottom:none;}
-.task-item:hover{background:var(--surface);}
-.task-item.done .t-name{text-decoration:line-through;color:var(--ink3);}
-.t-info{flex:1;}
-.t-name{font-size:13px;}
-.t-meta{display:flex;align-items:center;gap:6px;margin-top:3px;}
-.t-cat{font-size:10px;color:var(--ink3);}
-.t-date{font-size:10px;color:var(--ink3);font-family:'DM Mono',monospace;margin-left:auto;}
-.task-chk{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;transition:all .15s;}
-.task-chk.on{background:var(--teal);border-color:var(--teal);}
-.done-section{padding:0 .875rem;}
-.done-toggle{font-size:11px;color:var(--ink3);cursor:pointer;display:flex;align-items:center;gap:4px;padding:.375rem 0;}
-.done-toggle svg{transition:transform .2s;}
-.done-toggle.open svg{transform:rotate(90deg);}
-.done-items{display:none;}
-.done-items.open{display:block;}
+/* Calendar card */
+.cal-card{flex:1;min-width:0;background:white;border-radius:var(--r);border:.5px solid var(--line);overflow:hidden;}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;padding:.5rem .75rem .25rem;}
+.cal-nav-title{font-size:12px;font-weight:500;}
+.cal-arrows{display:flex;gap:1px;}
+.cal-arrow{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink3);border:none;background:none;}
+.cal-arrow:hover{background:var(--surface);}
+.cal-vtog{display:flex;gap:2px;background:var(--surface);border-radius:20px;padding:2px;margin:.25rem .75rem .5rem;}
+.cal-vtb{flex:1;padding:3px 0;border-radius:20px;font-size:10px;border:none;cursor:pointer;color:var(--ink3);background:transparent;transition:all .15s;text-align:center;font-family:'DM Sans','Noto Sans SC',sans-serif;}
+.cal-vtb.on{background:white;color:var(--ink);font-weight:500;box-shadow:0 1px 2px rgba(0,0,0,.07);}
+.cal-body{height:190px;overflow-y:auto;overflow-x:hidden;}
+.cal-body::-webkit-scrollbar{display:none;}
 
-/* ── DISCIPLINE: BOARD VIEW ── */
+/* Month / Gantt */
+.month-view{display:flex;padding:0 .625rem .625rem;}
+.gantt-wrap{flex:1;min-width:0;}
+.gantt-lbl{font-size:9px;color:var(--ink3);margin-bottom:5px;letter-spacing:.04em;}
+.gantt-row{margin-bottom:6px;cursor:pointer;}
+.gantt-name-r{display:flex;align-items:center;gap:4px;margin-bottom:2px;}
+.gantt-icon{width:14px;height:14px;border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.gantt-lbl-t{font-size:9.5px;font-weight:500;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.gantt-pct{font-size:9px;color:var(--ink3);font-family:'DM Mono',monospace;}
+.gantt-bar-wrap{position:relative;height:7px;background:var(--surface);border-radius:4px;overflow:hidden;}
+.gantt-bar-bg{position:absolute;top:0;height:100%;border-radius:4px;opacity:.2;}
+.gantt-bar-fill{position:absolute;top:0;height:100%;border-radius:4px;}
+.gantt-today-ln{position:absolute;top:-1px;bottom:-1px;width:1.5px;background:var(--red);z-index:2;}
+.mini-cal{width:88px;flex-shrink:0;border-left:.5px solid var(--line2);padding-left:5px;}
+.mini-wd-row{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:1px;}
+.mini-wd{font-size:7.5px;color:var(--ink3);text-align:center;}
+.mini-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;}
+.mini-day{font-size:7.5px;color:var(--ink2);text-align:center;width:11px;height:11px;display:flex;align-items:center;justify-content:center;border-radius:50%;cursor:pointer;margin:0 auto;}
+.mini-day.today{background:var(--brand);color:white;}
+.mini-day.om{color:var(--surface2);}
+.mini-day:hover:not(.today){background:var(--surface);}
 
-/* ── SECTION DIVIDER ── */
+/* Week view */
+.week-view{padding:0 .625rem .5rem;}
+.wk-hd-row{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:3px;}
+.wk-col-hd{text-align:center;}
+.wk-dow{font-size:7.5px;color:var(--ink3);}
+.wk-dnum{font-size:9.5px;font-weight:500;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;color:var(--ink2);}
+.wk-dnum.today{background:var(--brand);color:white;}
+.wk-allday{border-top:.5px solid var(--line2);padding:2px 0 3px;}
+.wk-allday-lbl{font-size:7.5px;color:var(--ink3);margin-bottom:1px;}
+.wk-proj-bars{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.wk-task-cols{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:2px;}
+.wk-col{display:flex;flex-direction:column;gap:2px;}
+.wk-chip{border-radius:3px;padding:2px 3px;font-size:7.5px;line-height:1.3;cursor:pointer;}
+.wk-chip:hover{opacity:.8;}
+
+/* Day view */
+.day-view{padding:0 .625rem .5rem;}
+.day-hd{font-size:11px;font-weight:500;margin-bottom:4px;}
+.day-allday{background:var(--surface);border-radius:var(--r-xs);padding:3px 6px;margin-bottom:4px;}
+.day-allday-lbl{font-size:7.5px;color:var(--ink3);margin-bottom:1px;}
+.day-proj-tag{display:inline-flex;align-items:center;gap:2px;padding:1px 6px;border-radius:8px;font-size:8px;font-weight:500;margin-right:2px;margin-bottom:2px;}
+.day-tl{display:flex;flex-direction:column;}
+.tl-slot{display:flex;align-items:flex-start;gap:4px;min-height:22px;}
+.tl-time{font-size:7.5px;color:var(--ink3);font-family:'DM Mono',monospace;width:24px;flex-shrink:0;padding-top:2px;}
+.tl-line{width:.5px;background:var(--line2);flex-shrink:0;margin-top:5px;}
+.tl-cnt{flex:1;padding:1px 0 2px;}
+.tl-block{border-radius:3px;padding:3px 5px;font-size:8px;line-height:1.3;cursor:pointer;margin-bottom:2px;}
+.tl-block:hover{opacity:.8;}
+.tl-block-nm{font-weight:500;}
+.tl-block-t{opacity:.7;margin-top:1px;}
+.tl-empty{height:16px;cursor:pointer;border-radius:2px;}
+.tl-empty:hover{background:var(--surface);}
+
+/* Project cards */
+.proj-card{background:white;border-radius:var(--r);border:.5px solid var(--line);margin-bottom:8px;overflow:hidden;}
+.proj-hd{display:flex;align-items:center;gap:8px;padding:.625rem .875rem;cursor:pointer;transition:background .1s;user-select:none;}
+.proj-hd:hover{background:var(--surface);}
+.pj-icon{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pj-name{font-size:12.5px;font-weight:500;flex:1;}
+.pj-meta{font-size:9.5px;color:var(--ink3);font-family:'DM Mono',monospace;}
+.pj-chev{color:var(--line);transition:transform .2s;flex-shrink:0;}
+.pj-chev.open{transform:rotate(180deg);}
+.pj-prog{height:2px;background:var(--surface);margin:0 .875rem;}
+.pj-prog-fill{height:100%;border-radius:1px;transition:width .4s;}
+.pj-body{display:none;}
+.pj-body.open{display:block;}
+.pj-add-row{display:flex;align-items:center;gap:5px;padding:.5rem .875rem;border-top:.5px solid var(--line2);cursor:pointer;color:var(--brand);font-size:11px;transition:background .1s;}
+.pj-add-row:hover{background:var(--surface);}
+
+/* Subtask rows */
+.sub-row{display:flex;align-items:center;gap:8px;padding:.5rem .875rem .5rem 1rem;border-top:.5px solid var(--line2);cursor:pointer;transition:background .1s;}
+.sub-row:hover{background:var(--surface);}
+.sub-row.done-sub .sub-nm{text-decoration:line-through;color:var(--ink3);}
+.sub-info{flex:1;min-width:0;}
+.sub-nm{font-size:12.5px;line-height:1.3;}
+.sub-meta{display:flex;align-items:center;gap:5px;margin-top:2px;flex-wrap:wrap;}
+.sub-time-tag{font-size:9px;color:var(--brand);font-family:'DM Mono',monospace;display:flex;align-items:center;gap:2px;}
+.sub-date-tag{font-size:9px;color:var(--ink3);font-family:'DM Mono',monospace;}
+.sub-st{font-size:9px;padding:1px 5px;border-radius:8px;}
+.sub-doing{background:var(--brand-light);color:var(--brand);}
+.sub-blocked{background:var(--red-bg);color:var(--red);}
+.steps-badge{font-size:9px;color:var(--brand);display:flex;align-items:center;gap:2px;}
+.steps-bar{height:2px;background:var(--surface);border-radius:1px;margin-top:3px;overflow:hidden;}
+.steps-bar-fill{height:100%;border-radius:1px;background:var(--brand);}
+.sub-chk{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;cursor:pointer;}
+.sub-chk:hover{border-color:var(--green);}
+.sub-chk.on{background:var(--green);border-color:var(--green);}
+.done-fold{padding:.3rem .875rem .3rem 1rem;border-top:.5px solid var(--line2);}
+.done-tog{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--ink3);cursor:pointer;}
+.done-tog svg{transition:transform .2s;}
+.done-tog.open svg{transform:rotate(90deg);}
+.done-fold-items{display:none;}
+.done-fold-items.open{display:block;}
+
+/* Compact Pomo */
+.pomo-compact{width:90px;background:white;border-radius:var(--r);border:.5px solid var(--line);padding:.5rem .5rem .375rem;cursor:pointer;flex-shrink:0;text-align:center;}
+.pomo-compact:hover{background:var(--surface);}
+.pc-ring-wrap{position:relative;width:42px;height:42px;margin:0 auto 4px;}
+.pc-ring-ctr{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.pc-time-sm{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;color:var(--ink);}
+.pc-play-row{display:flex;justify-content:center;margin-bottom:3px;}
+.pc-play-btn{width:22px;height:22px;border-radius:50%;background:var(--brand);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.pc-play-btn.rest-mode{background:var(--green-dark);}
+.pc-play-btn:hover{opacity:.85;}
+.pc-stat{font-size:8px;color:var(--ink3);display:flex;align-items:center;justify-content:center;gap:2px;}
+.pc-hint{font-size:7.5px;color:var(--ink3);margin-top:2px;opacity:.7;}
+
+/* Section divider */
 .section-divider{display:flex;align-items:center;gap:8px;margin:1.25rem 0 .875rem;}
 .sd-line{flex:1;height:.5px;background:var(--line);}
 .sd-label{font-size:10px;font-weight:500;color:var(--ink3);letter-spacing:.06em;text-transform:uppercase;}
 
-/* ── POMODORO ── */
-.pomo-card{background:white;border-radius:var(--r);border:.5px solid var(--line);overflow:hidden;margin-bottom:1rem;}
-.pomo-hd{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;border-bottom:.5px solid var(--line2);}
-.pomo-title-row{font-size:13px;font-weight:500;display:flex;align-items:center;gap:7px;}
-.pomo-today-stat{font-size:11px;color:var(--ink3);font-family:'DM Mono',monospace;}
-.pomo-body{padding:1rem;}
-.pomo-goal-row{display:flex;align-items:center;gap:8px;background:var(--surface);border-radius:var(--r-xs);padding:6px 10px;margin-bottom:.875rem;}
-.pomo-goal-lbl{font-size:12px;color:var(--ink2);flex:1;}
-.pomo-goal-val{font-size:12px;font-family:'DM Mono',monospace;color:var(--brand);font-weight:500;}
-.pomo-goal-input{width:44px;background:white;border:.5px solid var(--line);border-radius:4px;padding:3px 6px;font-family:'DM Mono',monospace;font-size:12px;color:var(--ink);text-align:center;outline:none;}
-.pomo-goal-input:focus{border-color:var(--brand);}
-.pomo-prog{margin-bottom:.875rem;}
-.pomo-prog-hd{display:flex;justify-content:space-between;margin-bottom:5px;font-size:11px;}
-.pomo-prog-lbl{color:var(--ink3);}
-.pomo-prog-val{color:var(--brand);font-family:'DM Mono',monospace;}
-.pomo-prog-track{height:5px;background:var(--surface2);border-radius:3px;overflow:hidden;}
-.pomo-prog-fill{height:100%;background:var(--brand);border-radius:3px;transition:width .4s;}
-.pomo-dots{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap;}
-.pdot{width:9px;height:9px;border-radius:50%;border:.5px solid var(--line);background:var(--surface);}
-.pdot.done{background:var(--brand);border-color:var(--brand);}
-.pdot.rdone{background:var(--green);border-color:var(--green);}
-.pdot.active{background:var(--brand-light);border-color:var(--brand);animation:dotpulse 1s ease-in-out infinite;}
-@keyframes dotpulse{0%,100%{opacity:1;}50%{opacity:.5;}}
-.pomo-timer-area{display:flex;align-items:center;gap:1rem;margin-bottom:.875rem;}
-.pomo-ring-wrap{position:relative;flex-shrink:0;}
-.pomo-ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+/* Habits card */
+.habit-card{background:white;border-radius:var(--r);border:.5px solid var(--line);overflow:hidden;}
+.habit-card-hd{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;border-bottom:.5px solid var(--line2);}
+.habit-card-title{font-size:13px;font-weight:500;display:flex;align-items:center;gap:7px;}
+.habit-streak-info{font-size:11px;color:var(--ink3);}
+.habit-streak-info span{color:var(--brand);font-weight:500;font-family:'DM Mono',monospace;}
+.habit-row{display:flex;align-items:center;gap:10px;padding:.625rem 1rem;border-bottom:.5px solid var(--line2);cursor:pointer;transition:background .1s;}
+.habit-row:last-child{border-bottom:none;}
+.habit-row:hover{background:var(--surface);}
+.habit-name{flex:1;font-size:13px;}
+.habit-streak-mini{font-size:10px;color:var(--ink3);font-family:'DM Mono',monospace;margin-right:4px;}
+.hchk{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+.hchk.on{background:var(--green);border-color:var(--green);}
+
+/* Pomo sheet controls (rendered inside #sheet-content) */
+.pomo-sheet-row{display:flex;align-items:center;gap:1rem;margin-bottom:.875rem;}
+.pomo-sheet-ring{position:relative;flex-shrink:0;}
+.pomo-sheet-ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .pomo-time{font-family:'DM Mono',monospace;font-size:1.5rem;font-weight:500;color:var(--ink);line-height:1;}
 .pomo-phase-mini{font-size:10px;margin-top:3px;color:var(--brand);}
 .pomo-phase-mini.rest{color:var(--green-dark);}
@@ -200,7 +287,23 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
 .seq-pill.cf{background:var(--brand-light);color:var(--brand);border-color:transparent;}
 .seq-pill.df{background:var(--brand);color:#fff;border-color:transparent;}
 .seq-pill.dr{background:var(--green);color:#fff;border-color:transparent;}
-.pomo-controls{display:flex;gap:7px;}
+.pomo-dots{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap;}
+.pdot{width:9px;height:9px;border-radius:50%;border:.5px solid var(--line);background:var(--surface);}
+.pdot.done{background:var(--brand);border-color:var(--brand);}
+.pdot.rdone{background:var(--green);border-color:var(--green);}
+.pdot.active{background:var(--brand-light);border-color:var(--brand);animation:dotpulse 1s ease-in-out infinite;}
+@keyframes dotpulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+.pomo-goal-row{display:flex;align-items:center;gap:8px;background:var(--surface);border-radius:var(--r-xs);padding:6px 10px;margin-bottom:.875rem;}
+.pomo-goal-lbl{font-size:12px;color:var(--ink2);flex:1;}
+.pomo-goal-input{width:44px;background:white;border:.5px solid var(--line);border-radius:4px;padding:3px 6px;font-family:'DM Mono',monospace;font-size:12px;color:var(--ink);text-align:center;outline:none;}
+.pomo-goal-input:focus{border-color:var(--brand);}
+.pomo-goal-val{font-size:12px;font-family:'DM Mono',monospace;color:var(--brand);font-weight:500;}
+.pomo-prog-hd{display:flex;justify-content:space-between;margin-bottom:5px;font-size:11px;}
+.pomo-prog-lbl{color:var(--ink3);}
+.pomo-prog-val{color:var(--brand);font-family:'DM Mono',monospace;}
+.pomo-prog-track{height:5px;background:var(--surface2);border-radius:3px;overflow:hidden;margin-bottom:6px;}
+.pomo-prog-fill{height:100%;background:var(--brand);border-radius:3px;transition:width .4s;}
+.pomo-controls{display:flex;gap:7px;margin-top:.75rem;}
 .pomo-btn{flex:1;padding:9px 0;border-radius:var(--r-sm);border:none;font-family:'DM Sans','Noto Sans SC',sans-serif;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;}
 .pomo-btn:active{transform:scale(.97);}
 .pb-main{background:var(--brand);color:#fff;}
@@ -208,23 +311,17 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
 .pb-main.rest-mode{background:var(--green-dark);}
 .pb-skip{background:var(--surface);color:var(--ink2);border:.5px solid var(--line);}
 .pb-stop{background:var(--surface);color:var(--ink2);border:.5px solid var(--line);}
-.pb-stop:hover{background:var(--red-bg);color:var(--red);border-color:#d8b0b0;}
+.pb-stop:hover{background:var(--red-bg);color:var(--red);}
 
-/* ── HABITS CARD ── */
-.habit-card{background:white;border-radius:var(--r);border:.5px solid var(--line);overflow:hidden;}
-.habit-card-hd{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;border-bottom:.5px solid var(--line2);}
-.habit-card-title{font-size:13px;font-weight:500;display:flex;align-items:center;gap:7px;}
-.habit-streak-info{font-size:11px;color:var(--ink3);}
-.habit-streak-info span{color:var(--brand);font-weight:500;font-family:'DM Mono',monospace;}
-.habit-row{display:flex;align-items:center;gap:10px;padding:.625rem 1rem;border-bottom:.5px solid var(--line2);cursor:pointer;transition:background .1s;}
-.habit-row:last-child{border-bottom:none;}
-.habit-row:hover{background:var(--surface);}
-.habit-name{flex:1;font-size:13px;}
-.habit-streak-mini{font-size:10px;color:var(--ink3);font-family:'DM Mono',monospace;margin-right:4px;}
-.hchk{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
-.hchk.on{background:var(--green);border-color:var(--green);}
+/* Icon/color picker */
+.icon-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-bottom:.875rem;}
+.ig-btn{width:36px;height:36px;border-radius:7px;border:.5px solid var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink2);background:white;transition:all .15s;}
+.ig-btn:hover,.ig-btn.on{background:var(--brand-light);border-color:var(--brand);color:var(--brand);}
+.color-pick-row{display:flex;gap:6px;margin-bottom:.875rem;}
+.col-dot{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .15s;}
+.col-dot.on{border-color:var(--ink);}
 
-/* ── AI REVIEW ── */
+/* AI review */
 .review-btn{width:100%;margin-top:1rem;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--ink);color:#fff;border:none;border-radius:var(--r-sm);padding:11px;font-family:'DM Sans','Noto Sans SC',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:opacity .15s;}
 .review-btn:hover{opacity:.85;}
 .review-card{background:white;border-radius:var(--r);border:.5px solid var(--line);padding:1rem;margin-bottom:8px;}
@@ -501,111 +598,67 @@ html,body{height:100%;font-family:'DM Sans','Noto Sans SC',sans-serif;font-weigh
           </div>
         </div>
         <div class="score-details">
-          <div class="score-row">
-            <div class="score-lbl">任务完成</div>
-            <div class="score-bar"><div class="score-bar-fill sbf-brand" id="sb-task" style="width:0%"></div></div>
-            <div class="score-pct" id="sp-task">—</div>
-          </div>
-          <div class="score-row">
-            <div class="score-lbl">专注达成</div>
-            <div class="score-bar"><div class="score-bar-fill sbf-amber" id="sb-focus" style="width:0%"></div></div>
-            <div class="score-pct" id="sp-focus">—</div>
-          </div>
-          <div class="score-row">
-            <div class="score-lbl">习惯达成</div>
-            <div class="score-bar"><div class="score-bar-fill sbf-green" id="sb-habit" style="width:0%"></div></div>
-            <div class="score-pct" id="sp-habit">—</div>
-          </div>
+          <div class="score-row"><div class="score-lbl">任务完成</div><div class="score-bar"><div class="score-bar-fill sbf-brand" id="sb-task" style="width:0%"></div></div><div class="score-pct" id="sp-task">—</div></div>
+          <div class="score-row"><div class="score-lbl">专注达成</div><div class="score-bar"><div class="score-bar-fill sbf-amber" id="sb-focus" style="width:0%"></div></div><div class="score-pct" id="sp-focus">—</div></div>
+          <div class="score-row"><div class="score-lbl">习惯达成</div><div class="score-bar"><div class="score-bar-fill sbf-green" id="sb-habit" style="width:0%"></div></div><div class="score-pct" id="sp-habit">—</div></div>
         </div>
       </div>
 
-      <!-- 任务 -->
+      <!-- 顶部双栏：日历 + 紧凑番茄 -->
+      <div class="disc-top">
+        <!-- 日历卡片 -->
+        <div class="cal-card">
+          <div class="cal-nav">
+            <div class="cal-nav-title" id="cal-nav-title">2026年4月</div>
+            <div class="cal-arrows">
+              <button class="cal-arrow" onclick="calNav(-1)"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M7 2.5L4 6l3 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button class="cal-arrow" onclick="calNav(1)"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2.5L8 6l-3 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
+          <div class="cal-vtog">
+            <button class="cal-vtb on" id="cvt-d" onclick="setCalView('day')">日</button>
+            <button class="cal-vtb" id="cvt-w" onclick="setCalView('week')">周</button>
+            <button class="cal-vtb" id="cvt-m" onclick="setCalView('month')">月</button>
+          </div>
+          <div class="cal-body" id="cal-body"></div>
+        </div>
+        <!-- 紧凑番茄钟 -->
+        <div class="pomo-compact" onclick="openPomoSheet()">
+          <div class="pc-ring-wrap">
+            <svg width="42" height="42" viewBox="0 0 42 42" style="transform:rotate(-90deg)">
+              <circle cx="21" cy="21" r="17" fill="none" stroke="#E5E9F0" stroke-width="4"/>
+              <circle cx="21" cy="21" r="17" fill="none" stroke="#5E81AC" stroke-width="4"
+                stroke-dasharray="107" stroke-dashoffset="0" stroke-linecap="round"
+                id="pc-ring-f" style="transition:stroke-dashoffset .9s linear;"/>
+              <circle cx="21" cy="21" r="17" fill="none" stroke="#A3BE8C" stroke-width="4"
+                stroke-dasharray="107" stroke-dashoffset="107" stroke-linecap="round"
+                id="pc-ring-r" style="transition:stroke-dashoffset .9s linear;"/>
+            </svg>
+            <div class="pc-ring-ctr"><div class="pc-time-sm" id="pc-time-d">25:00</div></div>
+          </div>
+          <div class="pc-play-row">
+            <button class="pc-play-btn" id="pc-play-btn" onclick="event.stopPropagation();pomoMainAction()">
+              <svg id="pc-play-ic" width="10" height="10" viewBox="0 0 12 12" fill="none"><polygon points="3,1.5 11,6 3,10.5" fill="white"/></svg>
+            </button>
+          </div>
+          <div class="pc-stat"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><path d="M5 3v2.5l1.5 1" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg><span id="pc-stat-n">0 个</span></div>
+          <div class="pc-hint">展开</div>
+        </div>
+      </div>
+
+      <!-- 添加按钮 -->
       <div class="task-header-row">
-        <button class="add-task-btn" onclick="showAddTask('todo')">
+        <button class="add-task-btn" onclick="openAddMenu()">
           <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
           添加
         </button>
       </div>
 
-      <div id="task-groups-container"></div>
+      <!-- 任务列表（随日历视图联动） -->
+      <div id="disc-task-list"></div>
 
-      <!-- 专注分割线 -->
-      <div class="section-divider">
-        <div class="sd-line"></div><div class="sd-label">专注</div><div class="sd-line"></div>
-      </div>
-
-      <!-- 番茄钟序列 -->
-      <div class="pomo-card">
-        <div class="pomo-hd">
-          <div class="pomo-title-row">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 5v3.5l2 1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-            番茄钟序列
-          </div>
-          <div class="pomo-today-stat" id="pomo-today-stat">今日 0h · 0🍅</div>
-        </div>
-        <div class="pomo-body">
-          <div class="pomo-goal-row">
-            <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="#81A1C1" stroke-width="1.2"/><path d="M4 7l2 2 4-4" stroke="#81A1C1" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span class="pomo-goal-lbl">今日目标</span>
-            <input class="pomo-goal-input" type="number" id="pomo-goal-input" value="2" min="0.5" max="8" step="0.5" onchange="pomoUpdateGoal()">
-            <span class="pomo-goal-lbl" style="flex:none;">小时</span>
-            <span class="pomo-goal-val" id="pomo-goal-count">= 4 个番茄</span>
-          </div>
-          <div class="pomo-prog">
-            <div class="pomo-prog-hd">
-              <span class="pomo-prog-lbl">今日总进度</span>
-              <span class="pomo-prog-val" id="pomo-prog-text">0 / 2h</span>
-            </div>
-            <div class="pomo-prog-track"><div class="pomo-prog-fill" id="pomo-prog-fill" style="width:0%"></div></div>
-            <div class="pomo-dots" id="pomo-dots"></div>
-          </div>
-          <div class="pomo-timer-area">
-            <div class="pomo-ring-wrap">
-              <svg width="90" height="90" viewBox="0 0 90 90" style="transform:rotate(-90deg)">
-                <circle cx="45" cy="45" r="36" fill="none" stroke="#E5E9F0" stroke-width="7"/>
-                <circle cx="45" cy="45" r="36" fill="none" stroke="#5E81AC" stroke-width="7"
-                  stroke-dasharray="226" stroke-dashoffset="0" stroke-linecap="round"
-                  id="pomo-ring-focus" style="transition:stroke-dashoffset .9s linear;"/>
-                <circle cx="45" cy="45" r="36" fill="none" stroke="#A3BE8C" stroke-width="7"
-                  stroke-dasharray="226" stroke-dashoffset="226" stroke-linecap="round"
-                  id="pomo-ring-rest" style="transition:stroke-dashoffset .9s linear;"/>
-              </svg>
-              <div class="pomo-ring-center">
-                <div class="pomo-time" id="pomo-display">25:00</div>
-                <div class="pomo-phase-mini" id="pomo-phase-mini">专注时长</div>
-              </div>
-            </div>
-            <div class="pomo-session-info">
-              <div class="pomo-phase-badge idle" id="pomo-badge">
-                <span id="pomo-badge-text">准备开始</span>
-              </div>
-              <div style="font-size:11px;color:var(--ink3);margin-bottom:6px;" id="pomo-session-desc">25min 专注 · 5min 休息</div>
-              <div class="pomo-seq" id="pomo-seq"></div>
-            </div>
-          </div>
-          <div class="pomo-controls">
-            <button class="pomo-btn pb-main" id="pomo-main-btn" onclick="pomoMainAction()">
-              <svg width="12" height="12" viewBox="0 0 14 14" fill="none" id="pomo-main-icon"><polygon points="3,1.5 13,7 3,12.5" fill="currentColor"/></svg>
-              <span id="pomo-main-label">开始专注</span>
-            </button>
-            <button class="pomo-btn pb-skip" id="pomo-skip-btn" onclick="pomoSkip()" style="display:none;">
-              <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M3 2.5l7 4.5-7 4.5V2.5z" fill="currentColor"/><rect x="10" y="2.5" width="2" height="9" rx="1" fill="currentColor"/></svg>
-              跳过
-            </button>
-            <button class="pomo-btn pb-stop" id="pomo-stop-btn" onclick="pomoStop()" style="display:none;">
-              <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><rect x="2" y="2" width="10" height="10" rx="2" fill="currentColor"/></svg>
-              结束
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 习惯分割线 -->
-      <div class="section-divider">
-        <div class="sd-line"></div><div class="sd-label">今日习惯</div><div class="sd-line"></div>
-      </div>
-
-      <!-- 习惯打卡 -->
+      <!-- 今日习惯 -->
+      <div class="section-divider"><div class="sd-line"></div><div class="sd-label">今日习惯</div><div class="sd-line"></div></div>
       <div class="habit-card" id="habit-card-container">
         <div class="habit-card-hd">
           <div class="habit-card-title">
@@ -839,7 +892,23 @@ const DAY_NAMES = ['周一','周二','周三','周四','周五','周六','周日
 const MEAL_LABELS = {breakfast:'早',lunch:'午',dinner:'晚',snack:'加'};
 const MEAL_NAMES_ZH = {breakfast:'早餐',lunch:'午餐',dinner:'晚餐',snack:'加餐'};
 const MEAL_TYPES = ['breakfast','lunch','dinner','snack'];
-const TASK_CATEGORIES = ['学业','科研','工作','生活','其他'];
+// ── PROJECT ICONS ──
+const PROJ_ICONS=[
+  {id:'folder',s:'<path d="M2 4h5l1.5 1.5H12v6.5H2V4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" fill="none"/>'},
+  {id:'book',s:'<path d="M3 3h8a1 1 0 011 1v9a1 1 0 01-1 1H3V3z" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M6 3v12" stroke="currentColor" stroke-width="1.3"/>'},
+  {id:'flask',s:'<path d="M5 3v5L2 13h10L9 8V3" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 3h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>'},
+  {id:'globe',s:'<circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M2 7h10M7 2c-1.5 2-1.5 8 0 10M7 2c1.5 2 1.5 8 0 10" stroke="currentColor" stroke-width="1.3" fill="none"/>'},
+  {id:'code',s:'<path d="M4 5L1 8l3 3M10 5l3 3-3 3M7 3l-1 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'},
+  {id:'bell',s:'<path d="M7 1.5A4 4 0 003 5.5v3L2 10h10l-1-1.5v-3a4 4 0 00-4-4z" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M5.5 10a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.3"/>'},
+  {id:'star',s:'<path d="M7 1.5l1.5 3.5h3.5l-3 2.5 1 3.5L7 9l-3 2 1-3.5L2 5h3.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" fill="none"/>'},
+  {id:'zap',s:'<path d="M8.5 1L4 8h4.5L5.5 13 12 6H7L8.5 1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" fill="none"/>'},
+  {id:'heart',s:'<path d="M7 11.5C5 9.5 1.5 7.5 1.5 5a2.5 2.5 0 015-1 2.5 2.5 0 015 1c0 2.5-3.5 4.5-5.5 6.5z" stroke="currentColor" stroke-width="1.3" fill="none"/>'},
+  {id:'lock',s:'<rect x="2.5" y="6" width="9" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M4.5 6V4a2.5 2.5 0 015 0v2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>'},
+  {id:'flame',s:'<path d="M7 1.5c0 3-3 4-3 6.5a3 3 0 006 0c0-1.5-1-2.5-1-4 0 1.5-2 2.5-2 4a1 1 0 002 0c0-2 1.5-3 1.5-5A3 3 0 007 1.5z" stroke="currentColor" stroke-width="1.2" fill="none"/>'},
+  {id:'leaf',s:'<path d="M2 12c2-6 6-8 10-8-4 1-7 5-7 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none"/><path d="M2 12c0-4 3-8 7-9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none"/>'},
+];
+const PROJ_COLORS=['#dde4ef','#e4f0f0','#eef4e8','#f9f3e4','#f5e8e9','#f2ecf1'];
+const PROJ_STROKE={'#dde4ef':'#5E81AC','#e4f0f0':'#8FBCBB','#eef4e8':'#5a7a3a','#f9f3e4':'#7a6020','#f5e8e9':'#BF616A','#f2ecf1':'#6e5068'};
 const DEFAULT_SETTINGS = {
   apiKey:'',
   workerUrl:'',syncKey:'',
@@ -911,6 +980,8 @@ const loadMealPlan=(wk)=>LS.get('mealPlan_'+wk,null);
 const saveMealPlan=(wk,d)=>LS.set('mealPlan_'+wk,d);
 const loadWorkoutPlan=(wk)=>LS.get('workoutPlan_'+wk,null);
 const saveWorkoutPlan=(wk,d)=>LS.set('workoutPlan_'+wk,d);
+const loadProjects=()=>LS.get('projects',[]);
+const saveProjects=(p)=>LS.set('projects',p);
 const loadTasks=()=>LS.get('tasks',[]);
 const saveTasks=(t)=>LS.set('tasks',t);
 const loadHabitLog=(dt)=>LS.get('habitLog_'+dt,{});
@@ -1339,34 +1410,34 @@ async function importAppleHealth(file){
 }
 
 // ── DISCIPLINE ──
+// ── CALENDAR STATE ──
+const _td=new Date();
+const CAL={view:'day',y:_td.getFullYear(),m:_td.getMonth()+1,d:_td.getDate()};
+
 function renderDiscipline(){
   renderWeekScore();
-  renderTaskProgressView();
+  renderCalendar();
+  renderDiscTaskList();
   renderHabitsCard();
   pomoRefreshUI();
+  pomoRefreshCompact();
   renderRightPanel();
 }
 
 function renderWeekScore(){
   const wk=getWeekKey();const weekDates=getWeekDates(wk);const s=loadSettings();
   const tasks=loadTasks();
-  // Task rate
   const done=tasks.filter(t=>t.status==='done').length;const total=tasks.length;
   const taskRate=total?Math.round(done/total*100):0;
-  // Focus rate
   const focusGoal=s.focusGoalHours||2;
   const focusTotal=weekDates.reduce((sum,d)=>sum+(loadFocusLog(d).deepWorkHours||0),0);
   const focusRate=Math.min(100,Math.round(focusTotal/(focusGoal*7)*100));
-  // Habit rate
   const habits=s.habits||[];
   const habitRates=weekDates.map(d=>{const log=loadHabitLog(d);return habits.length?habits.filter(h=>log[h]).length/habits.length*100:0;});
   const habitRate=Math.round(habitRates.reduce((a,b)=>a+b,0)/7);
-  // Overall
   const overall=Math.round((taskRate+focusRate+habitRate)/3);
-  // Update UI
   const CIRC=2*Math.PI*32;
-  const offset=CIRC*(1-overall/100);
-  const ring=document.getElementById('disc-ring');if(ring)ring.style.strokeDashoffset=offset;
+  const ring=document.getElementById('disc-ring');if(ring)ring.style.strokeDashoffset=CIRC*(1-overall/100);
   const scoreEl=document.getElementById('disc-score');if(scoreEl)scoreEl.textContent=overall;
   const setBar=(id,pct)=>{const el=document.getElementById(id);if(el)el.style.width=pct+'%';};
   const setPct=(id,pct)=>{const el=document.getElementById(id);if(el)el.textContent=pct+'%';};
@@ -1375,161 +1446,483 @@ function renderWeekScore(){
   setBar('sb-habit',habitRate);setPct('sp-habit',habitRate);
 }
 
-function renderTaskProgressView(){
-  const tasks=loadTasks();
-  // Group by category
-  const groups={};
-  TASK_CATEGORIES.forEach(cat=>{groups[cat]=[];});
-  tasks.forEach(t=>{const cat=t.category&&TASK_CATEGORIES.includes(t.category)?t.category:'其他';groups[cat].push(t);});
-  let html='';
-  TASK_CATEGORIES.forEach(cat=>{
-    const catTasks=groups[cat];if(!catTasks.length)return;
-    const doneTasks=catTasks.filter(t=>t.status==='done');
-    const activeTasks=catTasks.filter(t=>t.status!=='done').sort((a,b)=>{
-      if(!a.dueDate&&!b.dueDate)return 0;if(!a.dueDate)return 1;if(!b.dueDate)return -1;
-      return a.dueDate.localeCompare(b.dueDate);
-    });
-    const pct=catTasks.length?Math.round(doneTasks.length/catTasks.length*100):0;
-    html+=`<div class="task-group">
-      <div class="tg-header">
-        <div class="tg-name">${cat}</div>
-        <div class="tg-count">${doneTasks.length} / ${catTasks.length}</div>
-        <div class="tg-bar"><div class="tg-bar-fill" style="width:${pct}%;"></div></div>
-      </div>
-      <div class="task-list">`;
-    activeTasks.forEach(task=>{
-      html+=`<div class="task-item" onclick="openTaskEdit('${task.id}')">
-        <div class="t-info">
-          <div class="t-name">${task.name}</div>
-          <div class="t-meta"><span class="t-cat">${{todo:'待处理',doing:'进行中',blocked:'阻塞',done:'已完成'}[task.status]||task.status}</span>${task.dueDate?`<span class="t-date">${fmtDate(task.dueDate)}</span>`:''}</div>
-        </div>
-        <div class="task-chk${task.status==='done'?' on':''}" onclick="event.stopPropagation();toggleTaskDone('${task.id}')">
-          <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </div>
-      </div>`;
-    });
-    if(doneTasks.length){
-      html+=`<div class="done-section">
-        <div class="done-toggle" onclick="toggleDoneSection(this)">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          已完成 ${doneTasks.length} 项
-        </div>
-        <div class="done-items">`;
-      doneTasks.forEach(task=>{
-        html+=`<div class="task-item done" onclick="openTaskEdit('${task.id}')">
-          <div class="t-info"><div class="t-name">${task.name}</div></div>
-          <div class="task-chk on" onclick="event.stopPropagation();toggleTaskDone('${task.id}')">
-            <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-          </div>
-        </div>`;
-      });
-      html+=`</div></div>`;
-    }
-    html+=`</div></div>`;
-  });
-  const container=document.getElementById('task-groups-container');
-  if(container)container.innerHTML=html||`<div class="empty-small">暂无任务，点击「添加」创建</div>`;
+// ── CALENDAR ──
+function setCalView(v){
+  CAL.view=v;
+  ['d','w','m'].forEach(x=>{const el=document.getElementById('cvt-'+x);if(el)el.classList.remove('on');});
+  const active=document.getElementById('cvt-'+v[0]);if(active)active.classList.add('on');
+  renderCalendar();
+  renderDiscTaskList();
 }
 
-function toggleDoneSection(btn){
+function calNav(delta){
+  if(CAL.view==='month'){
+    CAL.m+=delta;
+    if(CAL.m>12){CAL.m=1;CAL.y++;}
+    if(CAL.m<1){CAL.m=12;CAL.y--;}
+  } else if(CAL.view==='week'){
+    const ref=new Date(CAL.y,CAL.m-1,CAL.d);
+    ref.setDate(ref.getDate()+delta*7);
+    CAL.y=ref.getFullYear();CAL.m=ref.getMonth()+1;CAL.d=ref.getDate();
+  } else {
+    const ref=new Date(CAL.y,CAL.m-1,CAL.d);
+    ref.setDate(ref.getDate()+delta);
+    CAL.y=ref.getFullYear();CAL.m=ref.getMonth()+1;CAL.d=ref.getDate();
+  }
+  renderCalendar();
+  renderDiscTaskList();
+}
+
+function renderCalendar(){
+  const titles={month:`${CAL.y}年${CAL.m}月`,week:'本周',day:`${CAL.y}年${CAL.m}月${CAL.d}日`};
+  const titleEl=document.getElementById('cal-nav-title');if(titleEl)titleEl.textContent=titles[CAL.view];
+  const body=document.getElementById('cal-body');if(!body)return;
+  if(CAL.view==='month')body.innerHTML=renderMonthView();
+  else if(CAL.view==='week')body.innerHTML=renderWeekView();
+  else body.innerHTML=renderDayView();
+}
+
+function renderMonthView(){
+  const projs=loadProjects();const tasks=loadTasks();
+  const first=new Date(CAL.y,CAL.m-1,1).getDay();
+  const total=new Date(CAL.y,CAL.m,0).getDate();
+  const mStart=new Date(CAL.y,CAL.m-1,1);const mEnd=new Date(CAL.y,CAL.m,0);
+  const todayY=_td.getFullYear(),todayM=_td.getMonth()+1,todayD2=_td.getDate();
+  let gantt=`<div style="display:flex;gap:0;padding:0 .625rem .625rem;"><div style="flex:1;min-width:0;">`;
+  gantt+=`<div style="font-size:9px;color:var(--ink2);margin-bottom:6px;letter-spacing:.04em;">项目时间轴</div>`;
+  projs.forEach(proj=>{
+    const s=new Date(proj.startDate||CAL.y+'-'+String(CAL.m).padStart(2,'0')+'-01');
+    const e=new Date(proj.endDate||CAL.y+'-'+String(CAL.m).padStart(2,'0')+'-28');
+    const visS=s<mStart?mStart:s;const visE=e>mEnd?mEnd:e;
+    if(visS>mEnd||visE<mStart)return;
+    const span=mEnd-mStart+86400000;
+    const left=((visS-mStart)/span)*100;
+    const width=((visE-visS+86400000)/span)*100;
+    const todayLeft=((new Date(todayY,todayM-1,todayD2)-mStart)/span)*100;
+    const projTasks=tasks.filter(t=>t.projectId===proj.id);
+    const doneCount=projTasks.filter(t=>t.status==='done').length;
+    const pct=projTasks.length?Math.round(doneCount/projTasks.length*100):0;
+    const ic=PROJ_ICONS.find(i=>i.id===proj.iconId)||PROJ_ICONS[0];
+    const stroke=PROJ_STROKE[proj.bg]||'#5E81AC';
+    gantt+=`<div style="margin-bottom:7px;cursor:pointer;" onclick="setCalView('day');CAL.y=${CAL.y};CAL.m=${CAL.m};">
+      <div style="display:flex;align-items:center;gap:5px;margin-bottom:3px;">
+        <div style="width:16px;height:16px;border-radius:4px;background:${proj.bg};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="10" height="10" viewBox="0 0 14 14" fill="none" style="color:${stroke};">${ic.s}</svg>
+        </div>
+        <div style="font-size:10px;font-weight:500;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:${stroke};">${proj.name}</div>
+        <div style="font-size:9px;color:var(--ink2);font-family:monospace;">${pct}%</div>
+      </div>
+      <div style="position:relative;height:8px;background:var(--surface);border-radius:4px;overflow:visible;">
+        <div style="position:absolute;top:0;height:100%;left:${left}%;width:${width}%;background:${stroke};opacity:.25;border-radius:4px;"></div>
+        <div style="position:absolute;top:0;height:100%;left:${left}%;width:${width*pct/100}%;background:${stroke};border-radius:4px;"></div>
+        <div style="position:absolute;top:-2px;bottom:-2px;width:1.5px;left:${todayLeft}%;background:var(--red);border-radius:1px;z-index:2;"></div>
+      </div>
+    </div>`;
+  });
+  if(!projs.length)gantt+=`<div style="font-size:11px;color:var(--ink2);padding:8px 0;">暂无项目</div>`;
+  gantt+=`</div>`;
+  // mini calendar
+  const WD=['日','一','二','三','四','五','六'];
+  gantt+=`<div style="width:90px;flex-shrink:0;border-left:.5px solid var(--line2);padding-left:6px;">`;
+  gantt+=`<div style="display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:2px;">${WD.map(d=>`<div style="font-size:8px;color:var(--ink2);text-align:center;">${d}</div>`).join('')}</div>`;
+  gantt+=`<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;">`;
+  for(let i=0;i<first;i++)gantt+=`<div style="font-size:8px;color:var(--surface2);text-align:center;width:12px;height:12px;margin:0 auto;display:flex;align-items:center;justify-content:center;">${new Date(CAL.y,CAL.m-1,-first+i+1).getDate()}</div>`;
+  for(let d=1;d<=total;d++){
+    const isT=(d===todayD2&&CAL.m===todayM&&CAL.y===todayY);
+    gantt+=`<div style="font-size:8px;text-align:center;width:12px;height:12px;margin:0 auto;display:flex;align-items:center;justify-content:center;border-radius:50%;cursor:pointer;${isT?'background:var(--brand);color:white;':'color:var(--ink2);'}" onclick="jumpDay(${d})">${d}</div>`;
+  }
+  gantt+=`</div></div></div>`;
+  return gantt;
+}
+
+function jumpDay(d){CAL.d=d;setCalView('day');}
+
+function renderWeekView(){
+  const WDN=['日','一','二','三','四','五','六'];
+  const ref=new Date(CAL.y,CAL.m-1,CAL.d);
+  const sun=new Date(ref);sun.setDate(ref.getDate()-ref.getDay());
+  const days=Array.from({length:7},(_,i)=>{const d=new Date(sun);d.setDate(sun.getDate()+i);return d;});
+  const projs=loadProjects();const tasks=loadTasks();
+  const todayStr=getTodayStr();
+  let h=`<div style="padding:0 .625rem .625rem;"><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px;">`;
+  days.forEach(d=>{
+    const ds=d.toISOString().substring(0,10);const isT=ds===todayStr;
+    h+=`<div style="text-align:center;"><div style="font-size:8px;color:var(--ink2);">${WDN[d.getDay()]}</div><div style="font-size:10px;font-weight:500;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;${isT?'background:var(--brand);color:white;':'color:var(--ink2);'}">${d.getDate()}</div></div>`;
+  });
+  h+=`</div><div style="border-top:.5px solid var(--line2);padding:3px 0 4px;"><div style="font-size:8px;color:var(--ink2);margin-bottom:2px;">项目</div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;">`;
+  days.forEach(d=>{
+    let bars='';
+    projs.forEach(p=>{
+      if(!p.startDate||!p.endDate)return;
+      if(d>=new Date(p.startDate)&&d<=new Date(p.endDate)){const stroke=PROJ_STROKE[p.bg]||'#5E81AC';bars+=`<div style="height:4px;border-radius:1px;background:${stroke};margin-bottom:1px;opacity:.8;"></div>`;}
+    });
+    h+=`<div>${bars||'<div style="height:4px;"></div>'}</div>`;
+  });
+  h+=`</div></div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:2px;">`;
+  days.forEach(d=>{
+    const ds=d.toISOString().substring(0,10);
+    const dayTasks=tasks.filter(t=>t.date===ds);
+    h+=`<div style="display:flex;flex-direction:column;gap:2px;">`;
+    dayTasks.slice(0,3).forEach(t=>{
+      const proj=projs.find(p=>p.id===t.projectId);
+      const bg=proj?proj.bg:'var(--surface)';const stroke=proj?(PROJ_STROKE[proj.bg]||'#5E81AC'):'var(--ink2)';
+      const nm=t.name.length>5?t.name.slice(0,4)+'…':t.name;
+      h+=`<div style="border-radius:3px;padding:2px 3px;font-size:8px;line-height:1.3;cursor:pointer;background:${bg};color:${stroke};" onclick="openSubSheet('${t.id}')">${nm}</div>`;
+    });
+    if(!dayTasks.length)h+=`<div style="height:20px;"></div>`;
+    h+=`</div>`;
+  });
+  h+=`</div></div>`;
+  return h;
+}
+
+function renderDayView(){
+  const SLOTS=['07','08','09','10','11','12','13','14','15','16','17','18','19','20','21'];
+  const ds=`${CAL.y}-${String(CAL.m).padStart(2,'0')}-${String(CAL.d).padStart(2,'0')}`;
+  const projs=loadProjects();const tasks=loadTasks();
+  const dayTasks=tasks.filter(t=>t.date===ds);
+  let h=`<div style="padding:0 .625rem .625rem;">`;
+  h+=`<div style="font-size:11px;font-weight:500;margin-bottom:5px;">${CAL.m}月${CAL.d}日</div>`;
+  // project pills (all-day)
+  h+=`<div style="background:var(--surface);border-radius:4px;padding:4px 6px;margin-bottom:5px;"><div style="font-size:8px;color:var(--ink2);margin-bottom:2px;">项目</div>`;
+  const cur=new Date(CAL.y,CAL.m-1,CAL.d);
+  let hasProjPill=false;
+  projs.forEach(p=>{
+    if(!p.startDate||!p.endDate)return;
+    if(cur>=new Date(p.startDate)&&cur<=new Date(p.endDate)){
+      const stroke=PROJ_STROKE[p.bg]||'#5E81AC';
+      h+=`<span style="display:inline-flex;align-items:center;gap:3px;padding:1px 7px;border-radius:10px;font-size:9px;font-weight:500;background:${p.bg};color:${stroke};margin-right:3px;">${p.name}</span>`;
+      hasProjPill=true;
+    }
+  });
+  if(!hasProjPill)h+=`<span style="font-size:9px;color:var(--ink2);">无</span>`;
+  h+=`</div><div>`;
+  SLOTS.forEach(sl=>{
+    const slH=parseInt(sl);
+    const slotTasks=dayTasks.filter(t=>{if(!t.timeSlot||t.timeSlot==='全天')return false;return parseInt((t.timeSlot||'').split(':')[0])===slH;});
+    h+=`<div style="display:flex;align-items:flex-start;gap:4px;min-height:24px;">`;
+    h+=`<div style="font-size:8px;color:var(--ink2);font-family:monospace;width:26px;flex-shrink:0;padding-top:2px;">${sl}:00</div>`;
+    h+=`<div style="width:.5px;background:var(--line2);flex-shrink:0;margin-top:6px;self-align:stretch;min-height:18px;"></div>`;
+    h+=`<div style="flex:1;padding:1px 0 2px;">`;
+    slotTasks.forEach(t=>{
+      const proj=projs.find(p=>p.id===t.projectId);
+      const bg=proj?proj.bg:'var(--surface)';const stroke=proj?(PROJ_STROKE[proj.bg]||'#5E81AC'):'var(--ink2)';
+      h+=`<div style="border-radius:3px;padding:3px 5px;font-size:9px;line-height:1.3;cursor:pointer;margin-bottom:2px;background:${bg};" onclick="openSubSheet('${t.id}')"><div style="font-weight:500;color:${stroke};">${t.name}</div><div style="opacity:.7;margin-top:1px;font-size:8px;color:${stroke};">${t.timeSlot||''}</div></div>`;
+    });
+    if(!slotTasks.length)h+=`<div style="height:18px;cursor:pointer;border-radius:3px;" onclick="quickAddSub('${ds}','${sl}:00')" title="添加任务"></div>`;
+    h+=`</div></div>`;
+  });
+  const unplan=dayTasks.filter(t=>!t.timeSlot||t.timeSlot==='全天');
+  if(unplan.length){
+    h+=`<div style="display:flex;align-items:flex-start;gap:4px;margin-top:4px;">`;
+    h+=`<div style="font-size:8px;color:var(--ink2);width:26px;flex-shrink:0;padding-top:2px;">全天</div>`;
+    h+=`<div style="width:.5px;background:var(--line2);flex-shrink:0;min-height:18px;margin-top:6px;"></div>`;
+    h+=`<div style="flex:1;padding:1px 0 2px;">`;
+    unplan.forEach(t=>{
+      const proj=projs.find(p=>p.id===t.projectId);
+      const bg=proj?proj.bg:'var(--surface)';const stroke=proj?(PROJ_STROKE[proj.bg]||'#5E81AC'):'var(--ink2)';
+      h+=`<div style="border-radius:3px;padding:3px 5px;font-size:9px;cursor:pointer;background:${bg};color:${stroke};" onclick="openSubSheet('${t.id}')">${t.name}</div>`;
+    });
+    h+=`</div></div>`;
+  }
+  h+=`</div></div>`;
+  return h;
+}
+
+// ── TASK LIST (linked to calendar view) ──
+function renderDiscTaskList(){
+  const container=document.getElementById('disc-task-list');if(!container)return;
+  const projs=loadProjects();const tasks=loadTasks();
+  if(CAL.view==='month'){
+    // show all projects with progress
+    let h='';
+    projs.forEach(proj=>{
+      const subs=tasks.filter(t=>t.projectId===proj.id);
+      h+=renderProjCard(proj,subs);
+    });
+    // loose tasks (no project)
+    const loose=tasks.filter(t=>!t.projectId);
+    if(loose.length)h+=renderLooseTasks(loose);
+    container.innerHTML=h||`<div class="empty-small">暂无项目，点击「添加」创建</div>`;
+  } else if(CAL.view==='week'){
+    const ref=new Date(CAL.y,CAL.m-1,CAL.d);
+    const sun=new Date(ref);sun.setDate(ref.getDate()-ref.getDay());
+    const sat=new Date(sun);sat.setDate(sun.getDate()+6);
+    const weekTasks=tasks.filter(t=>{if(!t.date)return false;const d=new Date(t.date);return d>=sun&&d<=sat;});
+    const h=weekTasks.length?weekTasks.map(t=>{const proj=projs.find(p=>p.id===t.projectId);return renderSubRow(t,proj);}).join(''):`<div class="empty-small">本周暂无任务</div>`;
+    container.innerHTML=h;
+  } else {
+    const ds=`${CAL.y}-${String(CAL.m).padStart(2,'0')}-${String(CAL.d).padStart(2,'0')}`;
+    const dayTasks=tasks.filter(t=>t.date===ds);
+    const h=dayTasks.length?dayTasks.map(t=>{const proj=projs.find(p=>p.id===t.projectId);return renderSubRow(t,proj);}).join(''):`<div class="empty-small">今日暂无任务</div>`;
+    container.innerHTML=h;
+  }
+}
+
+function renderProjCard(proj,subs){
+  const done=subs.filter(s=>s.status==='done').length;
+  const pct=subs.length?Math.round(done/subs.length*100):0;
+  const ic=PROJ_ICONS.find(i=>i.id===proj.iconId)||PROJ_ICONS[0];
+  const stroke=PROJ_STROKE[proj.bg]||'#5E81AC';
+  const startD=proj.startDate?proj.startDate.slice(5).replace('-','/'):'-';
+  const endD=proj.endDate?proj.endDate.slice(5).replace('-','/'):'-';
+  const active=subs.filter(s=>s.status!=='done');
+  const doneList=subs.filter(s=>s.status==='done');
+  let h=`<div class="proj-card">
+    <div class="proj-hd" onclick="toggleProjBody('${proj.id}')">
+      <div style="width:26px;height:26px;border-radius:6px;background:${proj.bg};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none" style="color:${stroke};">${ic.s}</svg>
+      </div>
+      <div class="pj-name">${proj.name}</div>
+      <div class="pj-meta">${startD}–${endD}</div>
+      <svg class="pj-chev open" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 4l3.5 3.5L9.5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="pj-prog"><div class="pj-prog-fill" style="width:${pct}%;background:${stroke};"></div></div>
+    <div class="pj-body open" id="pjb-${proj.id}">`;
+  active.forEach(t=>{h+=renderSubRow(t,proj);});
+  if(doneList.length){
+    h+=`<div class="done-fold"><div class="done-tog" onclick="toggleFold(this)"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>已完成 ${doneList.length} 项</div><div class="done-fold-items">`;
+    doneList.forEach(t=>{h+=renderSubRow(t,proj);});
+    h+=`</div></div>`;
+  }
+  h+=`<div class="pj-add-row" onclick="openNewSubSheet('${proj.id}','')">
+    <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>添加子任务
+  </div></div></div>`;
+  return h;
+}
+
+function renderSubRow(t,proj){
+  const stroke=proj?(PROJ_STROKE[proj.bg]||'#5E81AC'):'var(--ink2)';
+  const steps=t.steps||[];const doneSteps=steps.filter(s=>s.done).length;
+  const stepPct=steps.length?Math.round(doneSteps/steps.length*100):0;
+  const isDone=t.status==='done';
+  let meta='';
+  if(t.timeSlot)meta+=`<div style="font-size:9.5px;color:var(--brand);font-family:monospace;display:flex;align-items:center;gap:2px;"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><path d="M5 3v2.5l1.5 1" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>${t.timeSlot}</div>`;
+  if(t.date)meta+=`<div style="font-size:9.5px;color:var(--ink2);font-family:monospace;">${t.date.slice(5).replace('-','/')}</div>`;
+  if(steps.length)meta+=`<div style="font-size:9.5px;color:var(--brand);display:flex;align-items:center;gap:2px;"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2L8 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>${doneSteps}/${steps.length}</div>`;
+  if(t.status==='doing')meta+=`<div style="font-size:9px;padding:1px 5px;border-radius:8px;background:var(--brand-light);color:var(--brand);">进行中</div>`;
+  if(t.status==='blocked')meta+=`<div style="font-size:9px;padding:1px 5px;border-radius:8px;background:var(--red-bg);color:var(--red);">阻塞</div>`;
+  return `<div class="sub-row${isDone?' done-sub':''}" onclick="openSubSheet('${t.id}')">
+    <div class="sub-info">
+      <div class="sub-nm">${t.name}</div>
+      ${meta?`<div class="sub-meta">${meta}</div>`:''}
+      ${steps.length?`<div class="steps-bar"><div class="steps-bar-fill" style="width:${stepPct}%;"></div></div>`:''}
+    </div>
+    <div class="sub-chk${isDone?' on':''}" onclick="event.stopPropagation();toggleSubDone('${t.id}')">
+      <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </div>
+  </div>`;
+}
+
+function renderLooseTasks(tasks){
+  const projs=loadProjects();
+  let h=`<div class="proj-card"><div class="proj-hd" style="cursor:default;"><div class="pj-name" style="color:var(--ink2);">其他任务</div></div><div class="pj-body open">`;
+  tasks.forEach(t=>{h+=renderSubRow(t,null);});
+  h+=`<div class="pj-add-row" onclick="openNewSubSheet('','')">
+    <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>添加零散任务
+  </div></div></div>`;
+  return h;
+}
+
+function toggleProjBody(pid){
+  const body=document.getElementById('pjb-'+pid);if(!body)return;
+  const hd=body.closest('.proj-card')?.querySelector('.pj-chev');
+  const open=body.classList.toggle('open');
+  if(hd)hd.classList.toggle('open',open);
+}
+
+function toggleFold(btn){
   btn.classList.toggle('open');
   btn.nextElementSibling.classList.toggle('open');
 }
 
-function toggleTaskDone(taskId){
-  const tasks=loadTasks();const task=tasks.find(t=>t.id===taskId);
-  if(!task)return;
-  task.status=task.status==='done'?'todo':'done';
-  saveTasks(tasks);renderDiscipline();
+function toggleSubDone(sid){
+  const tasks=loadTasks();const t=tasks.find(t=>t.id===sid);if(!t)return;
+  t.status=t.status==='done'?'todo':'done';
+  saveTasks(tasks);renderDiscTaskList();renderWeekScore();
 }
 
-
-function showAddTask(defaultStatus='todo'){
+// ── ADD MENU ──
+function openAddMenu(){
   document.getElementById('sheet-content').innerHTML=`
-    <div class="sheet-title">新建任务</div>
-    <div class="form-group"><label class="form-label">任务名称</label><input type="text" id="tk-name" class="s-input" placeholder="任务描述..."></div>
-    <div class="form-group">
-      <label class="form-label">分类</label>
-      <select id="tk-cat" class="s-select" style="width:100%;">${TASK_CATEGORIES.map(c=>`<option value="${c}">${c}</option>`).join('')}</select>
-    </div>
+    <div class="sheet-title">添加</div>
+    <div style="display:flex;flex-direction:column;gap:8px;padding-top:4px;">
+      <button class="sheet-btn sheet-btn-primary" onclick="closeSheet();openNewProjSheet()">新建 Project</button>
+      <button class="sheet-btn sheet-btn-secondary" onclick="closeSheet();openNewSubSheet('','')">添加子任务</button>
+    </div>`;
+  openSheet();
+}
+
+// ── PROJECT SHEET ──
+let _pjEdit=null;
+function openNewProjSheet(){_pjEdit=null;renderProjSheet(null);}
+function openEditProj(pid){const p=loadProjects().find(p=>p.id===pid);if(!p)return;_pjEdit=p;renderProjSheet(p);}
+
+function renderProjSheet(proj){
+  const today=getTodayStr();
+  const iconHtml=PROJ_ICONS.map(ic=>`<div class="ig-btn${(!proj&&ic.id==='folder')||(proj&&proj.iconId===ic.id)?' on':''}" onclick="selProjIcon('${ic.id}',this)"><svg width="13" height="13" viewBox="0 0 14 14" fill="none">${ic.s}</svg></div>`).join('');
+  const colorHtml=PROJ_COLORS.map((c,i)=>`<div class="col-dot${(!proj&&i===0)||(proj&&proj.bg===c)?' on':''}" style="background:${c};" onclick="selProjColor('${c}',this)"></div>`).join('');
+  document.getElementById('sheet-content').innerHTML=`
+    <div class="sheet-title">${proj?'编辑 Project':'新建 Project'}</div>
+    <div class="form-group"><label class="form-label">名称</label><input type="text" id="pj-name" class="s-input" placeholder="如：UCL 论文、健身计划…" value="${proj?proj.name:''}"></div>
+    <div class="form-group"><label class="form-label">图标</label><div class="icon-grid" id="pj-ig">${iconHtml}</div></div>
+    <div class="form-group"><label class="form-label">颜色</label><div class="color-pick-row" id="pj-cr">${colorHtml}</div></div>
     <div class="form-row">
-      <div class="form-half form-group">
-        <label class="form-label">截止日期</label><input type="date" id="tk-due" class="s-input">
-      </div>
-      <div class="form-half form-group">
-        <label class="form-label">状态</label>
-        <select id="tk-status" class="s-select" style="width:100%;">
-          <option value="todo" ${defaultStatus==='todo'?'selected':''}>待处理</option>
-          <option value="doing" ${defaultStatus==='doing'?'selected':''}>进行中</option>
-          <option value="blocked" ${defaultStatus==='blocked'?'selected':''}>阻塞</option>
-          <option value="done" ${defaultStatus==='done'?'selected':''}>已完成</option>
-        </select>
-      </div>
+      <div class="form-half form-group"><label class="form-label">开始日期</label><input type="date" id="pj-start" class="s-input" value="${proj?.startDate||today}"></div>
+      <div class="form-half form-group"><label class="form-label">截止日期</label><input type="date" id="pj-end" class="s-input" value="${proj?.endDate||''}"></div>
+    </div>
+    <div class="sheet-actions">
+      ${proj?`<button class="sheet-btn sheet-btn-danger" style="flex:.7;" onclick="deleteProjConfirm('${proj.id}')">删除</button>`:''}
+      <button class="sheet-btn sheet-btn-secondary" onclick="closeSheet()">取消</button>
+      <button class="sheet-btn sheet-btn-primary" onclick="saveProjSheet(${proj?`'${proj.id}'`:'null'})">保存</button>
+    </div>`;
+  openSheet();
+}
+
+let _pjSelIcon='folder',_pjSelColor=PROJ_COLORS[0];
+function selProjIcon(id,el){_pjSelIcon=id;el.closest('#pj-ig').querySelectorAll('.ig-btn').forEach(b=>b.classList.remove('on'));el.classList.add('on');}
+function selProjColor(c,el){_pjSelColor=c;el.closest('#pj-cr').querySelectorAll('.col-dot').forEach(b=>b.classList.remove('on'));el.classList.add('on');}
+
+function saveProjSheet(pid){
+  const name=document.getElementById('pj-name')?.value?.trim();
+  if(!name){showToast('请输入项目名称');return;}
+  const selIcon=document.querySelector('#pj-ig .ig-btn.on');
+  const iconId=selIcon?selIcon.getAttribute('onclick').match(/'([^']+)'/)?.[1]||'folder':'folder';
+  const selColor=document.querySelector('#pj-cr .col-dot.on');
+  const bg=selColor?selColor.style.background:PROJ_COLORS[0];
+  const projs=loadProjects();
+  if(pid){
+    const p=projs.find(p=>p.id===pid);if(p){p.name=name;p.iconId=iconId;p.bg=bg;p.startDate=document.getElementById('pj-start').value;p.endDate=document.getElementById('pj-end').value;}
+  } else {
+    projs.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2),name,iconId,bg,startDate:document.getElementById('pj-start').value,endDate:document.getElementById('pj-end').value});
+  }
+  saveProjects(projs);closeSheet();renderDiscipline();showToast(pid?'项目已更新':'项目已创建');
+}
+
+function deleteProjConfirm(pid){
+  if(!confirm('确定删除这个项目？相关子任务不会被删除。'))return;
+  saveProjects(loadProjects().filter(p=>p.id!==pid));closeSheet();renderDiscipline();showToast('项目已删除');
+}
+
+// ── SUBTASK SHEET ──
+function openNewSubSheet(projId,date){
+  const projs=loadProjects();
+  const projPills=projs.map(p=>{const stroke=PROJ_STROKE[p.bg]||'#5E81AC';return`<div style="padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500;background:${p.bg};color:${stroke};cursor:pointer;border:1.5px solid transparent;" onclick="selSubProj('${p.id}',this)">${p.name}</div>`;}).join('');
+  const today=getTodayStr();
+  document.getElementById('sheet-content').innerHTML=`
+    <div class="sheet-title">添加子任务</div>
+    <div class="form-group"><label class="form-label">任务名称</label><input type="text" id="ns-name" class="s-input" placeholder="任务描述…"></div>
+    <div class="form-group"><label class="form-label">所属 Project</label><div style="display:flex;gap:6px;flex-wrap:wrap;" id="ns-projs">${projPills}</div></div>
+    <div class="form-row">
+      <div class="form-half form-group"><label class="form-label">分配日期</label><input type="date" id="ns-date" class="s-input" value="${date||today}"></div>
+      <div class="form-half form-group"><label class="form-label">时段（选填）</label><input type="text" id="ns-time" class="s-input" placeholder="14:00–16:00"></div>
     </div>
     <div class="sheet-actions">
       <button class="sheet-btn sheet-btn-secondary" onclick="closeSheet()">取消</button>
-      <button class="sheet-btn sheet-btn-primary" onclick="saveNewTask()">创建</button>
+      <button class="sheet-btn sheet-btn-primary" onclick="saveNewSub()">添加</button>
     </div>`;
   openSheet();
-  setTimeout(()=>document.getElementById('tk-name')?.focus(),100);
+  if(projId){const el=document.querySelector(`#ns-projs [onclick*="'${projId}'"]`);if(el)selSubProj(projId,el);}
+  setTimeout(()=>document.getElementById('ns-name')?.focus(),100);
 }
 
-function saveNewTask(){
-  const name=document.getElementById('tk-name')?.value?.trim();
+let _nsProjId=null;
+function selSubProj(id,el){
+  _nsProjId=id;
+  el.closest('#ns-projs').querySelectorAll('div').forEach(b=>b.style.borderColor='transparent');
+  el.style.borderColor=el.style.color;
+}
+
+function saveNewSub(){
+  const name=document.getElementById('ns-name')?.value?.trim();
   if(!name){showToast('请输入任务名称');return;}
   const task={
     id:Date.now().toString(36)+Math.random().toString(36).slice(2),
-    name,status:document.getElementById('tk-status').value,
-    dueDate:document.getElementById('tk-due').value,
-    category:document.getElementById('tk-cat').value,
-    createdAt:new Date().toISOString()
+    name,projectId:_nsProjId||null,
+    date:document.getElementById('ns-date').value,
+    timeSlot:document.getElementById('ns-time').value.trim(),
+    steps:[],status:'todo',createdAt:new Date().toISOString()
   };
   const tasks=loadTasks();tasks.unshift(task);saveTasks(tasks);
-  closeSheet();renderTaskProgressView();renderWeekScore();showToast('任务已创建');
+  closeSheet();renderCalendar();renderDiscTaskList();renderWeekScore();showToast('任务已创建');
 }
 
-function openTaskEdit(taskId){
-  const tasks=loadTasks();const task=tasks.find(t=>t.id===taskId);if(!task)return;
+function openSubSheet(sid){
+  const tasks=loadTasks();const t=tasks.find(t=>t.id===sid);if(!t)return;
+  const projs=loadProjects();const proj=projs.find(p=>p.id===t.projectId);
+  const steps=t.steps||[];
+  let stepsHtml='';
+  if(steps.length){
+    stepsHtml=`<div style="font-size:10px;font-weight:500;color:var(--ink2);letter-spacing:.05em;text-transform:uppercase;margin-bottom:.5rem;">子步骤</div>`;
+    steps.forEach((s,i)=>{
+      stepsHtml+=`<div style="display:flex;align-items:center;gap:9px;padding:.4rem 0;border-bottom:.5px solid var(--line2);">
+        <div style="width:16px;height:16px;border-radius:3px;border:1.5px solid ${s.done?'var(--green)':'var(--line)'};background:${s.done?'var(--green)':'transparent'};display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;" onclick="toggleStep('${sid}',${i})"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <div style="flex:1;font-size:12.5px;${s.done?'text-decoration:line-through;color:var(--ink2);':''}">${s.name}</div>
+        <div style="font-size:11px;color:var(--red);cursor:pointer;padding:2px 5px;" onclick="deleteStep('${sid}',${i})">×</div>
+      </div>`;
+    });
+  }
+  const statusOpts=['todo','doing','blocked','done'].map(v=>`<option value="${v}" ${t.status===v?'selected':''}>${{todo:'待处理',doing:'进行中',blocked:'阻塞',done:'已完成'}[v]}</option>`).join('');
   document.getElementById('sheet-content').innerHTML=`
-    <div class="sheet-title">编辑任务</div>
-    <div class="form-group"><label class="form-label">任务名称</label><input type="text" id="et-name" class="s-input" value="${task.name}"></div>
-    <div class="form-group">
-      <label class="form-label">分类</label>
-      <select id="et-cat" class="s-select" style="width:100%;">${TASK_CATEGORIES.map(c=>`<option value="${c}" ${task.category===c?'selected':''}>${c}</option>`).join('')}</select>
-    </div>
+    <div class="sheet-title">${t.name}</div>
+    <div style="font-size:11px;color:var(--ink2);margin-bottom:.75rem;">${proj?proj.name:'无项目'}${t.date?' · '+t.date.slice(5).replace('-','/'):''}${t.timeSlot?' '+t.timeSlot:''}</div>
     <div class="form-row">
-      <div class="form-half form-group">
-        <label class="form-label">截止日期</label><input type="date" id="et-due" class="s-input" value="${task.dueDate||''}">
-      </div>
-      <div class="form-half form-group">
-        <label class="form-label">状态</label>
-        <select id="et-status" class="s-select" style="width:100%;">
-          <option value="todo" ${task.status==='todo'?'selected':''}>待处理</option>
-          <option value="doing" ${task.status==='doing'?'selected':''}>进行中</option>
-          <option value="blocked" ${task.status==='blocked'?'selected':''}>阻塞</option>
-          <option value="done" ${task.status==='done'?'selected':''}>已完成</option>
-        </select>
-      </div>
+      <div class="form-half form-group"><label class="form-label">状态</label><select id="ss-status" class="s-select" style="width:100%;">${statusOpts}</select></div>
+      <div class="form-half form-group"><label class="form-label">日期</label><input type="date" id="ss-date" class="s-input" value="${t.date||''}"></div>
+    </div>
+    <div class="form-group"><label class="form-label">时段</label><input type="text" id="ss-time" class="s-input" placeholder="14:00–16:00" value="${t.timeSlot||''}"></div>
+    <div id="ss-steps">${stepsHtml}</div>
+    <div style="display:flex;align-items:center;gap:7px;padding:.5rem 0;border-top:.5px solid var(--line2);margin-top:.25rem;">
+      <svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="color:var(--brand);flex-shrink:0;"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <input class="s-input" id="ss-step-inp" style="flex:1;border:none;outline:none;background:transparent;font-size:12.5px;" placeholder="添加子步骤…" onkeydown="if(event.key==='Enter')addStepInline('${sid}')">
+      <span style="font-size:11px;color:var(--brand);cursor:pointer;font-weight:500;padding:3px 7px;" onclick="addStepInline('${sid}')">添加</span>
     </div>
     <div class="sheet-actions">
-      <button class="sheet-btn sheet-btn-danger" style="flex:.7;" onclick="deleteTask('${taskId}')">删除</button>
-      <button class="sheet-btn sheet-btn-primary" onclick="updateTask('${taskId}')">保存</button>
+      <button class="sheet-btn sheet-btn-danger" style="flex:.7;" onclick="deleteSubTask('${sid}')">删除</button>
+      <button class="sheet-btn sheet-btn-secondary" onclick="closeSheet()">关闭</button>
+      <button class="sheet-btn sheet-btn-primary" onclick="saveSubEdit('${sid}')">保存</button>
     </div>`;
   openSheet();
 }
 
-function updateTask(id){
-  const tasks=loadTasks();const t=tasks.find(t=>t.id===id);if(!t)return;
-  t.name=document.getElementById('et-name').value.trim()||t.name;
-  t.status=document.getElementById('et-status').value;
-  t.dueDate=document.getElementById('et-due').value;
-  t.category=document.getElementById('et-cat').value;
-  saveTasks(tasks);closeSheet();renderDiscipline();
+function toggleStep(sid,idx){
+  const tasks=loadTasks();const t=tasks.find(t=>t.id===sid);if(!t)return;
+  if(!t.steps)t.steps=[];
+  t.steps[idx].done=!t.steps[idx].done;
+  const allDone=t.steps.every(s=>s.done);if(allDone)t.status='done';
+  saveTasks(tasks);openSubSheet(sid);renderDiscTaskList();
 }
 
-function deleteTask(id){
-  if(!confirm('确定删除这个任务？'))return;
-  saveTasks(loadTasks().filter(t=>t.id!==id));closeSheet();renderDiscipline();
+function deleteStep(sid,idx){
+  const tasks=loadTasks();const t=tasks.find(t=>t.id===sid);if(!t)return;
+  if(!t.steps)return;t.steps.splice(idx,1);saveTasks(tasks);openSubSheet(sid);
+}
+
+function addStepInline(sid){
+  const inp=document.getElementById('ss-step-inp');if(!inp)return;
+  const name=inp.value.trim();if(!name)return;
+  const tasks=loadTasks();const t=tasks.find(t=>t.id===sid);if(!t)return;
+  if(!t.steps)t.steps=[];
+  t.steps.push({name,done:false});
+  saveTasks(tasks);inp.value='';openSubSheet(sid);
+}
+
+function saveSubEdit(sid){
+  const tasks=loadTasks();const t=tasks.find(t=>t.id===sid);if(!t)return;
+  t.status=document.getElementById('ss-status').value;
+  t.date=document.getElementById('ss-date').value;
+  t.timeSlot=document.getElementById('ss-time').value.trim();
+  saveTasks(tasks);closeSheet();renderCalendar();renderDiscTaskList();renderWeekScore();showToast('已保存');
+}
+
+function deleteSubTask(sid){
+  if(!confirm('确定删除这个子任务？'))return;
+  saveTasks(loadTasks().filter(t=>t.id!==sid));closeSheet();renderCalendar();renderDiscTaskList();renderWeekScore();showToast('已删除');
+}
+
+function quickAddSub(date,timeSlot){
+  openNewSubSheet('',date);
+  setTimeout(()=>{const el=document.getElementById('ns-time');if(el)el.value=timeSlot;},150);
 }
 
 // ── HABITS ──
@@ -1655,6 +2048,96 @@ function pomoRefreshUI(){
   pomoRenderDots();pomoUpdateProgress();pomoBuildSeqPills();pomoUpdateTodayStat();
   const sd=document.getElementById('pomo-session-desc');
   if(sd)sd.textContent=`${pomoGetFocusMin()}min 专注 · ${pomoGetRestMin()}min 休息`;
+}
+
+function openPomoSheet(){
+  const CIRC_B=2*Math.PI*34;
+  const today=getTodayStr();const log=loadFocusLog(today);
+  const focusH=(POMO.totalFocusSecs/3600).toFixed(1);
+  const isRunning=POMO.state==='focus'||POMO.state==='rest';
+  const isPaused=POMO.state==='paused-focus'||POMO.state==='paused-rest';
+  const isIdle=POMO.state==='idle';
+  const mainLbl=isIdle?'开始专注':isRunning?'暂停':'继续';
+  const mainIco=isRunning
+    ?'<rect x="1.5" y="1" width="3.5" height="10" rx="1.2" fill="currentColor"/><rect x="7" y="1" width="3.5" height="10" rx="1.2" fill="currentColor"/>'
+    :'<polygon points="2,1 11,6 2,11" fill="currentColor"/>';
+  const minDisplay=String(Math.floor(POMO.currentSecs/60)).padStart(2,'0')+':'+String(POMO.currentSecs%60).padStart(2,'0');
+  const phaseLbl=POMO.isRest?'休息中':(isIdle?'专注时长':'专注中');
+  document.getElementById('sheet-content').innerHTML=`
+    <div class="sheet-title">番茄钟序列</div>
+    <div style="font-size:11px;color:var(--ink2);margin-bottom:.875rem;" id="pomo-today-stat">今日 ${focusH}h · ${POMO.tomoComplete} 个</div>
+    <div class="pomo-sheet-row">
+      <div class="pomo-sheet-ring">
+        <svg width="86" height="86" viewBox="0 0 86 86" style="transform:rotate(-90deg)">
+          <circle cx="43" cy="43" r="34" fill="none" stroke="#E5E9F0" stroke-width="7"/>
+          <circle cx="43" cy="43" r="34" fill="none" stroke="#5E81AC" stroke-width="7"
+            stroke-dasharray="${CIRC_B.toFixed(0)}" stroke-dashoffset="${POMO.isRest?CIRC_B:CIRC_B*(1-POMO.currentSecs/Math.max(1,POMO.totalSecs))}" stroke-linecap="round" id="pomo-ring-focus" style="transition:stroke-dashoffset .9s linear;"/>
+          <circle cx="43" cy="43" r="34" fill="none" stroke="#A3BE8C" stroke-width="7"
+            stroke-dasharray="${CIRC_B.toFixed(0)}" stroke-dashoffset="${POMO.isRest?CIRC_B*(1-POMO.currentSecs/Math.max(1,POMO.totalSecs)):CIRC_B}" stroke-linecap="round" id="pomo-ring-rest" style="transition:stroke-dashoffset .9s linear;"/>
+        </svg>
+        <div class="pomo-sheet-ctr">
+          <div style="font-family:monospace;font-size:1.35rem;font-weight:500;line-height:1;" id="pomo-display">${minDisplay}</div>
+          <div style="font-size:10px;color:var(--brand);margin-top:2px;" id="pomo-phase-mini">${phaseLbl}</div>
+        </div>
+      </div>
+      <div style="flex:1;">
+        <div style="display:flex;align-items:center;gap:6px;background:var(--surface);border-radius:4px;padding:5px 8px;margin-bottom:7px;">
+          <span style="font-size:11px;color:var(--ink2);flex:1;">今日目标</span>
+          <input type="number" id="pomo-goal-input" class="pomo-goal-input" value="${POMO.goalHours}" min="0.5" max="12" step="0.5" onchange="pomoUpdateGoal()">
+          <span style="font-size:11px;color:var(--brand);">h</span>
+          <span style="font-size:10px;color:var(--ink2);" id="pomo-goal-count">= ${POMO.goalTomos} 个</span>
+        </div>
+        <div style="height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;margin-bottom:3px;"><div id="pomo-prog-fill" style="height:100%;background:var(--brand);border-radius:2px;width:0%;"></div></div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--ink2);margin-bottom:5px;"><span>今日进度</span><span id="pomo-prog-val" style="color:var(--brand);">0h / ${POMO.goalHours}h</span></div>
+        <div class="pomo-seq" id="pomo-seq"></div>
+        <div style="font-size:10px;color:var(--ink2);margin-top:4px;" id="pomo-session-desc">${pomoGetFocusMin()}min 专注 · ${pomoGetRestMin()}min 休息</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:.75rem;" id="pomo-dots"></div>
+    <div style="display:flex;gap:6px;margin-top:.25rem;">
+      <button class="pomo-btn pb-main" id="pomo-main-btn" onclick="pomoMainAction()">
+        <svg id="pomo-main-icon" width="12" height="12" viewBox="0 0 12 12" fill="none">${mainIco}</svg>
+        <span id="pomo-main-label">${mainLbl}</span>
+      </button>
+      <button class="pomo-btn pb-skip" id="pomo-skip-btn" onclick="pomoSkip()" style="${isRunning||isPaused?'':'display:none'}">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2l6 4-6 4V2z" fill="currentColor"/><rect x="9" y="2" width="2" height="8" rx="1" fill="currentColor"/></svg>跳过
+      </button>
+      <button class="pomo-btn pb-stop" id="pomo-stop-btn" onclick="pomoStop()" style="${isRunning||isPaused?'':'display:none'}">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="1.5" width="9" height="9" rx="1.5" fill="currentColor"/></svg>结束
+      </button>
+    </div>
+    <div class="sheet-actions" style="padding-top:.75rem;">
+      <button class="sheet-btn sheet-btn-secondary" onclick="closeSheet()">收起</button>
+    </div>`;
+  openSheet();
+  pomoUpdateProgress();pomoRenderDots();pomoBuildSeqPills();
+}
+
+function pomoRefreshCompact(){
+  const PC_CIRC=2*Math.PI*17;
+  const rf=document.getElementById('pc-ring-f');
+  const rr=document.getElementById('pc-ring-r');
+  const td=document.getElementById('pc-time-d');
+  const pi=document.getElementById('pc-play-ic');
+  const sn=document.getElementById('pc-stat-n');
+  if(POMO.state==='idle'){
+    const dflt=String(pomoGetFocusMin()).padStart(2,'0')+':00';
+    if(rf)rf.style.strokeDashoffset='0';
+    if(rr)rr.style.strokeDashoffset=PC_CIRC;
+    if(td)td.textContent=dflt;
+  } else {
+    const pct=POMO.currentSecs/Math.max(1,POMO.totalSecs);
+    const offset=PC_CIRC*(1-pct);
+    if(!POMO.isRest){if(rf)rf.style.strokeDashoffset=offset;if(rr)rr.style.strokeDashoffset=PC_CIRC;}
+    else{if(rf)rf.style.strokeDashoffset=PC_CIRC;if(rr)rr.style.strokeDashoffset=offset;}
+    const m=String(Math.floor(POMO.currentSecs/60)).padStart(2,'0');const s=String(POMO.currentSecs%60).padStart(2,'0');
+    if(td)td.textContent=`${m}:${s}`;
+  }
+  const isRunning=POMO.state==='focus'||POMO.state==='rest';
+  if(pi){pi.innerHTML=isRunning
+    ?'<rect x="1.5" y="1" width="3" height="10" rx="1" fill="white"/><rect x="7.5" y="1" width="3" height="10" rx="1" fill="white"/>'
+    :'<polygon points="3,1.5 11,6 3,10.5" fill="white"/>';}
+  if(sn)sn.textContent=POMO.tomoComplete+' 个';
 }
 
 function pomoMainAction(){
@@ -1790,6 +2273,7 @@ function pomoUpdateRing(){
   const rr=document.getElementById('pomo-ring-rest');
   if(!POMO.isRest){if(rf)rf.style.strokeDashoffset=offset;if(rr)rr.style.strokeDashoffset=POMO.CIRC;}
   else{if(rf)rf.style.strokeDashoffset=POMO.CIRC;if(rr)rr.style.strokeDashoffset=offset;}
+  pomoRefreshCompact();
 }
 
 function pomoUpdateTimeDisplay(){
