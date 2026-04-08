@@ -2051,137 +2051,64 @@ const POMO = {
 function pomoGetFocusMin(){return parseInt(loadSettings().pomodoroMinutes)||25;}
 function pomoGetRestMin(){return parseInt(loadSettings().restMinutes)||5;}
 
-// ── AMBIENT NOISE (AudioNode graph — no ScriptProcessor) ──
-const NOISE = { ctx: null, nodes: {}, active: new Set(), pomoPaused: false };
+// ── AMBIENT NOISE (real recorded samples via fetch + AudioBuffer loop) ──
+const NOISE = { ctx: null, nodes: {}, buffers: {}, active: new Set(), pomoPaused: false };
+
+// CC-licensed natural recordings, all CORS-open on raw.githubusercontent.com
+const NOISE_URLS = {
+  tides:     'https://raw.githubusercontent.com/kalliope-project/kalliope_neuron_ambient_sound/master/sounds/seaside.mp3',
+  waves:     'https://raw.githubusercontent.com/kalliope-project/kalliope_neuron_ambient_sound/master/sounds/ocean-waves.mp3',
+  rain:      'https://raw.githubusercontent.com/bradtraversy/ambient-sound-mixer/main/audio/rain.mp3',
+  cafe:      'https://raw.githubusercontent.com/bradtraversy/ambient-sound-mixer/main/audio/cafe.mp3',
+  forest:    'https://raw.githubusercontent.com/kalliope-project/kalliope_neuron_ambient_sound/master/sounds/forest.mp3',
+  fireplace: 'https://raw.githubusercontent.com/bradtraversy/ambient-sound-mixer/main/audio/fireplace.mp3',
+};
 
 function noiseGetCtx(){
   if(!NOISE.ctx) NOISE.ctx = new (window.AudioContext||window.webkitAudioContext)();
   return NOISE.ctx;
 }
 
-// Build a 4-second looping white-noise buffer source
-function makeNoiseSrc(ctx){
-  const sr = ctx.sampleRate, len = sr * 4;
-  const buf = ctx.createBuffer(1, len, sr);
-  const d = buf.getChannelData(0);
-  for(let i=0;i<len;i++) d[i] = Math.random()*2-1;
-  const src = ctx.createBufferSource();
-  src.buffer = buf; src.loop = true; src.start();
-  return src;
+async function noiseLoadBuf(id){
+  if(NOISE.buffers[id]) return NOISE.buffers[id];
+  const ctx = noiseGetCtx();
+  const resp = await fetch(NOISE_URLS[id]);
+  const ab = await resp.arrayBuffer();
+  const buf = await ctx.decodeAudioData(ab);
+  NOISE.buffers[id] = buf;
+  return buf;
 }
 
-function noiseStart(id){
-  if(NOISE.nodes[id]) return; // already running
-  const ctx = noiseGetCtx();
-  const master = ctx.createGain();
-  master.gain.value = 0;
-  master.connect(ctx.destination);
-  const n = { master };
-
-  if(id === 'rain'){
-    // Layered: broad highpass for hiss + narrow band for droplet texture
-    const src1 = makeNoiseSrc(ctx);
-    const hp1 = ctx.createBiquadFilter(); hp1.type='highpass'; hp1.frequency.value=500; hp1.Q.value=0.5;
-    const g1 = ctx.createGain(); g1.gain.value = 0.6;
-    src1.connect(hp1); hp1.connect(g1); g1.connect(master);
-
-    const src2 = makeNoiseSrc(ctx);
-    const bp = ctx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=4000; bp.Q.value=1.5;
-    const g2 = ctx.createGain(); g2.gain.value = 0.25;
-    src2.connect(bp); bp.connect(g2); g2.connect(master);
-
-    n.srcs = [src1, src2];
-    master.gain.setTargetAtTime(0.45, ctx.currentTime, 0.8);
-
-  } else if(id === 'tides' || id === 'waves'){
-    // Deep lowpass noise + slow sine LFO for swell rhythm
-    const src = makeNoiseSrc(ctx);
-    const lp = ctx.createBiquadFilter();
-    lp.type='lowpass'; lp.frequency.value = id==='tides' ? 320 : 600; lp.Q.value = 0.4;
-    src.connect(lp); lp.connect(master);
-    master.gain.value = 0; // will be modulated
-
-    // LFO: sinewave → gain
-    const lfo = ctx.createOscillator(); lfo.type = 'sine';
-    lfo.frequency.value = id==='tides' ? 0.06 : 0.14;
-    const lfoDepth = ctx.createGain(); lfoDepth.gain.value = 0.18;
-    lfo.connect(lfoDepth); lfoDepth.connect(master.gain);
-    lfo.start();
-    master.gain.setValueAtTime(0.22, ctx.currentTime);
-
-    n.srcs = [src]; n.lfo = lfo;
-
-  } else if(id === 'cafe'){
-    // Pink-ish noise (lowpass-filtered white) — warm murmur
-    const src = makeNoiseSrc(ctx);
-    const lp1 = ctx.createBiquadFilter(); lp1.type='lowpass'; lp1.frequency.value=1200; lp1.Q.value=0.3;
-    const lp2 = ctx.createBiquadFilter(); lp2.type='lowpass'; lp2.frequency.value=2000;
-    const hp = ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=150;
-    src.connect(lp1); lp1.connect(lp2); lp2.connect(hp); hp.connect(master);
-    // Gentle tremolo to simulate crowd movement
-    const lfo = ctx.createOscillator(); lfo.type='sine'; lfo.frequency.value=0.25;
-    const lfoG = ctx.createGain(); lfoG.gain.value=0.05;
-    lfo.connect(lfoG); lfoG.connect(master.gain); lfo.start();
-    master.gain.setTargetAtTime(0.5, ctx.currentTime, 0.8);
-
-    n.srcs = [src]; n.lfo = lfo;
-
-  } else if(id === 'forest'){
-    // Upper-frequency noise for wind/leaves + slow undulating LFO
-    const src = makeNoiseSrc(ctx);
-    const hp = ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=1800; hp.Q.value=0.3;
-    const lp = ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=6000;
-    src.connect(hp); hp.connect(lp); lp.connect(master);
-
-    const lfo = ctx.createOscillator(); lfo.type='sine'; lfo.frequency.value=0.22;
-    const lfoG = ctx.createGain(); lfoG.gain.value=0.08;
-    lfo.connect(lfoG); lfoG.connect(master.gain); lfo.start();
-    master.gain.setTargetAtTime(0.18, ctx.currentTime, 1.2);
-
-    n.srcs = [src]; n.lfo = lfo;
-
-  } else if(id === 'fireplace'){
-    // Deep brown warmth (double-lowpass) + crackle layer (short bursts at high freq)
-    const src = makeNoiseSrc(ctx);
-    const lp1 = ctx.createBiquadFilter(); lp1.type='lowpass'; lp1.frequency.value=350;
-    const lp2 = ctx.createBiquadFilter(); lp2.type='lowpass'; lp2.frequency.value=600;
-    src.connect(lp1); lp1.connect(lp2); lp2.connect(master);
-    master.gain.setTargetAtTime(0.55, ctx.currentTime, 1.0);
-
-    // Crackle: short noise bursts via rapid gain modulation
-    const src2 = makeNoiseSrc(ctx);
-    const hp2 = ctx.createBiquadFilter(); hp2.type='highpass'; hp2.frequency.value=3500;
-    const crackleG = ctx.createGain(); crackleG.gain.value = 0;
-    src2.connect(hp2); hp2.connect(crackleG); crackleG.connect(master);
-    // Schedule random crackle pops
-    const scheduleCrackle = () => {
-      if(!NOISE.nodes[id]) return;
-      const now2 = ctx.currentTime;
-      crackleG.gain.setValueAtTime(0.12 + Math.random()*0.1, now2);
-      crackleG.gain.setTargetAtTime(0, now2 + 0.01, 0.015);
-      setTimeout(scheduleCrackle, 400 + Math.random()*1600);
-    };
-    setTimeout(scheduleCrackle, 300);
-
-    n.srcs = [src, src2];
+async function noiseStart(id){
+  if(NOISE.nodes[id]) return;
+  const btn = document.getElementById('noise-'+id);
+  if(btn) btn.style.opacity = '0.4';
+  try {
+    const ctx = noiseGetCtx();
+    const buf = await noiseLoadBuf(id);
+    if(!NOISE.active.has(id)){ if(btn) btn.style.opacity=''; return; } // cancelled while loading
+    const src = ctx.createBufferSource();
+    src.buffer = buf; src.loop = true;
+    const gain = ctx.createGain();
+    gain.gain.value = 0;
+    src.connect(gain); gain.connect(ctx.destination);
+    src.start();
+    gain.gain.setTargetAtTime(0.8, ctx.currentTime, 0.6);
+    NOISE.nodes[id] = { src, gain };
+    if(btn) btn.style.opacity = '';
+    if(!NOISE.pomoPaused && ctx.state==='suspended') ctx.resume();
+  } catch(e){
+    console.warn('noise load failed', id, e);
+    NOISE.active.delete(id);
+    if(btn){ btn.style.opacity=''; btn.classList.remove('on'); }
   }
-
-  NOISE.nodes[id] = n;
-  // Only resume AudioContext if pomo is not paused
-  if(!NOISE.pomoPaused && ctx.state==='suspended') ctx.resume();
 }
 
 function noiseStop(id){
   const n = NOISE.nodes[id]; if(!n) return;
   const ctx = noiseGetCtx();
-  n.master.gain.setTargetAtTime(0, ctx.currentTime, 0.3);
-  setTimeout(()=>{
-    try{
-      (n.srcs||[]).forEach(s=>{s.stop();s.disconnect();});
-      if(n.lfo){n.lfo.stop();n.lfo.disconnect();}
-      n.master.disconnect();
-    }catch(e){}
-  }, 1000);
+  n.gain.gain.setTargetAtTime(0, ctx.currentTime, 0.3);
+  setTimeout(()=>{ try{ n.src.stop(); n.src.disconnect(); n.gain.disconnect(); }catch(e){} }, 900);
   delete NOISE.nodes[id];
 }
 
@@ -2192,7 +2119,7 @@ function toggleNoise(id){
   if(btn) btn.classList.toggle('on', NOISE.active.has(id));
 }
 
-// Sync with pomo
+// Sync with pomo — suspend/resume entire AudioContext
 function noisePomoPause(){
   NOISE.pomoPaused = true;
   if(NOISE.active.size > 0 && NOISE.ctx) NOISE.ctx.suspend();
