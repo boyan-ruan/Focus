@@ -1,6 +1,6 @@
 {
-  "name": "健康自律",
-  "short_name": "健康自律",
+  "name": "ByFocus",
+  "short_name": "ByFocus",
   "description": "个人健康与自律管理",
   "start_url": "./",
   "display": "standalone",
