@@ -320,6 +320,15 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
 .review-item:last-child{border-bottom:none;}
 .review-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px;}
 
+/* ── SETTINGS NAV ── */
+#settings-nav{display:flex;flex-direction:column;gap:6px;}
+.s-nav-item{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:9px;border:.5px solid var(--line);cursor:pointer;transition:background .15s;}
+.s-nav-item:hover{background:var(--surface2);}
+.s-nav-icon{width:34px;height:34px;border-radius:8px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.s-nav-label{font-size:13px;font-weight:500;color:var(--ink);}
+.s-nav-hint{font-size:11px;color:var(--ink3);margin-top:1px;}
+.s-nav-arrow{margin-left:auto;color:var(--ink3);opacity:.5;}
+#s-back-row{display:flex;align-items:center;gap:6px;padding-bottom:12px;margin-bottom:8px;border-bottom:.5px solid var(--line);cursor:pointer;color:var(--brand);font-size:13px;font-weight:500;}
 /* ── SETTINGS ── */
 .settings-section{margin-bottom:1.5rem;}
 .settings-section-title{font-size:10px;font-weight:500;letter-spacing:.07em;color:var(--ink3);margin-bottom:.625rem;text-transform:uppercase;}
@@ -649,7 +658,7 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
   .nav{display:none;}
   .content{padding:1.5rem 2rem 2rem;overflow-y:auto;}
   .content.dashboard-mode{padding:0;overflow:hidden;display:flex;flex-direction:column;}
-  .content.dashboard-mode .content-topbar{padding:.5rem 1.25rem;flex-shrink:0;margin-bottom:0;}
+  .content.dashboard-mode .content-topbar{padding:1.5rem 1.25rem .5rem;flex-shrink:0;margin-bottom:0;}
   .content-topbar{display:flex;}
   .metric-grid{grid-template-columns:repeat(4,1fr);}
   #toast{bottom:24px;}
@@ -889,7 +898,7 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
           <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 10l3-4 3 2 4-6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           AI 生成计划
         </button>
-        <button class="btn" style="flex:1;background:white;border:.5px solid var(--line);color:var(--ink2);" onclick="openManualWorkoutPlan()">
+        <button class="btn" style="flex:1;padding:10px 18px;font-size:13px;background:white;border:.5px solid var(--line);color:var(--ink2);" onclick="openManualWorkoutPlan()">
           <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 11V8.5L9.5 1l2.5 2.5L4.5 11H2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
           手动编辑
         </button>
@@ -1016,154 +1025,217 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
     <!-- ⑤ 设置 -->
     <div class="panel" id="panel-settings">
 
-      <div class="settings-section">
-        <div class="settings-section-title">千问 API (Qwen)</div>
-        <div class="srow col">
-          <label class="slabel">API Key</label>
-          <input type="password" id="s-apikey" class="s-input" placeholder="sk-...">
-        </div>
-      </div>
-
-      <div class="settings-section">
-        <div class="settings-section-title">身体数据</div>
-        <div class="srow"><label class="slabel">性别</label>
-          <select id="s-gender" class="s-select" onchange="updateBMR()"><option value="male">男</option><option value="female">女</option></select></div>
-        <div class="srow"><label class="slabel">年龄</label>
-          <input type="number" id="s-age" class="s-num" min="10" max="100" oninput="updateBMR()"></div>
-        <div class="srow"><label class="slabel">身高 (cm)</label>
-          <input type="number" id="s-height" class="s-num" min="100" max="250" oninput="updateBMR()"></div>
-        <div class="srow"><label class="slabel">体重 (kg)</label>
-          <input type="number" id="s-weight" class="s-num" min="30" max="300" step="0.1" oninput="updateBMR()"></div>
-        <div class="srow"><label class="slabel">体脂率 (%)</label>
-          <input type="number" id="s-bodyfat" class="s-num" min="5" max="60" step="0.1"></div>
-        <div class="srow"><label class="slabel">BMR 基础代谢</label>
-          <div class="sval" id="d-bmr">—</div></div>
-        <div class="srow"><label class="slabel">TDEE 日总消耗</label>
-          <div class="sval" id="d-tdee">—</div></div>
-      </div>
-
-      <div class="settings-section">
-        <div class="settings-section-title">饮食偏好</div>
-        <div class="srow"><label class="slabel">热量目标</label>
-          <select id="s-caloriegoal" class="s-select">
-            <option value="maintain">抗炎为主（维持）</option>
-            <option value="bulk">热量盈余·增肌</option>
-            <option value="cut">热量缺口·减脂</option>
-          </select></div>
-        <div class="srow"><label class="slabel">抗炎优先</label>
-          <div class="toggle" id="t-antiinflam" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div></div>
-        <div class="srow col"><label class="slabel">忌口食材 <span class="hint">（逗号分隔）</span></label>
-          <input type="text" id="s-avoidfoods" class="s-input" placeholder="如：牛奶, 麸质"></div>
-        <div class="srow"><label class="slabel">风格偏好</label>
-          <select id="s-dietstyle" class="s-select">
-            <option value="chinese">家常中餐</option>
-            <option value="mediterranean">地中海</option>
-            <option value="mixed">中西混合</option>
-          </select></div>
-      </div>
-
-      <div class="settings-section">
-        <div class="settings-section-title">运动偏好</div>
-        <div class="srow"><label class="slabel">训练目标</label>
-          <select id="s-workoutgoal" class="s-select">
-            <option value="strength">增肌力量</option>
-            <option value="cut">减脂塑形</option>
-            <option value="maintain">日常保持</option>
-          </select></div>
-        <div class="srow"><label class="slabel">每周训练天数</label>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <input type="range" id="s-wpw" min="1" max="7" step="1" style="width:90px;" oninput="document.getElementById('d-wpw').textContent=this.value+'天';updateBMR()">
-            <span id="d-wpw" class="sval">4天</span>
-          </div></div>
-        <div class="srow"><label class="slabel">可用器材</label>
-          <select id="s-equipment" class="s-select">
-            <option value="gym">健身房</option>
-            <option value="dumbbells">哑铃</option>
-            <option value="bodyweight">自重</option>
-            <option value="mixed">混合</option>
-          </select></div>
-        <div class="srow"><label class="slabel">健身水平</label>
-          <select id="s-fitnesslevel" class="s-select">
-            <option value="1">Lv.1 初学者</option>
-            <option value="2">Lv.2 恢复期</option>
-            <option value="3">Lv.3 中级</option>
-            <option value="4">Lv.4 进阶</option>
-            <option value="5">Lv.5 高级</option>
-          </select></div>
-      </div>
-
-      <div class="settings-section">
-        <div class="settings-section-title">自律偏好</div>
-        <div class="srow"><label class="slabel">每日专注目标</label>
-          <div style="display:flex;align-items:center;gap:6px;">
-            <input type="number" id="s-focusgoal" class="s-num" min="1" max="12" step="0.5">
-            <span class="hint">小时</span>
-          </div></div>
-        <div class="srow"><label class="slabel">单节专注时长</label>
-          <div style="display:flex;align-items:center;gap:6px;">
-            <input type="number" id="s-pomodoro" class="s-num" min="5" max="60">
-            <span class="hint">分钟</span>
-          </div></div>
-        <div class="srow"><label class="slabel">休息时长</label>
-          <div style="display:flex;align-items:center;gap:6px;">
-            <input type="number" id="s-rest" class="s-num" min="1" max="30">
-            <span class="hint">分钟</span>
-          </div></div>
-        <div class="srow"><label class="slabel">核心习惯 <span class="hint">（最多 8 项）</span></label></div>
-        <div id="habits-editor"></div>
-        <button class="add-habit-btn" id="add-habit-btn" onclick="addHabitItem()">+ 添加习惯</button>
-      </div>
-
-      <div class="settings-section">
-        <div class="settings-section-title">本地食谱库</div>
-        <div id="recipe-library-list"><div class="empty-small">暂无保存的食谱</div></div>
-      </div>
-
-      <div class="settings-section">
-        <div class="settings-section-title">云端同步 · Cloudflare</div>
-        <div class="srow col">
-          <label class="slabel">Worker URL</label>
-          <input type="text" id="s-workerurl" class="s-input" placeholder="https://health-sync-worker.yourname.workers.dev">
-        </div>
-        <div class="srow col">
-          <label class="slabel">同步私钥 (SECRET_KEY)</label>
-          <input type="password" id="s-synckey" class="s-input" placeholder="你在 Cloudflare 设置的私钥">
-        </div>
-        <div class="srow">
-          <div>
-            <div class="slabel">同步状态</div>
-            <div class="hint" id="sync-status-text">未配置</div>
+      <!-- 导航 index -->
+      <div id="settings-nav">
+        <div class="s-nav-item" onclick="openSettingsSub('api')">
+          <div class="s-nav-icon">🔑</div>
+          <div style="flex:1;">
+            <div class="s-nav-label">API 与同步</div>
+            <div class="s-nav-hint">千问 Key · 云端备份</div>
           </div>
-          <div style="display:flex;gap:8px;">
-            <button class="link-btn" onclick="syncPull()">↓ 从云端拉取</button>
-            <button class="link-btn" onclick="syncPush()">↑ 推送到云端</button>
+          <svg class="s-nav-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="s-nav-item" onclick="openSettingsSub('body')">
+          <div class="s-nav-icon">⚖️</div>
+          <div style="flex:1;">
+            <div class="s-nav-label">身体数据</div>
+            <div class="s-nav-hint">BMR · 体重 · 体脂率</div>
+          </div>
+          <svg class="s-nav-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="s-nav-item" onclick="openSettingsSub('diet')">
+          <div class="s-nav-icon">🥗</div>
+          <div style="flex:1;">
+            <div class="s-nav-label">饮食偏好</div>
+            <div class="s-nav-hint">热量目标 · 忌口 · 食谱库</div>
+          </div>
+          <svg class="s-nav-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="s-nav-item" onclick="openSettingsSub('workout')">
+          <div class="s-nav-icon">💪</div>
+          <div style="flex:1;">
+            <div class="s-nav-label">训练计划</div>
+            <div class="s-nav-hint">器材 · 目标 · 频率</div>
+          </div>
+          <svg class="s-nav-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="s-nav-item" onclick="openSettingsSub('discipline')">
+          <div class="s-nav-icon">🎯</div>
+          <div style="flex:1;">
+            <div class="s-nav-label">自律与习惯</div>
+            <div class="s-nav-hint">番茄钟 · 每日习惯</div>
+          </div>
+          <svg class="s-nav-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="s-nav-item" onclick="openSettingsSub('data')">
+          <div class="s-nav-icon">📦</div>
+          <div style="flex:1;">
+            <div class="s-nav-label">数据管理</div>
+            <div class="s-nav-hint">备份 · 导入 · Apple Health</div>
+          </div>
+          <svg class="s-nav-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <!-- 返回行 -->
+      <div id="s-back-row" style="display:none;" onclick="closeSettingsSub()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 3L5 7l4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        返回
+      </div>
+
+      <!-- 所有设置分区 -->
+      <div id="settings-sections" style="display:none;">
+
+        <div class="settings-section" data-cat="api">
+          <div class="settings-section-title">千问 API (Qwen)</div>
+          <div class="srow col">
+            <label class="slabel">API Key</label>
+            <input type="password" id="s-apikey" class="s-input" placeholder="sk-...">
           </div>
         </div>
-        <div class="srow col" id="ical-section" style="display:none;">
-          <label class="slabel">苹果日历订阅链接</label>
-          <div style="display:flex;gap:6px;align-items:center;">
-            <input type="text" id="ical-url" class="s-input" readonly style="font-size:11px;color:var(--ink2);flex:1;">
-            <button class="link-btn" onclick="copyICalUrl()">复制</button>
+
+        <div class="settings-section" data-cat="api">
+          <div class="settings-section-title">云端同步 · Cloudflare</div>
+          <div class="srow col">
+            <label class="slabel">Worker URL</label>
+            <input type="text" id="s-workerurl" class="s-input" placeholder="https://health-sync-worker.yourname.workers.dev">
           </div>
-          <div class="hint" style="margin-top:4px;">在苹果日历 → 文件 → 新建日历订阅，粘贴此链接即可。任务有日期时自动推送，每小时刷新。</div>
+          <div class="srow col">
+            <label class="slabel">同步私钥 (SECRET_KEY)</label>
+            <input type="password" id="s-synckey" class="s-input" placeholder="你在 Cloudflare 设置的私钥">
+          </div>
+          <div class="srow">
+            <div>
+              <div class="slabel">同步状态</div>
+              <div class="hint" id="sync-status-text">未配置</div>
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="link-btn" onclick="syncPull()">↓ 从云端拉取</button>
+              <button class="link-btn" onclick="syncPush()">↑ 推送到云端</button>
+            </div>
+          </div>
+          <div class="srow col" id="ical-section" style="display:none;">
+            <label class="slabel">苹果日历订阅链接</label>
+            <div style="display:flex;gap:6px;align-items:center;">
+              <input type="text" id="ical-url" class="s-input" readonly style="font-size:11px;color:var(--ink2);flex:1;">
+              <button class="link-btn" onclick="copyICalUrl()">复制</button>
+            </div>
+            <div class="hint" style="margin-top:4px;">在苹果日历 → 文件 → 新建日历订阅，粘贴此链接即可。任务有日期时自动推送，每小时刷新。</div>
+          </div>
         </div>
+
+        <div class="settings-section" data-cat="body">
+          <div class="settings-section-title">身体数据</div>
+          <div class="srow"><label class="slabel">性别</label>
+            <select id="s-gender" class="s-select" onchange="updateBMR()"><option value="male">男</option><option value="female">女</option></select></div>
+          <div class="srow"><label class="slabel">年龄</label>
+            <input type="number" id="s-age" class="s-num" min="10" max="100" oninput="updateBMR()"></div>
+          <div class="srow"><label class="slabel">身高 (cm)</label>
+            <input type="number" id="s-height" class="s-num" min="100" max="250" oninput="updateBMR()"></div>
+          <div class="srow"><label class="slabel">体重 (kg)</label>
+            <input type="number" id="s-weight" class="s-num" min="30" max="300" step="0.1" oninput="updateBMR()"></div>
+          <div class="srow"><label class="slabel">体脂率 (%)</label>
+            <input type="number" id="s-bodyfat" class="s-num" min="5" max="60" step="0.1"></div>
+          <div class="srow"><label class="slabel">BMR 基础代谢</label>
+            <div class="sval" id="d-bmr">—</div></div>
+          <div class="srow"><label class="slabel">TDEE 日总消耗</label>
+            <div class="sval" id="d-tdee">—</div></div>
+        </div>
+
+        <div class="settings-section" data-cat="diet">
+          <div class="settings-section-title">饮食偏好</div>
+          <div class="srow"><label class="slabel">热量目标</label>
+            <select id="s-caloriegoal" class="s-select">
+              <option value="maintain">抗炎为主（维持）</option>
+              <option value="bulk">热量盈余·增肌</option>
+              <option value="cut">热量缺口·减脂</option>
+            </select></div>
+          <div class="srow"><label class="slabel">抗炎优先</label>
+            <div class="toggle" id="t-antiinflam" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div></div>
+          <div class="srow col"><label class="slabel">忌口食材 <span class="hint">（逗号分隔）</span></label>
+            <input type="text" id="s-avoidfoods" class="s-input" placeholder="如：牛奶, 麸质"></div>
+          <div class="srow"><label class="slabel">风格偏好</label>
+            <select id="s-dietstyle" class="s-select">
+              <option value="chinese">家常中餐</option>
+              <option value="mediterranean">地中海</option>
+              <option value="mixed">中西混合</option>
+            </select></div>
+        </div>
+
+        <div class="settings-section" data-cat="diet">
+          <div class="settings-section-title">本地食谱库</div>
+          <div id="recipe-library-list"><div class="empty-small">暂无保存的食谱</div></div>
+        </div>
+
+        <div class="settings-section" data-cat="workout">
+          <div class="settings-section-title">运动偏好</div>
+          <div class="srow"><label class="slabel">训练目标</label>
+            <select id="s-workoutgoal" class="s-select">
+              <option value="strength">增肌力量</option>
+              <option value="cut">减脂塑形</option>
+              <option value="maintain">日常保持</option>
+            </select></div>
+          <div class="srow"><label class="slabel">每周训练天数</label>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <input type="range" id="s-wpw" min="1" max="7" step="1" style="width:90px;" oninput="document.getElementById('d-wpw').textContent=this.value+'天';updateBMR()">
+              <span id="d-wpw" class="sval">4天</span>
+            </div></div>
+          <div class="srow"><label class="slabel">可用器材</label>
+            <select id="s-equipment" class="s-select">
+              <option value="gym">健身房</option>
+              <option value="dumbbells">哑铃</option>
+              <option value="bodyweight">自重</option>
+              <option value="mixed">混合</option>
+            </select></div>
+          <div class="srow"><label class="slabel">健身水平</label>
+            <select id="s-fitnesslevel" class="s-select">
+              <option value="1">Lv.1 初学者</option>
+              <option value="2">Lv.2 恢复期</option>
+              <option value="3">Lv.3 中级</option>
+              <option value="4">Lv.4 进阶</option>
+              <option value="5">Lv.5 高级</option>
+            </select></div>
+        </div>
+
+        <div class="settings-section" data-cat="discipline">
+          <div class="settings-section-title">自律偏好</div>
+          <div class="srow"><label class="slabel">每日专注目标</label>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <input type="number" id="s-focusgoal" class="s-num" min="1" max="12" step="0.5">
+              <span class="hint">小时</span>
+            </div></div>
+          <div class="srow"><label class="slabel">单节专注时长</label>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <input type="number" id="s-pomodoro" class="s-num" min="5" max="60">
+              <span class="hint">分钟</span>
+            </div></div>
+          <div class="srow"><label class="slabel">休息时长</label>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <input type="number" id="s-rest" class="s-num" min="1" max="30">
+              <span class="hint">分钟</span>
+            </div></div>
+          <div class="srow"><label class="slabel">核心习惯 <span class="hint">（最多 8 项）</span></label></div>
+          <div id="habits-editor"></div>
+          <button class="add-habit-btn" id="add-habit-btn" onclick="addHabitItem()">+ 添加习惯</button>
+        </div>
+
+        <div class="settings-section" data-cat="data">
+          <div class="settings-section-title">数据 & 备份</div>
+          <div class="srow"><label class="slabel">Apple Health 数据</label>
+            <label for="health-file-settings" class="link-btn" id="health-import-label">导入 export.zip</label>
+            <input type="file" id="health-file-settings" accept=".zip" style="display:none" onchange="importAppleHealth(this.files[0])"></div>
+          <div class="srow"><label class="slabel">导出备份</label>
+            <button class="link-btn" onclick="exportBackup()">下载 JSON</button></div>
+          <div class="srow"><label class="slabel">导入备份</label>
+            <label for="backup-file-input" class="link-btn">选择文件</label>
+            <input type="file" id="backup-file-input" accept=".json" style="display:none" onchange="importBackup(this.files[0])"></div>
+          <div class="srow"><label class="slabel" style="color:var(--red);">清除所有数据</label>
+            <button class="link-btn" style="color:var(--red);" onclick="clearAllData()">清除</button></div>
+        </div>
+
+        <button class="save-settings-btn" onclick="saveSettings()">保存设置</button>
       </div>
 
-      <div class="settings-section">
-        <div class="settings-section-title">数据 & 备份</div>
-        <div class="srow"><label class="slabel">Apple Health 数据</label>
-          <label for="health-file-settings" class="link-btn" id="health-import-label">导入 export.zip</label>
-          <input type="file" id="health-file-settings" accept=".zip" style="display:none" onchange="importAppleHealth(this.files[0])"></div>
-        <div class="srow"><label class="slabel">导出备份</label>
-          <button class="link-btn" onclick="exportBackup()">下载 JSON</button></div>
-        <div class="srow"><label class="slabel">导入备份</label>
-          <label for="backup-file-input" class="link-btn">选择文件</label>
-          <input type="file" id="backup-file-input" accept=".json" style="display:none" onchange="importBackup(this.files[0])"></div>
-        <div class="srow"><label class="slabel" style="color:var(--red);">清除所有数据</label>
-          <button class="link-btn" style="color:var(--red);" onclick="clearAllData()">清除</button></div>
-      </div>
-
-      <button class="save-settings-btn" onclick="saveSettings()">保存设置</button>
     </div>
 
   </div><!-- end content -->
@@ -1459,7 +1531,7 @@ function switchTab(tab){
   else if(tab==='diet')renderDiet();
   else if(tab==='workout')renderWorkout();
   else if(tab==='discipline')renderDiscipline();
-  else if(tab==='settings')renderSettings();
+  else if(tab==='settings'){renderSettings();openSettingsNav();}
 }
 
 // ── ANTHROPIC API ──
@@ -2297,12 +2369,12 @@ function openMealSheet(wk,dayIdx,mealType){
     <div class="sheet-sub">${day.day} · ${MEAL_NAMES_ZH[mealType]} · ${m.kcal||0} kcal</div>
     <div class="sheet-tags">${(m.tags||[]).map(t=>`<span class="pill pill-green">${t}</span>`).join('')}</div>
     <div class="sheet-recipe">
-      <div class="sheet-recipe-title">做法要点 <span class="hint">（编辑后自动保存）</span></div>
-      <textarea id="recipe-edit" class="recipe-textarea" rows="5" onblur="saveRecipeEdit('${esc(m.name)}')">${recipe}</textarea>
+      <div class="sheet-recipe-title">做法要点 <span class="hint">（点击确认后保存）</span></div>
+      <textarea id="recipe-edit" class="recipe-textarea" rows="5">${recipe}</textarea>
     </div>
     <div class="sheet-actions">
       <button class="sheet-btn sheet-btn-secondary" onclick="handleRegenMeal('${wk}',${dayIdx},'${mealType}')">重新生成</button>
-      <button class="sheet-btn sheet-btn-primary" onclick="closeSheet()">确认</button>
+      <button class="sheet-btn sheet-btn-primary" onclick="saveRecipeAndClose('${esc(m.name)}')">确认</button>
     </div>`;
   openSheet();
 }
@@ -2311,6 +2383,7 @@ function saveRecipeEdit(mealName){
   const ta=document.getElementById('recipe-edit');if(!ta)return;
   const lib=loadRecipeLib();lib[mealName]=ta.value;saveRecipeLib(lib);
 }
+function saveRecipeAndClose(mealName){saveRecipeEdit(mealName);closeSheet();}
 
 async function handleRegenMeal(wk,dayIdx,mealType){
   closeSheet();
@@ -3646,6 +3719,20 @@ async function generateReview(){
 }
 
 // ── SETTINGS ──
+function openSettingsNav(){
+  document.getElementById('settings-nav').style.display='';
+  document.getElementById('settings-sections').style.display='none';
+  document.getElementById('s-back-row').style.display='none';
+}
+function openSettingsSub(cat){
+  document.getElementById('settings-nav').style.display='none';
+  document.getElementById('settings-sections').style.display='';
+  document.getElementById('s-back-row').style.display='';
+  document.querySelectorAll('#settings-sections .settings-section').forEach(el=>{
+    el.style.display=el.dataset.cat===cat?'':'none';
+  });
+}
+function closeSettingsSub(){openSettingsNav();}
 function renderSettings(){
   const s=loadSettings();
   document.getElementById('s-apikey').value=s.apiKey||'';
