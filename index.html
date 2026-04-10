@@ -440,9 +440,17 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
 .ov-hd.lb{border-bottom:.5px solid var(--line2);}
 .ov-hd.db{border-bottom:.5px solid rgba(255,255,255,.07);}
 .ov-ct{font-size:10.5px;font-weight:500;letter-spacing:.02em;}
-.ov-ct-light{color:var(--ink2);}
-.ov-ct-dark{color:rgba(216,222,233,.55);}
+.ov-ct-light{color:var(--ov-txt2,var(--ink2));}
+.ov-ct-dark{color:var(--ov-txt2,rgba(216,222,233,.55));}
 .ov-act{font-size:10px;color:var(--brand);cursor:pointer;opacity:.85;touch-action:manipulation;}
+.ov-dn-sub{color:var(--ov-txt,var(--ink)) !important;}
+.ov-dn-wk{color:var(--ov-txt2,var(--ink2)) !important;}
+.ov-b-nm{color:var(--ov-txt,var(--ink)) !important;}
+.ov-b-sub{color:var(--ov-txt2,var(--ink2)) !important;}
+.ov-tg-nm{color:var(--ov-txt,var(--ink)) !important;}
+.ov-t-name{color:var(--ov-txt,var(--ink)) !important;}
+.ov-hd.lb{border-bottom:.5px solid var(--ov-border,var(--line2)) !important;}
+.ov-b-row{border-bottom:.5px solid var(--ov-border,var(--line2)) !important;}
 .ov-act:hover{opacity:1;}
 /* palette btn */
 .ov-palette-btn{width:14px;height:14px;border-radius:2px;border:.5px solid var(--line2);background:var(--surface);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:var(--ink2);opacity:.4;transition:opacity .15s;margin-left:3px;flex-shrink:0;}
@@ -629,7 +637,7 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
     display:grid;
     grid-template-columns:var(--ov-col1,256px) 1fr 1fr 1fr;
     grid-template-rows:var(--ov-row1,68px) 1fr var(--ov-row3,182px);
-    gap:7px;padding:7px;overflow:hidden;flex:1;
+    gap:7px;padding:7px;overflow:hidden;flex:1;position:relative;
   }
   .ov-card{min-height:0;}
   .ov-date-card{grid-column:1;grid-row:1;}
@@ -771,7 +779,7 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
         </div>
         <div class="ov-pomo-body">
           <div class="ov-pomo-ring-area">
-            <svg id="ov-pring-svg" width="0" height="0" viewBox="0 0 120 120" style="transform:rotate(-90deg)">
+            <svg id="ov-pring-svg" width="120" height="120" viewBox="0 0 120 120" style="transform:rotate(-90deg)">
               <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="7"/>
               <circle cx="60" cy="60" r="52" fill="none" stroke="#5E81AC" stroke-width="7"
                 stroke-dasharray="326.7" stroke-dashoffset="326.7" stroke-linecap="round" id="ov-pring-arc"/>
@@ -788,10 +796,18 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
             <div class="ov-pp-lbl"><span>今日进度</span><span class="ov-pp-val" id="ov-pp-val">0h / 2h</span></div>
           </div>
           <div class="ov-noise-row">
-            <button class="ov-nb" id="ov-nb-rain"     onclick="toggleNoise('rain')"     title="雨声">雨</button>
-            <button class="ov-nb" id="ov-nb-cafe"     onclick="toggleNoise('cafe')"     title="咖啡馆">咖</button>
-            <button class="ov-nb" id="ov-nb-waves"    onclick="toggleNoise('waves')"    title="海浪">浪</button>
-            <button class="ov-nb" id="ov-nb-forest"   onclick="toggleNoise('forest')"   title="森林">林</button>
+            <button class="ov-nb" id="ov-nb-rain"   onclick="toggleNoise('rain')"   title="雨声">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 10a5 5 0 1110 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M5 13l-.5 1.5M8 13v2M11 13l.5 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>雨
+            </button>
+            <button class="ov-nb" id="ov-nb-cafe"   onclick="toggleNoise('cafe')"   title="咖啡馆">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 7h8v5a3 3 0 01-3 3H6a3 3 0 01-3-3V7z" stroke="currentColor" stroke-width="1.4"/><path d="M11 9h1a2 2 0 010 4h-1" stroke="currentColor" stroke-width="1.4"/><path d="M6 4c0-1.5 2-1.5 2-3M9 4c0-1.5 2-1.5 2-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>咖
+            </button>
+            <button class="ov-nb" id="ov-nb-waves"  onclick="toggleNoise('waves')"  title="海浪">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M1 9c1.5-2 3-2 4.5 0s3 2 4.5 0S13 7 15 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M1 12.5c1.5-2 3-2 4.5 0s3 2 4.5 0 2.5-2 4.5 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>浪
+            </button>
+            <button class="ov-nb" id="ov-nb-forest" onclick="toggleNoise('forest')" title="森林">
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 2L3 10h10L8 2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 6L4 13h8L8 6z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 13v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>林
+            </button>
           </div>
           <div class="ov-pomo-btns">
             <button class="ov-pb-btn ov-pb-main" id="ov-pomo-main-btn" onclick="pomoMainAction()">开始</button>
@@ -1821,6 +1837,14 @@ function openCardColorPicker(cardSel,evt){
   setTimeout(()=>document.addEventListener('click',()=>pop.remove(),{once:true}),50);
 }
 
+function isLightColor(hex){
+  // Returns true if hex color is perceptually light (luma > 0.45)
+  const c=hex.replace('#','');
+  if(c.length!==6)return true;
+  const r=parseInt(c.slice(0,2),16),g=parseInt(c.slice(2,4),16),b=parseInt(c.slice(4,6),16);
+  return (0.299*r+0.587*g+0.114*b)/255 > 0.45;
+}
+
 function setCardColor(cardSel,color){
   if(color)OV_CARD_COLORS[cardSel]=color;else delete OV_CARD_COLORS[cardSel];
   localStorage.setItem('ov_card_colors',JSON.stringify(OV_CARD_COLORS));
@@ -1834,7 +1858,19 @@ function applyOvCustomizations(){
     'ov-diet-card':'.ov-diet-card','ov-hab-card':'.ov-hab-card'};
   Object.entries(cards).forEach(([key,sel])=>{
     const el=document.querySelector(sel);if(!el)return;
-    el.style.background=OV_CARD_COLORS[key]||'';
+    const col=OV_CARD_COLORS[key]||'';
+    el.style.background=col;
+    if(col){
+      const light=isLightColor(col);
+      // Override text colors via CSS vars on the element
+      el.style.setProperty('--ov-txt',light?'#2E3440':'rgba(236,239,244,.9)');
+      el.style.setProperty('--ov-txt2',light?'#4C566A':'rgba(216,222,233,.55)');
+      el.style.setProperty('--ov-border',light?'rgba(0,0,0,.08)':'rgba(255,255,255,.07)');
+      el.style.color=light?'#2E3440':'rgba(236,239,244,.9)';
+    } else {
+      el.style.removeProperty('--ov-txt');el.style.removeProperty('--ov-txt2');
+      el.style.removeProperty('--ov-border');el.style.color='';
+    }
   });
   const bgLayer=document.getElementById('ov-bg-layer');
   if(bgLayer){
@@ -1846,58 +1882,75 @@ function applyOvCustomizations(){
 }
 
 // Drag-resize handles
+let _dashResizeMM=null,_dashResizeMU=null; // stored listeners for cleanup
+
 function initDashResize(){
   const dash=document.getElementById('panel-overview');if(!dash)return;
   const saved=JSON.parse(localStorage.getItem('ov_grid_sizes')||'{}');
   if(saved.col1)dash.style.setProperty('--ov-col1',saved.col1);
   if(saved.row1)dash.style.setProperty('--ov-row1',saved.row1);
   if(saved.row3)dash.style.setProperty('--ov-row3',saved.row3);
-  // Remove old handles before re-adding
+  // Cleanup old listeners and handles
+  if(_dashResizeMM)document.removeEventListener('mousemove',_dashResizeMM);
+  if(_dashResizeMU)document.removeEventListener('mouseup',_dashResizeMU);
   dash.querySelectorAll('.ov-rh').forEach(h=>h.remove());
-  createResizeHandle(dash,'col1','col');
-  createResizeHandle(dash,'row1','row');
-  createResizeHandle(dash,'row3','row');
-  setTimeout(()=>positionResizeHandles(dash),60);
-}
-
-function createResizeHandle(dash,which,type){
-  const h=document.createElement('div');
-  h.className=`ov-rh ${type}`;h.dataset.which=which;
-  dash.appendChild(h);
-  let dragging=false,startPos=0,startVal=0;
-  h.addEventListener('mousedown',e=>{
-    dragging=true;startPos=(type==='col'?e.clientX:e.clientY);
-    const cur=getComputedStyle(dash).getPropertyValue(`--ov-${which}`).trim();
-    startVal=parseInt(cur)||256;
-    document.body.style.cursor=type==='col'?'col-resize':'row-resize';
-    e.preventDefault();
+  // State shared across all handles
+  let dragging=null; // {which,type,startPos,startVal}
+  // Create handles
+  const specs=[{which:'col1',type:'col'},{which:'row1',type:'row'},{which:'row3',type:'row'}];
+  specs.forEach(({which,type})=>{
+    const h=document.createElement('div');
+    h.className=`ov-rh ${type}`;h.dataset.which=which;
+    dash.appendChild(h);
+    h.addEventListener('mousedown',e=>{
+      const cur=dash.style.getPropertyValue(`--ov-${which}`)||getComputedStyle(dash).getPropertyValue(`--ov-${which}`);
+      const startVal=parseInt(cur)||({col1:256,row1:68,row3:182}[which]);
+      dragging={which,type,startPos:(type==='col'?e.clientX:e.clientY),startVal};
+      document.body.style.userSelect='none';
+      document.body.style.cursor=type==='col'?'col-resize':'row-resize';
+      e.preventDefault();e.stopPropagation();
+    });
   });
-  document.addEventListener('mousemove',e=>{
+  _dashResizeMM=e=>{
     if(!dragging)return;
+    const {which,type,startPos,startVal}=dragging;
     const delta=(type==='col'?e.clientX:e.clientY)-startPos;
-    const minV=type==='col'?120:44,maxV=type==='col'?480:300;
+    const minV=type==='col'?120:40,maxV=type==='col'?520:400;
     const newVal=Math.max(minV,Math.min(maxV,startVal+delta));
     dash.style.setProperty(`--ov-${which}`,newVal+'px');
-    positionResizeHandles(dash);
-    if(which==='ov-row2-affected')sizeOvPomoRing();
-  });
-  document.addEventListener('mouseup',()=>{
-    if(!dragging)return;dragging=false;document.body.style.cursor='';
+    updateHandlePositions(dash);
+  };
+  _dashResizeMU=()=>{
+    if(!dragging)return;
+    const {which}=dragging;dragging=null;
+    document.body.style.userSelect='';document.body.style.cursor='';
     const saved=JSON.parse(localStorage.getItem('ov_grid_sizes')||'{}');
-    saved[which]=getComputedStyle(dash).getPropertyValue(`--ov-${which}`).trim();
+    saved[which]=dash.style.getPropertyValue(`--ov-${which}`);
     localStorage.setItem('ov_grid_sizes',JSON.stringify(saved));
     sizeOvPomoRing();
-  });
+  };
+  document.addEventListener('mousemove',_dashResizeMM);
+  document.addEventListener('mouseup',_dashResizeMU);
+  // Position handles after grid renders
+  setTimeout(()=>updateHandlePositions(dash),120);
 }
 
-function positionResizeHandles(dash){
+function updateHandlePositions(dash){
   const dashRect=dash.getBoundingClientRect();
-  const col1card=dash.querySelector('.ov-date-card');
-  const row1card=dash.querySelector('.ov-gantt-card');
-  const row3card=dash.querySelector('.ov-wk-card');
-  if(col1card){const r=col1card.getBoundingClientRect();const h=dash.querySelector('[data-which="col1"]');if(h){h.style.left=(r.right-dashRect.left-3)+'px';h.style.top='0';h.style.bottom='0';}}
-  if(row1card){const r=row1card.getBoundingClientRect();const h=dash.querySelector('[data-which="row1"]');if(h){h.style.top=(r.bottom-dashRect.top-3)+'px';h.style.left='0';h.style.right='0';}}
-  if(row3card){const r=row3card.getBoundingClientRect();const h=dash.querySelector('[data-which="row3"]');if(h){h.style.top=(r.top-dashRect.top-3)+'px';h.style.left='0';h.style.right='0';}}
+  if(!dashRect.width)return;
+  const map={col1:'.ov-date-card',row1:'.ov-gantt-card',row3:'.ov-wk-card'};
+  Object.entries(map).forEach(([which,sel])=>{
+    const card=dash.querySelector(sel);const h=dash.querySelector(`[data-which="${which}"]`);
+    if(!card||!h)return;
+    const r=card.getBoundingClientRect();
+    if(which==='col1'){
+      h.style.cssText=`position:absolute;top:0;bottom:0;width:10px;left:${r.right-dashRect.left-5}px;cursor:col-resize;z-index:20;`;
+    } else if(which==='row1'){
+      h.style.cssText=`position:absolute;left:0;right:0;height:10px;top:${r.bottom-dashRect.top-5}px;cursor:row-resize;z-index:20;`;
+    } else {
+      h.style.cssText=`position:absolute;left:0;right:0;height:10px;top:${r.top-dashRect.top-5}px;cursor:row-resize;z-index:20;`;
+    }
+  });
 }
 
 // Background image customization
@@ -3637,7 +3690,11 @@ function esc(s){return(s||'').replace(/'/g,"\\'");}
   const ctDate=document.getElementById('ct-date');
   if(ctDate)ctDate.textContent=`${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 · ${days[now.getDay()]}`;
   const ctTitle=document.getElementById('ct-title');if(ctTitle)ctTitle.textContent='今日';
+  // Init overview as active tab (apply dashboard layout)
+  document.getElementById('content')?.classList.add('dashboard-mode');
+  const _ovAct=document.getElementById('ov-topbar-actions');if(_ovAct)_ovAct.style.display='flex';
   renderOverview();
+  setTimeout(()=>{initDashResize();sizeOvPomoRing();},100);
 })();
 </script>
 </body>
