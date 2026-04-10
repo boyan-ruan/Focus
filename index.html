@@ -443,14 +443,21 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
 .ov-ct-light{color:var(--ov-txt2,var(--ink2));}
 .ov-ct-dark{color:var(--ov-txt2,rgba(216,222,233,.55));}
 .ov-act{font-size:10px;color:var(--brand);cursor:pointer;opacity:.85;touch-action:manipulation;}
+/* Card color text cascade — all inner text respects --ov-txt/--ov-txt2 set by applyOvCustomizations() */
 .ov-dn-sub{color:var(--ov-txt,var(--ink)) !important;}
-.ov-dn-wk{color:var(--ov-txt2,var(--ink2)) !important;}
+.ov-dn-wk,.ov-dn-big+.ov-dn-sub{color:var(--ov-txt2,var(--ink2)) !important;}
 .ov-b-nm{color:var(--ov-txt,var(--ink)) !important;}
 .ov-b-sub{color:var(--ov-txt2,var(--ink2)) !important;}
 .ov-tg-nm{color:var(--ov-txt,var(--ink)) !important;}
+.ov-tg-pct{color:var(--ov-txt2,var(--ink2)) !important;}
 .ov-t-name{color:var(--ov-txt,var(--ink)) !important;}
+.ov-t-meta,.ov-t-time{color:var(--ov-txt2,var(--ink2)) !important;}
+.g-lbl,.g-pct{color:var(--ov-txt2,var(--ink2)) !important;}
 .ov-hd.lb{border-bottom:.5px solid var(--ov-border,var(--line2)) !important;}
 .ov-b-row{border-bottom:.5px solid var(--ov-border,var(--line2)) !important;}
+.ov-t-row{border-bottom:.5px solid var(--ov-border,var(--line2));}
+.ov-tg-bar{background:var(--ov-border,var(--surface2)) !important;}
+/* Pomo ring area — flex:1 so sizeOvPomoRing gets real dimensions */
 .ov-act:hover{opacity:1;}
 /* palette btn */
 .ov-palette-btn{width:14px;height:14px;border-radius:2px;border:.5px solid var(--line2);background:var(--surface);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:var(--ink2);opacity:.4;transition:opacity .15s;margin-left:3px;flex-shrink:0;}
@@ -535,9 +542,23 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
 .ov-t-blocked{background:var(--red-bg);color:var(--red);}
 .ov-t-add{display:flex;align-items:center;gap:4px;padding:.3rem 0;font-size:11px;color:var(--ink2);cursor:pointer;margin-top:.2rem;touch-action:manipulation;}
 .ov-t-add:hover{color:var(--brand);}
+.ov-t-expand{font-size:9px;color:var(--ink3);margin-left:2px;transition:transform .15s;display:inline-block;}
+.ov-t-expand.open{transform:rotate(90deg);}
+.ov-steps-wrap{padding:2px 4px 4px 22px;border-left:2px solid var(--brand-light,#dde4ef);margin-bottom:2px;}
+.ov-step-row{display:flex;align-items:center;gap:5px;padding:2px 0;cursor:pointer;touch-action:manipulation;}
+.ov-step-chk{width:11px;height:11px;border-radius:2px;border:1px solid var(--line2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.ov-step-chk.on{background:var(--green);border-color:var(--green);}
+.ov-step-txt{font-size:10.5px;color:var(--ov-txt2,var(--ink2));}
+.ov-step-txt.done{text-decoration:line-through;opacity:.5;}
+/* Sticker layer */
+#ov-sticker-layer{position:absolute;inset:0;pointer-events:none;z-index:15;overflow:hidden;}
+.ov-sticker{position:absolute;pointer-events:auto;cursor:move;user-select:none;}
+.ov-sticker img{width:100%;height:auto;display:block;pointer-events:none;}
+.ov-sticker-del{position:absolute;top:-6px;right:-6px;width:16px;height:16px;border-radius:50%;background:var(--red);color:#fff;font-size:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+.ov-sticker-rz{position:absolute;bottom:-4px;right:-4px;width:10px;height:10px;border-radius:50%;background:var(--brand);cursor:se-resize;z-index:2;box-shadow:0 1px 3px rgba(0,0,0,.25);}
 /* Pomo (dark) */
 .ov-pomo-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:.5rem .875rem .625rem;}
-.ov-pomo-ring-area{position:relative;display:flex;align-items:center;justify-content:center;}
+.ov-pomo-ring-area{position:relative;display:flex;align-items:center;justify-content:center;flex:1;min-height:0;}
 .ov-pomo-ring-ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
 .ov-pomo-time2{font-family:"DM Mono",monospace;font-size:1.5rem;font-weight:500;color:rgba(236,239,244,.90);line-height:1;letter-spacing:.03em;}
 .ov-pomo-ptxt{font-size:9.5px;color:#81A1C1;letter-spacing:.03em;}
@@ -711,13 +732,10 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
     <div class="content-topbar">
       <div class="ct-title" id="ct-title">今日</div>
       <div style="display:flex;align-items:center;gap:.875rem;">
-        <div class="ct-date" id="ct-date"></div>
-        <div id="ov-topbar-actions" style="display:none;align-items:center;gap:6px;">
-          <div class="btn" style="padding:5px 11px;font-size:11.5px;" onclick="quickAddTaskOv()">+ 任务</div>
-          <div class="ov-customize-btn" onclick="openOvCustomize()" title="个性化">
-            <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M7 1v2M7 11v2M1 7h2M11 7h2M3 3l1.4 1.4M9.6 9.6L11 11M3 11l1.4-1.4M9.6 4.4L11 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <div id="ov-topbar-actions" style="display:none;align-items:center;">
+          <div class="ov-customize-btn" onclick="openOvCustomize()" title="自定义">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3"/></svg>
           </div>
-          <div class="btn btn-brand" style="padding:5px 11px;font-size:11.5px;" onclick="openPomoFullscreen()">进入专注模式</div>
         </div>
       </div>
     </div>
@@ -725,6 +743,7 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
     <!-- ① 今日 -->
     <div class="panel active" id="panel-overview">
       <div id="ov-bg-layer"></div>
+      <div id="ov-sticker-layer"></div>
 
       <!-- DATE NAV -->
       <div class="ov-card light ov-date-card">
@@ -742,7 +761,7 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
       <!-- GANTT -->
       <div class="ov-card light ov-gantt-card">
         <div class="ov-hd lb">
-          <div style="display:flex;align-items:center;gap:4px;"><div class="ov-ct ov-ct-light">近期项目</div><div class="ov-palette-btn" onclick="openCardColorPicker('ov-gantt-card',event)" title="配色"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><circle cx="3" cy="5" r="1" fill="currentColor"/><circle cx="5" cy="3" r="1" fill="currentColor"/><circle cx="7" cy="5" r="1" fill="currentColor"/></svg></div></div>
+          <div class="ov-ct ov-ct-light">近期项目</div>
           <div class="ov-act" onclick="switchTab('discipline')">全部 →</div>
         </div>
         <div class="ov-gantt-inner" id="ov-gantt-inner"></div>
@@ -751,7 +770,7 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
       <!-- TIMELINE (dark) -->
       <div class="ov-card dark ov-tl-card">
         <div class="ov-hd db">
-          <div style="display:flex;align-items:center;gap:4px;"><div class="ov-ct ov-ct-dark">今日日程</div><div class="ov-palette-btn" style="border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);" onclick="openCardColorPicker('ov-tl-card',event)" title="配色"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><circle cx="3" cy="5" r="1" fill="currentColor"/><circle cx="5" cy="3" r="1" fill="currentColor"/><circle cx="7" cy="5" r="1" fill="currentColor"/></svg></div></div>
+          <div class="ov-ct ov-ct-dark">今日日程</div>
           <div class="ov-act" onclick="switchTab('discipline')">任务页</div>
         </div>
         <div class="ov-tl-week" id="ov-tl-week"></div>
@@ -762,7 +781,7 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
       <!-- TASKS (light) -->
       <div class="ov-card light ov-tasks-card">
         <div class="ov-hd lb">
-          <div style="display:flex;align-items:center;gap:4px;"><div class="ov-ct ov-ct-light">今日任务</div><div class="ov-palette-btn" onclick="openCardColorPicker('ov-tasks-card',event)" title="配色"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><circle cx="3" cy="5" r="1" fill="currentColor"/><circle cx="5" cy="3" r="1" fill="currentColor"/><circle cx="7" cy="5" r="1" fill="currentColor"/></svg></div></div>
+          <div class="ov-ct ov-ct-light">今日任务</div>
           <div style="display:flex;align-items:center;gap:8px;">
             <div class="ov-act" onclick="quickAddTaskOv()">+ 添加</div>
             <div class="ov-act" onclick="switchTab('discipline')">全部 →</div>
@@ -774,7 +793,7 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
       <!-- POMO (dark) -->
       <div class="ov-card dark ov-pomo-card">
         <div class="ov-hd db">
-          <div style="display:flex;align-items:center;gap:4px;"><div class="ov-ct ov-ct-dark">番茄钟</div><div class="ov-palette-btn" style="border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);" onclick="openCardColorPicker('ov-pomo-card',event)" title="配色"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><circle cx="3" cy="5" r="1" fill="currentColor"/><circle cx="5" cy="3" r="1" fill="currentColor"/><circle cx="7" cy="5" r="1" fill="currentColor"/></svg></div></div>
+          <div class="ov-ct ov-ct-dark">番茄钟</div>
           <div class="ov-act" onclick="openPomoFullscreen()">全屏</div>
         </div>
         <div class="ov-pomo-body">
@@ -797,16 +816,16 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
           </div>
           <div class="ov-noise-row">
             <button class="ov-nb" id="ov-nb-rain"   onclick="toggleNoise('rain')"   title="雨声">
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 10a5 5 0 1110 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M5 13l-.5 1.5M8 13v2M11 13l.5 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>雨
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 10a5 5 0 1110 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M5 13l-.5 1.5M8 13v2M11 13l.5 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
             </button>
             <button class="ov-nb" id="ov-nb-cafe"   onclick="toggleNoise('cafe')"   title="咖啡馆">
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 7h8v5a3 3 0 01-3 3H6a3 3 0 01-3-3V7z" stroke="currentColor" stroke-width="1.4"/><path d="M11 9h1a2 2 0 010 4h-1" stroke="currentColor" stroke-width="1.4"/><path d="M6 4c0-1.5 2-1.5 2-3M9 4c0-1.5 2-1.5 2-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>咖
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 7h8v5a3 3 0 01-3 3H6a3 3 0 01-3-3V7z" stroke="currentColor" stroke-width="1.4"/><path d="M11 9h1a2 2 0 010 4h-1" stroke="currentColor" stroke-width="1.4"/><path d="M6 4c0-1.5 2-1.5 2-3M9 4c0-1.5 2-1.5 2-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
             </button>
             <button class="ov-nb" id="ov-nb-waves"  onclick="toggleNoise('waves')"  title="海浪">
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M1 9c1.5-2 3-2 4.5 0s3 2 4.5 0S13 7 15 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M1 12.5c1.5-2 3-2 4.5 0s3 2 4.5 0 2.5-2 4.5 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>浪
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M1 9c1.5-2 3-2 4.5 0s3 2 4.5 0S13 7 15 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M1 12.5c1.5-2 3-2 4.5 0s3 2 4.5 0 2.5-2 4.5 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
             </button>
             <button class="ov-nb" id="ov-nb-forest" onclick="toggleNoise('forest')" title="森林">
-              <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 2L3 10h10L8 2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 6L4 13h8L8 6z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 13v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>林
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2L3 10h10L8 2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 6L4 13h8L8 6z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 13v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
             </button>
           </div>
           <div class="ov-pomo-btns">
@@ -820,7 +839,7 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
       <!-- WORKOUT -->
       <div class="ov-card light ov-wk-card">
         <div class="ov-hd lb">
-          <div style="display:flex;align-items:center;gap:4px;"><div class="ov-ct ov-ct-light">今日训练</div><div class="ov-palette-btn" onclick="openCardColorPicker('ov-wk-card',event)" title="配色"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><circle cx="3" cy="5" r="1" fill="currentColor"/><circle cx="5" cy="3" r="1" fill="currentColor"/><circle cx="7" cy="5" r="1" fill="currentColor"/></svg></div></div>
+          <div class="ov-ct ov-ct-light">今日训练</div>
           <div class="ov-act" onclick="switchTab('workout')">全部 →</div>
         </div>
         <div class="ov-b-list" id="ov-wk-list"></div>
@@ -829,7 +848,7 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
       <!-- DIET -->
       <div class="ov-card light ov-diet-card">
         <div class="ov-hd lb">
-          <div style="display:flex;align-items:center;gap:4px;"><div class="ov-ct ov-ct-light">今日饮食</div><div class="ov-palette-btn" onclick="openCardColorPicker('ov-diet-card',event)" title="配色"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><circle cx="3" cy="5" r="1" fill="currentColor"/><circle cx="5" cy="3" r="1" fill="currentColor"/><circle cx="7" cy="5" r="1" fill="currentColor"/></svg></div></div>
+          <div class="ov-ct ov-ct-light">今日饮食</div>
           <div class="ov-act" onclick="switchTab('diet')">全部 →</div>
         </div>
         <div class="ov-b-list" id="ov-diet-list"></div>
@@ -838,7 +857,7 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
       <!-- HABITS -->
       <div class="ov-card light ov-hab-card">
         <div class="ov-hd lb">
-          <div style="display:flex;align-items:center;gap:4px;"><div class="ov-ct ov-ct-light">今日习惯</div><div class="ov-palette-btn" onclick="openCardColorPicker('ov-hab-card',event)" title="配色"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><circle cx="3" cy="5" r="1" fill="currentColor"/><circle cx="5" cy="3" r="1" fill="currentColor"/><circle cx="7" cy="5" r="1" fill="currentColor"/></svg></div></div>
+          <div class="ov-ct ov-ct-light">今日习惯</div>
           <div class="ov-act" onclick="openHabitEditSheet()">编辑</div>
         </div>
         <div class="ov-b-list" id="ov-hab-list"></div>
@@ -869,7 +888,7 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
           <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 10l3-4 3 2 4-6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           AI 生成计划
         </button>
-        <button class="btn" style="background:white;border:.5px solid var(--line);color:var(--ink2);" onclick="openManualWorkoutPlan()">
+        <button class="btn" style="flex:1;background:white;border:.5px solid var(--line);color:var(--ink2);" onclick="openManualWorkoutPlan()">
           <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 11V8.5L9.5 1l2.5 2.5L4.5 11H2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
           手动编辑
         </button>
@@ -997,10 +1016,10 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
     <div class="panel" id="panel-settings">
 
       <div class="settings-section">
-        <div class="settings-section-title">Anthropic API</div>
+        <div class="settings-section-title">千问 API (Qwen)</div>
         <div class="srow col">
           <label class="slabel">API Key</label>
-          <input type="password" id="s-apikey" class="s-input" placeholder="sk-ant-...">
+          <input type="password" id="s-apikey" class="s-input" placeholder="sk-...">
         </div>
       </div>
 
@@ -1445,26 +1464,27 @@ function switchTab(tab){
 // ── ANTHROPIC API ──
 async function callAI(prompt,systemPrompt=''){
   const s=loadSettings();
-  if(!s.apiKey){showToast('请先在设置页填写 Anthropic API Key');return null;}
+  if(!s.apiKey){showToast('请先在设置页填写千问 API Key');return null;}
   showLoading(true);
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{
+    const r=await fetch('https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',{
       method:'POST',
       headers:{
         'Content-Type':'application/json',
-        'x-api-key':s.apiKey,
-        'anthropic-version':'2023-06-01'
+        'Authorization':`Bearer ${s.apiKey}`
       },
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:8192,
-        system:systemPrompt||'你是专业的营养师和健身教练。严格按照要求的JSON格式返回，不添加任何额外说明、markdown代码块标记或注释。',
-        messages:[{role:'user',content:prompt}]
+        model:'qwen-plus',
+        messages:[
+          {role:'system',content:systemPrompt||'你是专业的营养师和健身教练。严格按照要求的JSON格式返回，不添加任何额外说明、markdown代码块标记或注释。'},
+          {role:'user',content:prompt}
+        ],
+        max_tokens:8192
       })
     });
     if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error?.message||`请求失败 (${r.status})`);}
     const data=await r.json();
-    return data.content?.[0]?.text||'';
+    return data.choices?.[0]?.message?.content||'';
   }catch(e){showToast('API 错误: '+e.message);return null;}
   finally{showLoading(false);}
 }
@@ -1634,6 +1654,35 @@ function ovCalNavTo(delta,dStr){
   renderOvDateNav();renderOvTimeline(dStr);renderOvTasks(dStr);
 }
 
+const OV_TASK_OPEN=new Set();
+
+function _ovTaskRow(t,ds){
+  const isDone=t.status==='done';
+  const hasSteps=t.steps&&t.steps.length>0;
+  const expanded=OV_TASK_OPEN.has(t.id);
+  const stLabel=t.status==='doing'?'<div class="ov-t-st ov-t-doing">进行中</div>':t.status==='blocked'?'<div class="ov-t-st ov-t-blocked">阻塞</div>':'';
+  let h=`<div class="ov-t-row" style="cursor:${hasSteps?'pointer':'default'}" onclick="${hasSteps?`toggleOvTaskSteps('${t.id}','${ds}')`:''}" >
+    <div class="ov-t-chk${isDone?' on':''}" onclick="event.stopPropagation();toggleSubDone('${t.id}');renderOvTasks('${ds}')"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+    <div class="ov-t-info">
+      <div class="ov-t-name${isDone?' done':''}">
+        ${hasSteps?`<span class="ov-t-expand${expanded?' open':''}">▶</span> `:''}${t.name}
+      </div>
+      <div class="ov-t-meta">${t.timeSlot?`<div class="ov-t-time">${t.timeSlot}</div>`:''}${stLabel}</div>
+    </div>
+  </div>`;
+  if(hasSteps){
+    h+=`<div class="ov-steps-wrap"${expanded?'':' style="display:none"'}>`;
+    t.steps.forEach((s,i)=>{
+      h+=`<div class="ov-step-row" onclick="event.stopPropagation();toggleOvStep('${t.id}',${i},'${ds}')">
+        <div class="ov-step-chk${s.done?' on':''}">${s.done?'<svg width="7" height="7" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>':''}</div>
+        <span class="ov-step-txt${s.done?' done':''}">${s.text||s.name||''}</span>
+      </div>`;
+    });
+    h+=`</div>`;
+  }
+  return h;
+}
+
 function renderOvTasks(ds){
   const tasks=loadTasks(),projs=loadProjects();
   const dayTasks=tasks.filter(t=>t.date===ds);
@@ -1652,47 +1701,36 @@ function renderOvTasks(ds){
         <div class="ov-tg-bar"><div class="ov-tg-fill" style="width:${pts.length?Math.round(done/pts.length*100):0}%;background:${stroke};"></div></div>
         <div class="ov-tg-pct">${done}/${pts.length}</div>
       </div>`;
-    pts.forEach(t=>{
-      const isDone=t.status==='done';
-      const stLabel=t.status==='doing'?'<div class="ov-t-st ov-t-doing">进行中</div>':t.status==='blocked'?'<div class="ov-t-st ov-t-blocked">阻塞</div>':'';
-      h+=`<div class="ov-t-row">
-        <div class="ov-t-chk${isDone?' on':''}" onclick="toggleSubDone('${t.id}');renderOvTasks('${ds}')"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></div>
-        <div class="ov-t-info">
-          <div class="ov-t-name${isDone?' done':''}" onclick="openSubSheet('${t.id}')">${t.name}</div>
-          <div class="ov-t-meta">${t.timeSlot?`<div class="ov-t-time">${t.timeSlot}</div>`:''}${stLabel}</div>
-        </div>
-      </div>`;
-    });
+    pts.forEach(t=>{h+=_ovTaskRow(t,ds);});
     h+=`</div>`;
   });
-  const loose=dayTasks.filter(t=>!t.projectId);
-  loose.forEach(t=>{
-    const isDone=t.status==='done';
-    h+=`<div class="ov-t-row">
-      <div class="ov-t-chk${isDone?' on':''}" onclick="toggleSubDone('${t.id}');renderOvTasks('${ds}')"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></div>
-      <div class="ov-t-info"><div class="ov-t-name${isDone?' done':''}" onclick="openSubSheet('${t.id}')">${t.name}</div></div>
-    </div>`;
-  });
+  dayTasks.filter(t=>!t.projectId).forEach(t=>{h+=_ovTaskRow(t,ds);});
   h+=`<div class="ov-t-add" onclick="quickAddTaskOv()"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>添加任务</div>`;
-  c.innerHTML=h||`<div style="padding:.875rem;font-size:12px;color:var(--ink2);">今日无任务</div>`;
+  c.innerHTML=h;
+}
+
+function toggleOvTaskSteps(id,ds){
+  if(OV_TASK_OPEN.has(id))OV_TASK_OPEN.delete(id);else OV_TASK_OPEN.add(id);
+  renderOvTasks(ds);
+}
+
+function toggleOvStep(taskId,idx,ds){
+  const tasks=loadTasks();const t=tasks.find(x=>x.id===taskId);
+  if(!t||!t.steps||!t.steps[idx])return;
+  t.steps[idx].done=!t.steps[idx].done;
+  saveTasks(tasks);renderOvTasks(ds);
 }
 
 let OV_POMO_CIRC=326.7;
 
 function sizeOvPomoRing(){
-  const card=document.querySelector('.ov-pomo-card');if(!card)return;
-  const body=card.querySelector('.ov-pomo-body');if(!body)return;
+  // Only resize SVG element — keep viewBox coords (cx=60,cy=60,r=52) fixed so ring stays centered
+  const body=document.querySelector('.ov-pomo-card .ov-pomo-body');if(!body)return;
   const bh=body.offsetHeight,bw=body.offsetWidth;
   const size=Math.min(Math.floor(bh*0.42),bw-20,145);if(size<40)return;
   const svg=document.getElementById('ov-pring-svg');if(!svg)return;
   svg.setAttribute('width',size);svg.setAttribute('height',size);
-  const cx=size/2,cy=size/2,r=size/2-6;
-  const circ=2*Math.PI*r;OV_POMO_CIRC=circ;
-  document.querySelectorAll('#ov-pring-svg circle').forEach(c=>{
-    c.setAttribute('cx',cx);c.setAttribute('cy',cy);c.setAttribute('r',r);c.setAttribute('stroke-width','7');
-  });
-  const arc=document.getElementById('ov-pring-arc');
-  if(arc)arc.setAttribute('stroke-dasharray',String(circ));
+  // OV_POMO_CIRC stays 326.7 (2π×52), no cx/cy/r changes needed
   updateOvPomoCard();
 }
 
@@ -1807,7 +1845,7 @@ function renderOverview(){
   renderOvWorkout();
   renderOvDiet();
   renderOvHabits();
-  applyOvCustomizations();
+  applyOvCustomizations(); // also calls renderOvStickers
 }
 
 // ── OVERVIEW CUSTOMIZATION ──
@@ -1879,6 +1917,13 @@ function applyOvCustomizations(){
     bgLayer.style.backgroundImage=img?`url(${img})`:'none';
     bgLayer.style.opacity=img?String(opacity):'0';
   }
+  // Margin preset
+  const preset=localStorage.getItem('ov_margin_preset')||'标准';
+  const mp=(typeof OV_MARGIN_PRESETS!=='undefined'&&OV_MARGIN_PRESETS[preset])||{p:'7px',g:'7px'};
+  const dash=document.getElementById('panel-overview');
+  if(dash&&window.innerWidth>=768){dash.style.padding=mp.p;dash.style.gap=mp.g;}
+  // Stickers
+  renderOvStickers(_ovCustomizeOpen||false);
 }
 
 // Drag-resize handles
@@ -1953,33 +1998,84 @@ function updateHandlePositions(dash){
   });
 }
 
-// Background image customization
+// ── 个性化面板 ──
+const OV_MARGIN_PRESETS={紧凑:{p:'3px',g:'4px'},标准:{p:'7px',g:'7px'},适中:{p:'12px',g:'10px'},宽松:{p:'20px',g:'14px'}};
+const OV_CARD_NAMES={
+  'ov-date-card':'日期','ov-gantt-card':'甘特','ov-tl-card':'日程',
+  'ov-tasks-card':'任务','ov-pomo-card':'番茄钟','ov-wk-card':'训练',
+  'ov-diet-card':'饮食','ov-hab-card':'习惯'
+};
+let _ovCustomizeOpen=false;
+
 function openOvCustomize(){
   const existing=document.getElementById('ov-customize-panel');
-  if(existing){existing.remove();return;}
+  if(existing){existing.remove();_ovCustomizeOpen=false;renderOvStickers(false);return;}
+  _ovCustomizeOpen=true;
   const bgImg=localStorage.getItem('ov_bg_image');
   const bgOpacity=localStorage.getItem('ov_bg_opacity')||'0.3';
+  const curMargin=localStorage.getItem('ov_margin_preset')||'标准';
+  const s=(label,body)=>`<div style="margin-bottom:.875rem;">
+    <div style="font-size:10px;font-weight:600;color:var(--ink2);letter-spacing:.04em;text-transform:uppercase;margin-bottom:.4rem;">${label}</div>
+    ${body}
+  </div>`;
+  // Margin
+  const marginBtns=Object.keys(OV_MARGIN_PRESETS).map(k=>`<button onclick="setOvMargin('${k}')" style="flex:1;padding:4px 0;font-size:10px;border-radius:4px;cursor:pointer;border:.5px solid var(--line);background:${k===curMargin?'var(--brand)':'var(--surface2)'};color:${k===curMargin?'#fff':'var(--ink2)'};">${k}</button>`).join('');
+  // Card colors
+  const cardSwatches=Object.entries(OV_CARD_NAMES).map(([key,name])=>{
+    const col=OV_CARD_COLORS[key]||'';
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:3px 0;">
+      <span style="font-size:11px;color:var(--ink2);">${name}</span>
+      <div onclick="openCardColorPicker('${key}',event)" title="配色" style="width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line);background:${col||'var(--surface2)'};cursor:pointer;flex-shrink:0;"></div>
+    </div>`;
+  }).join('');
+  // Bg section
+  const bgSection=`<label style="display:flex;align-items:center;gap:6px;background:var(--surface2);border-radius:6px;padding:6px 8px;cursor:pointer;border:.5px solid var(--line);margin-bottom:6px;">
+    <svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="M1 10V4a1 1 0 011-1h10a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1z" stroke="currentColor" stroke-width="1.2"/><circle cx="4.5" cy="6.5" r="1" fill="currentColor"/><path d="M1 9l3-2.5 2 2 2-3 3 3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+    <span style="font-size:11px;color:var(--ink2);">${bgImg?'重新上传':'上传背景图'}</span>
+    <input type="file" accept="image/*" style="display:none" onchange="loadBgImage(event)">
+  </label>
+  ${bgImg?`<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+    <span style="font-size:10px;color:var(--ink2);flex:1;">透明度</span>
+    <input type="range" min="0.05" max="1" step="0.05" value="${bgOpacity}" oninput="setBgOpacity(this.value)" style="flex:2;">
+  </div>
+  <button onclick="clearBgImage()" style="font-size:10px;color:var(--red);background:none;border:.5px solid var(--red);border-radius:4px;padding:3px 8px;cursor:pointer;width:100%;">清除背景</button>`:''}`;
+  // Sticker
+  const stickerSection=`<label style="display:flex;align-items:center;gap:6px;background:var(--surface2);border-radius:6px;padding:6px 8px;cursor:pointer;border:.5px solid var(--line);">
+    <svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="M2 2h10v7l-3 3H2z" stroke="currentColor" stroke-width="1.2"/><path d="M9 9v3l3-3h-3z" stroke="currentColor" stroke-width="1.1"/></svg>
+    <span style="font-size:11px;color:var(--ink2);">上传贴纸 (PNG / GIF)</span>
+    <input type="file" accept="image/png,image/gif,image/webp" style="display:none" onchange="addOvStickerFromFile(event)">
+  </label>`;
+
   const panel=document.createElement('div');
   panel.id='ov-customize-panel';
-  panel.style.cssText='position:fixed;top:50px;right:12px;background:var(--surface,white);border:.5px solid var(--line);border-radius:10px;padding:1rem;box-shadow:0 4px 20px rgba(0,0,0,.15);z-index:500;width:220px;';
-  panel.innerHTML=`<div style="font-size:12px;font-weight:500;margin-bottom:.625rem;color:var(--ink);">页面个性化</div>
-    <div style="font-size:10px;color:var(--ink2);margin-bottom:4px;">背景图片</div>
-    <label style="display:flex;align-items:center;gap:6px;background:var(--surface2,#f5f5f5);border-radius:6px;padding:6px 8px;cursor:pointer;margin-bottom:6px;border:.5px solid var(--line);">
-      <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M1 10V4a1 1 0 011-1h10a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1z" stroke="currentColor" stroke-width="1.2"/><circle cx="4.5" cy="6.5" r="1" fill="currentColor"/><path d="M1 9l3-2.5 2 2 2-3 3 3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span style="font-size:11px;color:var(--ink2);">上传图片</span>
-      <input type="file" accept="image/*" style="display:none" onchange="loadBgImage(event)">
-    </label>
-    ${bgImg?`<div style="font-size:10px;color:var(--ink2);margin-bottom:4px;">透明度</div>
-    <input type="range" min="0.05" max="1" step="0.05" value="${bgOpacity}" oninput="setBgOpacity(this.value)" style="width:100%;margin-bottom:8px;">
-    <button onclick="clearBgImage()" style="font-size:11px;color:var(--red,#BF616A);background:none;border:.5px solid var(--red,#BF616A);border-radius:4px;padding:4px 10px;cursor:pointer;width:100%;">清除背景</button>`:''}`;
+  panel.style.cssText='position:fixed;top:48px;right:12px;background:var(--bg);border:.5px solid var(--line);border-radius:12px;padding:.875rem;box-shadow:0 6px 24px rgba(0,0,0,.12);z-index:600;width:240px;max-height:calc(100vh - 60px);overflow-y:auto;';
+  panel.innerHTML=`<div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:.75rem;display:flex;align-items:center;justify-content:space-between;">
+    自定义
+    <span onclick="openOvCustomize()" style="font-size:16px;cursor:pointer;color:var(--ink2);line-height:1;">×</span>
+  </div>
+  ${s('页面背景',bgSection)}
+  ${s('页面边距',`<div style="display:flex;gap:4px;">${marginBtns}</div>`)}
+  ${s('卡片颜色',cardSwatches)}
+  ${s('贴纸',stickerSection)}`;
   document.body.appendChild(panel);
-  setTimeout(()=>document.addEventListener('click',e=>{if(!panel.contains(e.target)&&!e.target.closest('.ov-customize-btn'))panel.remove();},{once:true}),100);
+  renderOvStickers(true);
+  setTimeout(()=>document.addEventListener('click',e=>{
+    if(!panel.contains(e.target)&&!e.target.closest('.ov-customize-btn')){
+      panel.remove();_ovCustomizeOpen=false;renderOvStickers(false);
+    }
+  },{once:true}),100);
+}
+
+function setOvMargin(preset){
+  localStorage.setItem('ov_margin_preset',preset);applyOvCustomizations();
+  document.getElementById('ov-customize-panel')?.remove();_ovCustomizeOpen=false;
+  setTimeout(openOvCustomize,50);
 }
 
 function loadBgImage(evt){
   const file=evt.target.files[0];if(!file)return;
   const reader=new FileReader();
-  reader.onload=e=>{localStorage.setItem('ov_bg_image',e.target.result);applyOvCustomizations();document.getElementById('ov-customize-panel')?.remove();};
+  reader.onload=e=>{localStorage.setItem('ov_bg_image',e.target.result);applyOvCustomizations();document.getElementById('ov-customize-panel')?.remove();_ovCustomizeOpen=false;setTimeout(openOvCustomize,50);};
   reader.readAsDataURL(file);
 }
 
@@ -1989,7 +2085,97 @@ function setBgOpacity(val){
 }
 
 function clearBgImage(){
-  localStorage.removeItem('ov_bg_image');applyOvCustomizations();document.getElementById('ov-customize-panel')?.remove();
+  localStorage.removeItem('ov_bg_image');applyOvCustomizations();document.getElementById('ov-customize-panel')?.remove();_ovCustomizeOpen=false;setTimeout(openOvCustomize,50);
+}
+
+// ── 贴纸 ──
+function addOvStickerFromFile(evt){
+  const file=evt.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const dash=document.getElementById('panel-overview');
+    const rect=dash?dash.getBoundingClientRect():{width:800,height:600};
+    const stickers=JSON.parse(localStorage.getItem('ov_stickers')||'[]');
+    stickers.push({id:Date.now()+'',src:e.target.result,x:Math.floor(rect.width/2-40),y:Math.floor(rect.height/2-40),w:80});
+    localStorage.setItem('ov_stickers',JSON.stringify(stickers));
+    renderOvStickers(true);
+  };
+  reader.readAsDataURL(file);
+}
+
+function renderOvStickers(editMode){
+  const layer=document.getElementById('ov-sticker-layer');if(!layer)return;
+  const stickers=JSON.parse(localStorage.getItem('ov_stickers')||'[]');
+  layer.innerHTML='';
+  stickers.forEach(st=>{
+    const el=document.createElement('div');
+    el.className='ov-sticker';
+    el.style.cssText=`left:${st.x}px;top:${st.y}px;width:${st.w}px;`;
+    el.innerHTML=`<img src="${st.src}" draggable="false">`;
+    if(editMode){
+      const del=document.createElement('div');
+      del.className='ov-sticker-del';del.textContent='×';
+      del.onclick=e=>{e.stopPropagation();removeOvSticker(st.id);};
+      el.appendChild(del);
+      const rz=document.createElement('div');
+      rz.className='ov-sticker-rz';
+      _stickerResizeBind(rz,st,el);
+      el.appendChild(rz);
+    }
+    _stickerDragBind(el,st);
+    layer.appendChild(el);
+  });
+}
+
+function removeOvSticker(id){
+  const stickers=JSON.parse(localStorage.getItem('ov_stickers')||'[]').filter(s=>s.id!==id);
+  localStorage.setItem('ov_stickers',JSON.stringify(stickers));
+  renderOvStickers(true);
+}
+
+function _stickerDragBind(el,st){
+  let down=false,ox=0,oy=0;
+  el.addEventListener('mousedown',e=>{
+    if(e.target.classList.contains('ov-sticker-del')||e.target.classList.contains('ov-sticker-rz'))return;
+    down=true;ox=e.clientX-st.x;oy=e.clientY-st.y;
+    document.body.style.userSelect='none';e.preventDefault();
+  });
+  document.addEventListener('mousemove',e=>{
+    if(!down)return;
+    const dash=document.getElementById('panel-overview');
+    const rect=dash?dash.getBoundingClientRect():{left:0,top:0,width:9999,height:9999};
+    st.x=Math.max(0,Math.min(rect.width-st.w,e.clientX-ox-rect.left));
+    st.y=Math.max(0,Math.min(rect.height-40,e.clientY-oy-rect.top));
+    el.style.left=st.x+'px';el.style.top=st.y+'px';
+  });
+  document.addEventListener('mouseup',()=>{
+    if(!down)return;down=false;document.body.style.userSelect='';
+    _saveSticker(st);
+  });
+}
+
+function _stickerResizeBind(handle,st,el){
+  let down=false,sx=0,sw=0;
+  handle.addEventListener('mousedown',e=>{
+    down=true;sx=e.clientX;sw=st.w;
+    document.body.style.userSelect='none';e.preventDefault();e.stopPropagation();
+  });
+  document.addEventListener('mousemove',e=>{
+    if(!down)return;
+    st.w=Math.max(30,Math.min(400,sw+(e.clientX-sx)));
+    el.style.width=st.w+'px';
+  });
+  document.addEventListener('mouseup',()=>{
+    if(!down)return;down=false;document.body.style.userSelect='';
+    _saveSticker(st);
+  });
+}
+
+function _saveSticker(st){
+  const stickers=JSON.parse(localStorage.getItem('ov_stickers')||'[]');
+  const idx=stickers.findIndex(s=>s.id===st.id);
+  if(idx>=0)stickers[idx]=st;
+  localStorage.setItem('ov_stickers',JSON.stringify(stickers));
 }
 
 function renderRightPanel(){
@@ -2142,7 +2328,7 @@ async function handleRegenMeal(wk,dayIdx,mealType){
 
 async function generateMealPlan(){
   const s=loadSettings();
-  if(!s.apiKey){showToast('请先在设置页填写 Anthropic API Key');switchTab('settings');return;}
+  if(!s.apiKey){showToast('请先在设置页填写千问 API Key');switchTab('settings');return;}
   const wk=getWeekKey();const workoutPlan=loadWorkoutPlan(wk);
   const bmr=calcBMR(s),tdee=calcTDEE(s);
   const wkSummary=workoutPlan?workoutPlan.days.map((d,i)=>`${DAY_NAMES[i]}:${d.type==='training'?'训练日('+d.name+')':'休息日'}`).join(','):`按每周${s.workoutsPerWeek}天训练估算`;
@@ -2322,7 +2508,7 @@ function saveWorkoutDay(){
 
 async function generateWorkoutPlan(){
   const s=loadSettings();
-  if(!s.apiKey){showToast('请先在设置页填写 Anthropic API Key');switchTab('settings');return;}
+  if(!s.apiKey){showToast('请先在设置页填写千问 API Key');switchTab('settings');return;}
   const healthData=LS.get('appleHealthWorkouts',[]);
   const recent=healthData.slice(0,5).map(w=>`- ${(w.startDate||'').substring(0,10)}: ${w.type} ${w.duration}min ${w.calories}kcal`).join('\n');
   const prompt=`生成本周（周一到周日）训练计划。
@@ -3422,7 +3608,7 @@ function pomoSendNotif(title,body){
 // ── AI REVIEW ──
 async function generateReview(){
   const s=loadSettings();
-  if(!s.apiKey){showToast('请先在设置页填写 Anthropic API Key');return;}
+  if(!s.apiKey){showToast('请先在设置页填写千问 API Key');return;}
   const wk=getWeekKey();const weekDates=getWeekDates(wk);
   const tasks=loadTasks();const habits=s.habits||[];
   const focusData=weekDates.map((d,i)=>{const log=loadFocusLog(d);return `${DAY_NAMES[i]}: 专注${log.deepWorkHours||0}h 番茄${log.pomodoroCount||0}个`;}).join('\n');
