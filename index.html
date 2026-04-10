@@ -426,33 +426,165 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
 /* ── METRIC GRID ── */
 .metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1.25rem;}
 
-/* ── RIGHT PANEL (desktop) — hidden, replaced by 今日 layout ── */
+/* ── RIGHT PANEL (desktop) — hidden ── */
 .right-panel{display:none!important;}
 
-/* ── OVERVIEW / 今日 NEW LAYOUT ── */
-.ov-main{display:flex;flex-direction:column;gap:.875rem;margin-bottom:.875rem;}
-.ov-cal-col{min-width:0;}
-.ov-cal-card{background:white;border-radius:var(--r);border:.5px solid var(--line);overflow:hidden;}
-.ov-cal-hd{display:flex;align-items:center;justify-content:space-between;padding:.5rem .75rem .25rem;}
-.ov-cal-body{height:360px;overflow-y:auto;overflow-x:hidden;}
-.ov-cal-body::-webkit-scrollbar{display:none;}
-.ov-task-col{display:flex;flex-direction:column;gap:.75rem;min-width:0;}
-.ov-2col{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
-.ov-mini-card{background:white;border-radius:var(--r);border:.5px solid var(--line);overflow:hidden;}
-.ov-mini-hd{display:flex;align-items:center;justify-content:space-between;padding:.55rem .75rem .3rem;}
-.ov-mini-body{padding:0 .75rem .625rem;font-size:12px;color:var(--ink2);}
-.ov-today-tasks-hd{display:flex;align-items:center;justify-content:space-between;padding:.55rem .875rem .3rem;}
-.ov-bottom-row{display:grid;grid-template-columns:1fr;gap:.75rem;margin-bottom:.875rem;}
-
-/* Pomo entry in overview */
-.ov-pomo-entry{display:flex;align-items:center;gap:.875rem;background:var(--ink);border-radius:var(--r);padding:.875rem 1rem;cursor:pointer;transition:opacity .15s;touch-action:manipulation;}
-.ov-pomo-entry:hover{opacity:.85;}
-.ov-pomo-ring{position:relative;width:44px;height:44px;flex-shrink:0;}
-.ov-pomo-ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.ov-pomo-info{flex:1;min-width:0;}
-.ov-pomo-time{font-family:'DM Mono',monospace;font-size:1.3rem;font-weight:400;color:white;line-height:1;}
-.ov-pomo-lbl{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px;}
-.ov-pomo-badge{font-size:10px;padding:3px 9px;border-radius:20px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.2);}
+/* ── OVERVIEW DASHBOARD ── */
+/* Mobile: cards stack vertically */
+#panel-overview.active{display:flex;flex-direction:column;gap:8px;padding:.875rem 1.25rem 1.5rem;overflow-y:auto;}
+.ov-card{border-radius:9px;overflow:hidden;display:flex;flex-direction:column;position:relative;transition:background .3s;min-height:120px;}
+.ov-card.light{background:white;border:.5px solid var(--line);}
+.ov-card.dark{background:#3B4252;border:.5px solid #4C566A;}
+/* card header */
+.ov-hd{display:flex;align-items:center;justify-content:space-between;padding:.45rem .875rem;flex-shrink:0;}
+.ov-hd.lb{border-bottom:.5px solid var(--line2);}
+.ov-hd.db{border-bottom:.5px solid rgba(255,255,255,.07);}
+.ov-ct{font-size:10.5px;font-weight:500;letter-spacing:.02em;}
+.ov-ct-light{color:var(--ink2);}
+.ov-ct-dark{color:rgba(216,222,233,.55);}
+.ov-act{font-size:10px;color:var(--brand);cursor:pointer;opacity:.85;touch-action:manipulation;}
+.ov-act:hover{opacity:1;}
+/* palette btn */
+.ov-palette-btn{width:14px;height:14px;border-radius:2px;border:.5px solid var(--line2);background:var(--surface);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:var(--ink2);opacity:.4;transition:opacity .15s;margin-left:3px;flex-shrink:0;}
+.ov-palette-btn:hover{opacity:.9;}
+/* grid positions — only applied on desktop via media query */
+/* Date nav */
+.ov-date-inner{display:flex;align-items:center;gap:.5rem;padding:.5rem .875rem;height:100%;}
+.ov-dn-arr{width:20px;height:20px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink2);flex-shrink:0;touch-action:manipulation;}
+.ov-dn-arr:hover{background:var(--surface2);}
+.ov-dn-mid{flex:1;text-align:center;}
+.ov-dn-big{font-family:"Noto Serif SC",serif;font-size:1.7rem;font-weight:700;color:var(--brand);line-height:1;letter-spacing:-.03em;}
+.ov-dn-sub{font-size:11px;color:var(--ink);font-weight:500;margin-top:1px;}
+.ov-dn-wk{font-size:10px;color:var(--ink2);}
+/* Gantt */
+.ov-gantt-inner{flex:1;display:flex;flex-direction:column;justify-content:center;gap:8px;padding:0 .875rem;}
+.g-row{display:flex;align-items:center;gap:8px;}
+.g-lbl{width:80px;font-size:11px;color:var(--ink2);flex-shrink:0;display:flex;align-items:center;gap:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.g-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.g-track{flex:1;height:6px;background:var(--surface);border-radius:3px;position:relative;overflow:hidden;}
+.g-bg{position:absolute;top:0;height:100%;border-radius:3px;opacity:.15;}
+.g-fill{position:absolute;top:0;height:100%;border-radius:3px;}
+.g-today{position:absolute;top:-3px;bottom:-3px;width:1.5px;background:var(--red);opacity:.7;}
+.g-pct{font-size:10px;color:var(--ink2);font-family:"DM Mono",monospace;width:28px;text-align:right;flex-shrink:0;}
+/* Timeline (dark) */
+.ov-tl-week{display:flex;gap:1px;padding:.3rem .625rem;border-bottom:.5px solid rgba(255,255,255,.07);flex-shrink:0;}
+.ov-tl-wd{flex:1;text-align:center;padding:3px 0;border-radius:4px;cursor:pointer;touch-action:manipulation;}
+.ov-tl-wd:hover{background:rgba(255,255,255,.05);}
+.ov-tl-wd.today{background:var(--brand);}
+.ov-wdn{font-size:8px;color:rgba(216,222,233,.55);}
+.ov-tl-wd.today .ov-wdn{color:rgba(255,255,255,.7);}
+.ov-wdnum{font-size:11px;font-weight:500;color:rgba(216,222,233,.55);margin-top:1px;}
+.ov-tl-wd.today .ov-wdnum{color:#fff;}
+.ov-tl-chips{padding:.3rem .625rem;border-bottom:.5px solid rgba(255,255,255,.07);flex-shrink:0;display:flex;gap:4px;flex-wrap:wrap;}
+.ov-tl-chips:empty{display:none;}
+.ov-p-chip{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:500;background:rgba(255,255,255,.07);}
+.ov-tl-scroll{flex:1;overflow-y:auto;padding:.25rem .625rem .5rem;}
+.ov-tl-scroll::-webkit-scrollbar{width:3px;}
+.ov-tl-scroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:3px;}
+.ov-tl-slot{display:flex;min-height:40px;}
+.ov-tl-tc{width:32px;flex-shrink:0;position:relative;}
+.ov-tl-lbl{font-size:9px;color:rgba(255,255,255,.25);font-family:"DM Mono",monospace;position:absolute;top:-6px;right:5px;}
+.ov-tl-lc{width:1px;background:rgba(255,255,255,.08);flex-shrink:0;position:relative;}
+.ov-now-dot{width:7px;height:7px;border-radius:50%;background:var(--red);opacity:.8;position:absolute;left:-3px;top:0;box-shadow:0 0 0 2px #3B4252;}
+.ov-tl-cc{flex:1;padding:.1rem 0 .1rem .5rem;}
+.ov-tl-block{border-radius:6px;padding:.35rem .5rem;margin-bottom:2px;cursor:pointer;transition:opacity .15s;touch-action:manipulation;}
+.ov-tl-block:hover{opacity:.85;}
+.ov-tl-bname{font-size:11.5px;font-weight:500;line-height:1.3;}
+.ov-tl-btime{font-size:9px;font-family:"DM Mono",monospace;opacity:.6;}
+.ov-tl-empty{min-height:24px;border-radius:4px;cursor:pointer;}
+.ov-tl-empty:hover{background:rgba(255,255,255,.04);}
+.ov-tl-unplan{border-top:.5px solid rgba(255,255,255,.07);padding:.35rem 0 0;margin-top:.25rem;}
+.ov-up-lbl{font-size:9px;color:rgba(255,255,255,.28);margin-bottom:3px;}
+.ov-up-row{display:flex;align-items:center;gap:5px;padding:.3rem .45rem;background:rgba(255,255,255,.05);border-radius:4px;margin-bottom:2px;}
+.ov-up-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.ov-up-nm{flex:1;font-size:11px;color:rgba(255,255,255,.45);}
+.ov-up-btn{font-size:9px;color:var(--ink3);padding:1px 6px;border-radius:8px;border:.5px solid rgba(255,255,255,.12);cursor:pointer;touch-action:manipulation;}
+.ov-up-btn:hover{background:var(--brand-light);border-color:var(--brand);color:var(--brand);}
+/* Tasks (light) */
+.ov-tasks-body{flex:1;overflow-y:auto;padding:.5rem .875rem;}
+.ov-tasks-body::-webkit-scrollbar{width:3px;}
+.ov-tasks-body::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:3px;}
+.ov-tg{margin-bottom:.75rem;}
+.ov-tg-hd{display:flex;align-items:center;gap:6px;margin-bottom:.35rem;}
+.ov-tg-pdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.ov-tg-nm{font-size:11px;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ov-tg-bar{flex:2;height:2.5px;background:var(--surface2);border-radius:2px;overflow:hidden;}
+.ov-tg-fill{height:100%;border-radius:2px;}
+.ov-tg-pct{font-size:10px;color:var(--ink2);font-family:"DM Mono",monospace;flex-shrink:0;}
+.ov-t-row{display:flex;align-items:flex-start;gap:7px;padding:.3rem 0;border-bottom:.5px solid var(--line2);}
+.ov-t-row:last-child{border-bottom:none;}
+.ov-t-chk{width:15px;height:15px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;cursor:pointer;touch-action:manipulation;transition:all .15s;}
+.ov-t-chk:hover{border-color:var(--green);}
+.ov-t-chk.on{background:var(--green);border-color:var(--green);}
+.ov-t-info{flex:1;min-width:0;}
+.ov-t-name{font-size:12px;line-height:1.3;cursor:pointer;color:var(--ink);}
+.ov-t-name:hover{color:var(--brand);}
+.ov-t-name.done{text-decoration:line-through;color:var(--ink2);}
+.ov-t-meta{display:flex;align-items:center;gap:4px;margin-top:2px;flex-wrap:wrap;}
+.ov-t-time{font-size:9.5px;color:var(--brand);font-family:"DM Mono",monospace;}
+.ov-t-st{font-size:9px;padding:1px 5px;border-radius:8px;}
+.ov-t-doing{background:var(--brand-light);color:var(--brand);}
+.ov-t-blocked{background:var(--red-bg);color:var(--red);}
+.ov-t-add{display:flex;align-items:center;gap:4px;padding:.3rem 0;font-size:11px;color:var(--ink2);cursor:pointer;margin-top:.2rem;touch-action:manipulation;}
+.ov-t-add:hover{color:var(--brand);}
+/* Pomo (dark) */
+.ov-pomo-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:.5rem .875rem .625rem;}
+.ov-pomo-ring-area{position:relative;display:flex;align-items:center;justify-content:center;}
+.ov-pomo-ring-ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
+.ov-pomo-time2{font-family:"DM Mono",monospace;font-size:1.5rem;font-weight:500;color:rgba(236,239,244,.90);line-height:1;letter-spacing:.03em;}
+.ov-pomo-ptxt{font-size:9.5px;color:#81A1C1;letter-spacing:.03em;}
+.ov-pomo-badge2{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:500;background:rgba(94,129,172,.25);color:#81A1C1;}
+.ov-pomo-seq{display:flex;gap:3px;flex-wrap:wrap;justify-content:center;}
+.ov-ps{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.12);}
+.ov-ps.done{background:var(--brand);}
+.ov-ps.rest{background:var(--green);width:5px;height:5px;border-radius:1.5px;margin-top:1px;}
+.ov-ps.active{background:var(--brand);animation:pb 1s ease-in-out infinite;}
+@keyframes pb{0%,100%{opacity:1}50%{opacity:.2}}
+.ov-pomo-prog{width:100%;}
+.ov-pp-track{height:2.5px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;}
+.ov-pp-fill{height:100%;background:var(--brand);border-radius:2px;transition:width .5s;}
+.ov-pp-lbl{display:flex;justify-content:space-between;font-size:9px;color:rgba(255,255,255,.28);margin-top:3px;}
+.ov-pp-val{color:#81A1C1;}
+.ov-noise-row{display:flex;gap:3px;justify-content:center;width:100%;}
+.ov-nb{flex:1;padding:4px 0;border-radius:4px;font-size:10px;border:.5px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.35);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:3px;font-family:"DM Sans","Noto Sans SC",sans-serif;touch-action:manipulation;}
+.ov-nb:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);}
+.ov-nb.on{background:rgba(94,129,172,.25);border-color:rgba(94,129,172,.5);color:#81A1C1;}
+.ov-pomo-btns{display:flex;gap:4px;width:100%;}
+.ov-pb-btn{flex:1;padding:6px 0;border-radius:4px;font-size:11px;font-weight:500;border:none;cursor:pointer;font-family:"DM Sans","Noto Sans SC",sans-serif;touch-action:manipulation;}
+.ov-pb-main{background:var(--brand);color:#fff;}
+.ov-pb-main:hover{background:#4a6d96;}
+.ov-pb-sec{background:rgba(255,255,255,.08);color:rgba(255,255,255,.45);border:.5px solid rgba(255,255,255,.1);}
+.ov-pb-stop{background:transparent;color:rgba(255,255,255,.28);border:.5px solid rgba(255,255,255,.07);}
+/* Bottom list cards */
+.ov-b-list{flex:1;overflow-y:auto;}
+.ov-b-list::-webkit-scrollbar{display:none;}
+.ov-b-row{display:flex;align-items:center;gap:7px;padding:.32rem .875rem;border-bottom:.5px solid var(--line2);cursor:pointer;transition:background .15s;touch-action:manipulation;}
+.ov-b-row:last-child{border-bottom:none;}
+.ov-b-row:hover{background:var(--surface);}
+.ov-b-row.dn{background:rgba(163,190,140,.08);}
+.ov-b-chk,.ov-b-sq{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;cursor:pointer;}
+.ov-b-sq{border-radius:3px;}
+.ov-b-chk.on,.ov-b-sq.on{background:var(--green);border-color:var(--green);}
+.ov-b-nm{flex:1;font-size:12px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ov-b-row.dn .ov-b-nm{color:var(--green-dark);}
+.ov-b-sub{font-size:9.5px;color:var(--ink2);font-family:"DM Mono",monospace;flex-shrink:0;}
+.ov-meal-type{font-size:9px;color:var(--ink2);font-family:"DM Mono",monospace;width:16px;flex-shrink:0;}
+.ov-wk-num{font-size:9.5px;color:var(--ink2);font-family:"DM Mono",monospace;width:14px;flex-shrink:0;}
+.ov-wk-sets{font-size:9.5px;color:var(--teal);font-family:"DM Mono",monospace;}
+/* Resize handles */
+.ov-rh{position:absolute;z-index:10;background:transparent;}
+.ov-rh.col{top:0;bottom:0;width:8px;cursor:col-resize;}
+.ov-rh.row{left:0;right:0;height:8px;cursor:row-resize;}
+/* Color palette popover */
+.ov-palette{position:fixed;z-index:600;background:white;border:.5px solid var(--line);border-radius:8px;padding:6px;display:grid;grid-template-columns:repeat(9,1fr);gap:3px;box-shadow:0 4px 16px rgba(0,0,0,.15);}
+.ov-palette-color{width:18px;height:18px;border-radius:3px;cursor:pointer;border:1.5px solid transparent;transition:transform .1s;}
+.ov-palette-color:hover{transform:scale(1.2);}
+.ov-palette-color.sel{border-color:var(--brand);}
+/* Customize button */
+.ov-customize-btn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;border:.5px solid var(--line);background:var(--surface);cursor:pointer;color:var(--ink2);transition:background .15s;touch-action:manipulation;flex-shrink:0;}
+.ov-customize-btn:hover{background:var(--surface2);}
+/* Background image layer */
+#ov-bg-layer{position:absolute;inset:0;background-size:cover;background-position:center;pointer-events:none;z-index:0;transition:opacity .3s;opacity:0;}
 
 /* ── POMO FULLSCREEN ── */
 .pomo-fs{position:fixed;inset:0;z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0e0e0e;transition:opacity .35s;}
@@ -486,23 +618,36 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
   .sidebar{display:flex;width:var(--sidebar-w);}
   .topbar{display:none;}
   .nav{display:none;}
-  .content{padding:1.5rem 2rem 2rem;}
+  .content{padding:1.5rem 2rem 2rem;overflow-y:auto;}
+  .content.dashboard-mode{padding:0;overflow:hidden;display:flex;flex-direction:column;}
+  .content.dashboard-mode .content-topbar{padding:.5rem 1.25rem;flex-shrink:0;margin-bottom:0;}
   .content-topbar{display:flex;}
   .metric-grid{grid-template-columns:repeat(4,1fr);}
   #toast{bottom:24px;}
-  .ov-bottom-row{grid-template-columns:1fr 1fr 1fr;}
+  /* Dashboard grid layout — desktop only */
+  #panel-overview.active{
+    display:grid;
+    grid-template-columns:var(--ov-col1,256px) 1fr 1fr 1fr;
+    grid-template-rows:var(--ov-row1,68px) 1fr var(--ov-row3,182px);
+    gap:7px;padding:7px;overflow:hidden;flex:1;
+  }
+  .ov-card{min-height:0;}
+  .ov-date-card{grid-column:1;grid-row:1;}
+  .ov-gantt-card{grid-column:2/5;grid-row:1;}
+  .ov-tl-card{grid-column:1;grid-row:2/4;}
+  .ov-tasks-card{grid-column:2/4;grid-row:2;}
+  .ov-pomo-card{grid-column:4;grid-row:2;}
+  .ov-wk-card{grid-column:2;grid-row:3;}
+  .ov-diet-card{grid-column:3;grid-row:3;}
+  .ov-hab-card{grid-column:4;grid-row:3;}
 }
 @media(min-width:1200px){
   .app{display:flex;flex-direction:row;}
   .sidebar{width:var(--sidebar-w-lg);}
   .sidebar-item{font-size:13.5px;padding:10px 14px;}
-  .content{padding:1.75rem 2.5rem 2rem;}
+  .content:not(.dashboard-mode){padding:1.75rem 2.5rem 2rem;}
   .ct-title{font-size:1.6rem;}
   .metric-grid{grid-template-columns:repeat(4,1fr);}
-  .ov-main{flex-direction:row;align-items:flex-start;}
-  .ov-cal-col{flex:1;}
-  .ov-cal-body{height:460px;}
-  .ov-task-col{flex:1;}
 }
 </style>
 </head>
@@ -556,103 +701,133 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
   <!-- ── CONTENT ── -->
   <div class="content" id="content">
     <div class="content-topbar">
-      <div class="ct-title" id="ct-title">总览</div>
-      <div class="ct-date" id="ct-date"></div>
+      <div class="ct-title" id="ct-title">今日</div>
+      <div style="display:flex;align-items:center;gap:.875rem;">
+        <div class="ct-date" id="ct-date"></div>
+        <div id="ov-topbar-actions" style="display:none;align-items:center;gap:6px;">
+          <div class="btn" style="padding:5px 11px;font-size:11.5px;" onclick="quickAddTaskOv()">+ 任务</div>
+          <div class="ov-customize-btn" onclick="openOvCustomize()" title="个性化">
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M7 1v2M7 11v2M1 7h2M11 7h2M3 3l1.4 1.4M9.6 9.6L11 11M3 11l1.4-1.4M9.6 4.4L11 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <div class="btn btn-brand" style="padding:5px 11px;font-size:11.5px;" onclick="openPomoFullscreen()">进入专注模式</div>
+        </div>
+      </div>
     </div>
 
     <!-- ① 今日 -->
     <div class="panel active" id="panel-overview">
-      <!-- Pomo entry card -->
-      <div class="ov-pomo-entry" onclick="openPomoFullscreen()">
-        <div class="ov-pomo-ring">
-          <svg width="44" height="44" viewBox="0 0 44 44" style="transform:rotate(-90deg)">
-            <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="4"/>
-            <circle cx="22" cy="22" r="18" fill="none" stroke="white" stroke-width="4"
-              stroke-dasharray="113" stroke-dashoffset="0" stroke-linecap="round"
-              id="ov-pomo-ring-arc" style="transition:stroke-dashoffset .9s linear;"/>
-          </svg>
-          <div class="ov-pomo-ctr">
-            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polygon id="ov-pomo-icon" points="3,1.5 11,6 3,10.5" fill="white"/></svg>
+      <div id="ov-bg-layer"></div>
+
+      <!-- DATE NAV -->
+      <div class="ov-card light ov-date-card">
+        <div class="ov-date-inner">
+          <div class="ov-dn-arr" onclick="ovCalNav(-1)"><svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M7.5 2.5L4.5 6l3 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="ov-dn-mid">
+            <div class="ov-dn-big" id="ov-dn-day">10</div>
+            <div class="ov-dn-sub" id="ov-dn-sub">周四 · 四月</div>
+            <div class="ov-dn-wk" id="ov-dn-wk">W15 · 2026</div>
           </div>
-        </div>
-        <div class="ov-pomo-info">
-          <div class="ov-pomo-time" id="ov-pomo-time">25:00</div>
-          <div class="ov-pomo-lbl" id="ov-pomo-lbl">点击进入专注模式</div>
-        </div>
-        <div class="ov-pomo-badge" id="ov-pomo-badge">准备开始</div>
-      </div>
-      <!-- Main 2-col layout -->
-      <div class="ov-main">
-        <!-- Left: today's day calendar -->
-        <div class="ov-cal-col">
-          <div class="ov-cal-card">
-            <div class="ov-cal-hd">
-              <div style="font-size:12px;font-weight:500;" id="ov-cal-date">今日</div>
-              <div style="display:flex;gap:4px;">
-                <button class="cal-arrow" onclick="ovCalNav(-1)"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M7 2.5L4 6l3 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-                <button class="cal-arrow" onclick="ovCalNav(1)"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2.5L8 6l-3 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              </div>
-            </div>
-            <div class="ov-cal-body" id="ov-cal-body"></div>
-          </div>
-        </div>
-        <!-- Right: mini info cards -->
-        <div class="ov-task-col">
-          <!-- Diet + Workout -->
-          <div class="ov-2col">
-            <div class="ov-mini-card">
-              <div class="ov-mini-hd">
-                <div style="font-size:11px;font-weight:500;">今日饮食</div>
-                <div class="sec-action" onclick="switchTab('diet')">→</div>
-              </div>
-              <div class="ov-mini-body" id="ov-meal-mini"></div>
-            </div>
-            <div class="ov-mini-card">
-              <div class="ov-mini-hd">
-                <div style="font-size:11px;font-weight:500;">今日训练</div>
-                <div class="sec-action" onclick="switchTab('workout')">→</div>
-              </div>
-              <div class="ov-mini-body" id="ov-workout-mini"></div>
-            </div>
-          </div>
-          <!-- Tasks + Habits -->
-          <div class="ov-2col">
-            <div class="ov-mini-card">
-              <div class="ov-mini-hd">
-                <div style="font-size:11px;font-weight:500;">进行中</div>
-                <div class="sec-action" onclick="switchTab('discipline')">→</div>
-              </div>
-              <div class="ov-mini-body" id="ov-doing-mini"></div>
-            </div>
-            <div class="ov-mini-card">
-              <div class="ov-mini-hd">
-                <div style="font-size:11px;font-weight:500;">习惯打卡</div>
-              </div>
-              <div class="ov-mini-body" id="ov-habit-mini"></div>
-            </div>
-          </div>
-          <!-- Today's tasks full-width -->
-          <div class="ov-mini-card">
-            <div class="ov-today-tasks-hd">
-              <div style="font-size:11px;font-weight:500;">今日任务</div>
-              <button class="add-task-btn" onclick="quickAddTaskOv()" style="font-size:10px;padding:2px 10px;">+ 添加</button>
-            </div>
-            <div style="padding:0 .75rem .625rem;" id="ov-today-tasks"></div>
-          </div>
+          <div class="ov-dn-arr" onclick="ovCalNav(1)"><svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M4.5 2.5L7.5 6l-3 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </div>
       </div>
-      <!-- Bottom stats row -->
-      <div class="ov-bottom-row">
-        <div class="ov-mini-card"><div class="ov-mini-body" style="padding:.625rem .875rem;text-align:center;">
-          <div class="met-val" id="ov-exercise">—</div><div class="met-lbl">运动天</div>
-        </div></div>
-        <div class="ov-mini-card"><div class="ov-mini-body" style="padding:.625rem .875rem;text-align:center;">
-          <div class="met-val" id="ov-focus">—</div><div class="met-lbl">专注均值</div>
-        </div></div>
-        <div class="ov-mini-card"><div class="ov-mini-body" style="padding:.625rem .875rem;text-align:center;">
-          <div class="met-val" id="ov-habit">—</div><div class="met-lbl">习惯率</div>
-        </div></div>
+
+      <!-- GANTT -->
+      <div class="ov-card light ov-gantt-card">
+        <div class="ov-hd lb">
+          <div style="display:flex;align-items:center;gap:4px;"><div class="ov-ct ov-ct-light">近期项目</div><div class="ov-palette-btn" onclick="openCardColorPicker('ov-gantt-card',event)" title="配色"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><circle cx="3" cy="5" r="1" fill="currentColor"/><circle cx="5" cy="3" r="1" fill="currentColor"/><circle cx="7" cy="5" r="1" fill="currentColor"/></svg></div></div>
+          <div class="ov-act" onclick="switchTab('discipline')">全部 →</div>
+        </div>
+        <div class="ov-gantt-inner" id="ov-gantt-inner"></div>
       </div>
+
+      <!-- TIMELINE (dark) -->
+      <div class="ov-card dark ov-tl-card">
+        <div class="ov-hd db">
+          <div style="display:flex;align-items:center;gap:4px;"><div class="ov-ct ov-ct-dark">今日日程</div><div class="ov-palette-btn" style="border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);" onclick="openCardColorPicker('ov-tl-card',event)" title="配色"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><circle cx="3" cy="5" r="1" fill="currentColor"/><circle cx="5" cy="3" r="1" fill="currentColor"/><circle cx="7" cy="5" r="1" fill="currentColor"/></svg></div></div>
+          <div class="ov-act" onclick="switchTab('discipline')">任务页</div>
+        </div>
+        <div class="ov-tl-week" id="ov-tl-week"></div>
+        <div class="ov-tl-chips" id="ov-tl-chips"></div>
+        <div class="ov-tl-scroll" id="ov-tl-scroll"></div>
+      </div>
+
+      <!-- TASKS (light) -->
+      <div class="ov-card light ov-tasks-card">
+        <div class="ov-hd lb">
+          <div style="display:flex;align-items:center;gap:4px;"><div class="ov-ct ov-ct-light">今日任务</div><div class="ov-palette-btn" onclick="openCardColorPicker('ov-tasks-card',event)" title="配色"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><circle cx="3" cy="5" r="1" fill="currentColor"/><circle cx="5" cy="3" r="1" fill="currentColor"/><circle cx="7" cy="5" r="1" fill="currentColor"/></svg></div></div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="ov-act" onclick="quickAddTaskOv()">+ 添加</div>
+            <div class="ov-act" onclick="switchTab('discipline')">全部 →</div>
+          </div>
+        </div>
+        <div class="ov-tasks-body" id="ov-tasks-body"></div>
+      </div>
+
+      <!-- POMO (dark) -->
+      <div class="ov-card dark ov-pomo-card">
+        <div class="ov-hd db">
+          <div style="display:flex;align-items:center;gap:4px;"><div class="ov-ct ov-ct-dark">番茄钟</div><div class="ov-palette-btn" style="border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);" onclick="openCardColorPicker('ov-pomo-card',event)" title="配色"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><circle cx="3" cy="5" r="1" fill="currentColor"/><circle cx="5" cy="3" r="1" fill="currentColor"/><circle cx="7" cy="5" r="1" fill="currentColor"/></svg></div></div>
+          <div class="ov-act" onclick="openPomoFullscreen()">全屏</div>
+        </div>
+        <div class="ov-pomo-body">
+          <div class="ov-pomo-ring-area">
+            <svg id="ov-pring-svg" width="0" height="0" viewBox="0 0 120 120" style="transform:rotate(-90deg)">
+              <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="7"/>
+              <circle cx="60" cy="60" r="52" fill="none" stroke="#5E81AC" stroke-width="7"
+                stroke-dasharray="326.7" stroke-dashoffset="326.7" stroke-linecap="round" id="ov-pring-arc"/>
+            </svg>
+            <div class="ov-pomo-ring-ctr">
+              <div class="ov-pomo-time2" id="ov-pomo-time2">25:00</div>
+              <div class="ov-pomo-ptxt" id="ov-pomo-ptxt">专注时长</div>
+            </div>
+          </div>
+          <div class="ov-pomo-badge2" id="ov-pomo-badge2">准备开始</div>
+          <div class="ov-pomo-seq" id="ov-pomo-seq"></div>
+          <div class="ov-pomo-prog">
+            <div class="ov-pp-track"><div class="ov-pp-fill" id="ov-pp-fill" style="width:0%"></div></div>
+            <div class="ov-pp-lbl"><span>今日进度</span><span class="ov-pp-val" id="ov-pp-val">0h / 2h</span></div>
+          </div>
+          <div class="ov-noise-row">
+            <button class="ov-nb" id="ov-nb-rain"     onclick="toggleNoise('rain')"     title="雨声">雨</button>
+            <button class="ov-nb" id="ov-nb-cafe"     onclick="toggleNoise('cafe')"     title="咖啡馆">咖</button>
+            <button class="ov-nb" id="ov-nb-waves"    onclick="toggleNoise('waves')"    title="海浪">浪</button>
+            <button class="ov-nb" id="ov-nb-forest"   onclick="toggleNoise('forest')"   title="森林">林</button>
+          </div>
+          <div class="ov-pomo-btns">
+            <button class="ov-pb-btn ov-pb-main" id="ov-pomo-main-btn" onclick="pomoMainAction()">开始</button>
+            <button class="ov-pb-btn ov-pb-sec"  id="ov-pomo-skip-btn" onclick="pomoSkip()" style="display:none">跳过</button>
+            <button class="ov-pb-btn ov-pb-stop" id="ov-pomo-stop-btn" onclick="pomoStop()" style="display:none">结束</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- WORKOUT -->
+      <div class="ov-card light ov-wk-card">
+        <div class="ov-hd lb">
+          <div style="display:flex;align-items:center;gap:4px;"><div class="ov-ct ov-ct-light">今日训练</div><div class="ov-palette-btn" onclick="openCardColorPicker('ov-wk-card',event)" title="配色"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><circle cx="3" cy="5" r="1" fill="currentColor"/><circle cx="5" cy="3" r="1" fill="currentColor"/><circle cx="7" cy="5" r="1" fill="currentColor"/></svg></div></div>
+          <div class="ov-act" onclick="switchTab('workout')">全部 →</div>
+        </div>
+        <div class="ov-b-list" id="ov-wk-list"></div>
+      </div>
+
+      <!-- DIET -->
+      <div class="ov-card light ov-diet-card">
+        <div class="ov-hd lb">
+          <div style="display:flex;align-items:center;gap:4px;"><div class="ov-ct ov-ct-light">今日饮食</div><div class="ov-palette-btn" onclick="openCardColorPicker('ov-diet-card',event)" title="配色"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><circle cx="3" cy="5" r="1" fill="currentColor"/><circle cx="5" cy="3" r="1" fill="currentColor"/><circle cx="7" cy="5" r="1" fill="currentColor"/></svg></div></div>
+          <div class="ov-act" onclick="switchTab('diet')">全部 →</div>
+        </div>
+        <div class="ov-b-list" id="ov-diet-list"></div>
+      </div>
+
+      <!-- HABITS -->
+      <div class="ov-card light ov-hab-card">
+        <div class="ov-hd lb">
+          <div style="display:flex;align-items:center;gap:4px;"><div class="ov-ct ov-ct-light">今日习惯</div><div class="ov-palette-btn" onclick="openCardColorPicker('ov-hab-card',event)" title="配色"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4" stroke="currentColor" stroke-width="1.1"/><circle cx="3" cy="5" r="1" fill="currentColor"/><circle cx="5" cy="3" r="1" fill="currentColor"/><circle cx="7" cy="5" r="1" fill="currentColor"/></svg></div></div>
+          <div class="ov-act" onclick="openHabitEditSheet()">编辑</div>
+        </div>
+        <div class="ov-b-list" id="ov-hab-list"></div>
+      </div>
+
     </div>
 
     <!-- ② 饮食 -->
@@ -1233,8 +1408,18 @@ function switchTab(tab){
   const ctTitle=document.getElementById('ct-title');if(ctTitle)ctTitle.textContent=TAB_TITLES[tab];
   const ctDate=document.getElementById('ct-date');
   if(ctDate){const now=new Date();const days=['周日','周一','周二','周三','周四','周五','周六'];ctDate.textContent=tab==='settings'?'偏好 & 数据':`${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 · ${days[now.getDay()]}`;}
-  document.getElementById('content').scrollTop=0;
-  if(tab==='overview')renderOverview();
+  // Dashboard mode for overview
+  const contentEl=document.getElementById('content');
+  const ovActions=document.getElementById('ov-topbar-actions');
+  if(tab==='overview'){
+    contentEl.classList.add('dashboard-mode');
+    if(ovActions)ovActions.style.display='flex';
+  }else{
+    contentEl.classList.remove('dashboard-mode');
+    if(ovActions)ovActions.style.display='none';
+  }
+  contentEl.scrollTop=0;
+  if(tab==='overview'){renderOverview();setTimeout(()=>{initDashResize();sizeOvPomoRing();},80);}
   else if(tab==='diet')renderDiet();
   else if(tab==='workout')renderWorkout();
   else if(tab==='discipline')renderDiscipline();
@@ -1281,162 +1466,477 @@ function ovCalNav(delta){
   const ref=new Date(OV_CAL.y,OV_CAL.m-1,OV_CAL.d);
   ref.setDate(ref.getDate()+delta);
   OV_CAL.y=ref.getFullYear();OV_CAL.m=ref.getMonth()+1;OV_CAL.d=ref.getDate();
-  renderOvCal();
-}
-
-function renderOvCal(){
   const ds=`${OV_CAL.y}-${String(OV_CAL.m).padStart(2,'0')}-${String(OV_CAL.d).padStart(2,'0')}`;
-  const today=getTodayStr();
-  const dateEl=document.getElementById('ov-cal-date');
-  if(dateEl)dateEl.textContent=ds===today?'今日':`${OV_CAL.m}月${OV_CAL.d}日`;
-  const body=document.getElementById('ov-cal-body');
-  if(body)body.innerHTML=renderOvDayView(ds);
+  renderOvDateNav();
+  renderOvTimeline(ds);
+  renderOvTasks(ds);
 }
 
-function renderOvDayView(ds){
+function renderOvCal(){} // legacy stub — replaced by renderOvTimeline
+
+function renderOvDayView(ds){return '';} // legacy stub
+
+function quickAddTaskOv(){
+  const ds=`${OV_CAL.y}-${String(OV_CAL.m).padStart(2,'0')}-${String(OV_CAL.d).padStart(2,'0')}`;
+  quickAddSub(ds,'');
+}
+
+function updateOvPomoEntry(){updateOvPomoCard();} // legacy alias
+
+// ── OVERVIEW DASHBOARD RENDERERS ──
+
+function renderOvDateNav(){
+  const d=new Date(OV_CAL.y,OV_CAL.m-1,OV_CAL.d);
+  const WDAYS=['日','一','二','三','四','五','六'];
+  const MONTHS=['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+  const soy=new Date(d.getFullYear(),0,1);
+  const weekNum=Math.ceil(((d-soy)/86400000+soy.getDay()+1)/7);
+  const dn=document.getElementById('ov-dn-day');if(dn)dn.textContent=d.getDate();
+  const ds2=document.getElementById('ov-dn-sub');if(ds2)ds2.textContent=`周${WDAYS[d.getDay()]} · ${MONTHS[d.getMonth()]}`;
+  const dw=document.getElementById('ov-dn-wk');if(dw)dw.textContent=`W${weekNum} · ${d.getFullYear()}`;
+}
+
+function renderOvGantt(){
+  const projs=loadProjects(),tasks=loadTasks(),today=getTodayStr();
+  const c=document.getElementById('ov-gantt-inner');if(!c)return;
+  if(!projs.length){c.innerHTML='<div style="font-size:11px;color:var(--ink2);padding:.5rem .875rem;">暂无项目</div>';return;}
+  const todayD=new Date(today);let h='';
+  projs.slice(0,4).forEach(p=>{
+    const pts=tasks.filter(t=>t.projectId===p.id&&t.date).map(t=>t.date).sort();
+    if(!pts.length)return;
+    const startD=new Date(pts[0]),endD=new Date(pts[pts.length-1]);
+    const span=Math.max(1,(endD-startD)/86400000);
+    const doneTasks=tasks.filter(t=>t.projectId===p.id&&t.status==='done').length;
+    const totalTasks=tasks.filter(t=>t.projectId===p.id).length;
+    const pct=totalTasks?Math.round(doneTasks/totalTasks*100):0;
+    const todayOffset=Math.max(0,Math.min(100,((todayD-startD)/Math.max(1,endD-startD))*100));
+    const stroke=PROJ_STROKE[p.bg]||'#5E81AC';
+    h+=`<div class="g-row">
+      <div class="g-lbl"><div class="g-dot" style="background:${stroke};"></div>${p.name}</div>
+      <div class="g-track">
+        <div class="g-bg" style="left:0;width:100%;background:${stroke};"></div>
+        <div class="g-fill" style="left:0;width:${pct}%;background:${stroke};"></div>
+        <div class="g-today" style="left:${todayOffset}%;"></div>
+      </div>
+      <div class="g-pct">${pct}%</div>
+    </div>`;
+  });
+  c.innerHTML=h||'<div style="font-size:11px;color:var(--ink2);padding:.5rem .875rem;">暂无含日期任务</div>';
+}
+
+function renderOvTimeline(ds){
   const SLOTS=['07','08','09','10','11','12','13','14','15','16','17','18','19','20','21'];
-  const projs=loadProjects();const tasks=loadTasks();
+  const projs=loadProjects(),tasks=loadTasks();
   const dayTasks=tasks.filter(t=>t.date===ds);
-  const FIRST_H=parseInt(SLOTS[0]);const ROW_H=28;const LABEL_W=30;
-  const gridH=SLOTS.length*ROW_H;
+  const nowH=new Date().getHours();
+  const today=getTodayStr();
+  const isToday=ds===today;
+  // Week mini-cal
+  const ref=new Date(OV_CAL.y,OV_CAL.m-1,OV_CAL.d);
+  const dow=ref.getDay();
+  const mon=new Date(ref);mon.setDate(ref.getDate()-(dow===0?6:dow-1));
+  const WDAYS=['一','二','三','四','五','六','日'];
+  let wkHtml='';
+  for(let i=0;i<7;i++){
+    const d=new Date(mon);d.setDate(mon.getDate()+i);
+    const dStr=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const isActive=dStr===ds;
+    const hasTasks=tasks.some(t=>t.date===dStr);
+    const dotStyle=isActive?'background:rgba(255,255,255,.45)':hasTasks?'background:rgba(94,129,172,.4)':'';
+    const delta=i-(dow===0?6:dow-1);
+    wkHtml+=`<div class="ov-tl-wd${isActive?' today':''}" onclick="ovCalNavTo(${delta},'${dStr}')">
+      <div class="ov-wdn">${WDAYS[i]}</div>
+      <div class="ov-wdnum">${d.getDate()}</div>
+      <div style="width:4px;height:4px;border-radius:50%;margin:2px auto 0;${dotStyle}"></div>
+    </div>`;
+  }
+  const tlWeek=document.getElementById('ov-tl-week');if(tlWeek)tlWeek.innerHTML=wkHtml;
+  // Project chips
+  const activeProjs=projs.filter(p=>dayTasks.some(t=>t.projectId===p.id));
+  let chipsHtml=activeProjs.map(p=>{
+    const stroke=PROJ_STROKE[p.bg]||'#5E81AC';
+    return `<div class="ov-p-chip"><div style="width:5px;height:5px;border-radius:50%;background:${stroke};"></div><span style="color:${stroke};">${p.name}</span></div>`;
+  }).join('');
+  const tlChips=document.getElementById('ov-tl-chips');if(tlChips)tlChips.innerHTML=chipsHtml;
+  // Parse time slots
   const parseSlotH=s=>{const m=(s||'').match(/(\d{1,2}):(\d{2})/);return m?parseInt(m[1])+parseInt(m[2])/60:null;};
   const parseSlot=ts=>{
     if(!ts||ts==='全天')return null;
     const sep=ts.split(/[–\-]/);const start=parseSlotH(sep[0]);const end=sep[1]?parseSlotH(sep[1]):null;
     return(start!==null)?{start,end:end||start+1}:null;
   };
-  let h=`<div style="padding:0 .625rem .625rem;">`;
-  h+=`<div style="position:relative;height:${gridH}px;">`;
-  SLOTS.forEach((sl,i)=>{
-    h+=`<div style="position:absolute;top:${i*ROW_H}px;left:0;right:0;display:flex;align-items:flex-start;height:${ROW_H}px;pointer-events:none;">`;
-    h+=`<div style="font-size:8px;color:var(--ink2);font-family:monospace;width:${LABEL_W}px;flex-shrink:0;line-height:1;">${sl}:00</div>`;
-    h+=`<div style="flex:1;border-top:.5px solid var(--line2);height:1px;margin-top:8px;"></div></div>`;
+  const scheduledTasks=dayTasks.filter(t=>parseSlot(t.timeSlot));
+  let tlHtml='';
+  SLOTS.forEach(sl=>{
+    const h=parseInt(sl);
+    const isNow=isToday&&h===nowH;
+    const slotTasks=scheduledTasks.filter(t=>{const s=parseSlot(t.timeSlot);return s&&Math.floor(s.start)===h;});
+    tlHtml+=`<div class="ov-tl-slot">
+      <div class="ov-tl-tc"><div class="ov-tl-lbl">${sl}:00</div></div>
+      <div class="ov-tl-lc">${isNow?'<div class="ov-now-dot"></div>':''}</div>
+      <div class="ov-tl-cc">`;
+    if(slotTasks.length){
+      slotTasks.forEach(t=>{
+        const proj=projs.find(p=>p.id===t.projectId);
+        const stroke=proj?(PROJ_STROKE[proj.bg]||'#5E81AC'):'#5E81AC';
+        const bg=proj?proj.bg:'rgba(94,129,172,.12)';
+        const slot=parseSlot(t.timeSlot);
+        const spanH=slot?slot.end-slot.start:1;
+        tlHtml+=`<div class="ov-tl-block" style="background:${bg};min-height:${Math.max(1,spanH)*26}px" onclick="openSubSheet('${t.id}')">
+          <div class="ov-tl-bname" style="color:${stroke};">${t.name}</div>
+          <div class="ov-tl-btime" style="color:${stroke};">${t.timeSlot}</div>
+        </div>`;
+      });
+    }else{
+      tlHtml+=`<div class="ov-tl-empty" onclick="quickAddSub('${ds}','${sl}:00')"></div>`;
+    }
+    tlHtml+=`</div></div>`;
   });
-  SLOTS.forEach((sl,i)=>{
-    h+=`<div style="position:absolute;top:${i*ROW_H}px;left:${LABEL_W}px;right:0;height:${ROW_H}px;cursor:pointer;" onclick="quickAddSub('${ds}','${sl}:00')" title="${sl}:00"></div>`;
-  });
-  dayTasks.filter(t=>parseSlot(t.timeSlot)).forEach(t=>{
-    const slot=parseSlot(t.timeSlot);
-    const topPx=(slot.start-FIRST_H)*ROW_H;
-    const heightPx=Math.max(ROW_H,(slot.end-slot.start)*ROW_H);
-    const proj=projs.find(p=>p.id===t.projectId);
-    const bg=proj?proj.bg:'var(--surface)';const stroke=proj?(PROJ_STROKE[proj.bg]||'#5E81AC'):'var(--ink2)';
-    h+=`<div style="position:absolute;top:${topPx}px;left:${LABEL_W+2}px;right:3px;height:${heightPx}px;border-radius:4px;padding:3px 6px;font-size:9px;line-height:1.35;cursor:pointer;background:${bg};overflow:hidden;z-index:1;touch-action:manipulation;" onclick="event.stopPropagation();openSubSheet('${t.id}')">
-      <div style="font-weight:500;color:${stroke};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.name}</div>
-      <div style="opacity:.65;font-size:8px;color:${stroke};">${t.timeSlot}</div>
-    </div>`;
-  });
-  h+=`</div>`;
+  // Unscheduled
   const unplan=dayTasks.filter(t=>!parseSlot(t.timeSlot));
   if(unplan.length){
-    h+=`<div style="margin-top:6px;border-top:.5px solid var(--line2);padding-top:5px;">`;
-    h+=`<div style="font-size:8px;color:var(--ink2);margin-bottom:3px;">未排期</div>`;
+    tlHtml+=`<div class="ov-tl-unplan"><div class="ov-up-lbl">未排期</div>`;
     unplan.forEach(t=>{
       const proj=projs.find(p=>p.id===t.projectId);
-      const bg=proj?proj.bg:'var(--surface)';const stroke=proj?(PROJ_STROKE[proj.bg]||'#5E81AC'):'var(--ink2)';
-      h+=`<div style="border-radius:3px;padding:3px 6px;font-size:9px;cursor:pointer;background:${bg};color:${stroke};margin-bottom:2px;touch-action:manipulation;" onclick="openSubSheet('${t.id}')">${t.name}</div>`;
+      const stroke=proj?(PROJ_STROKE[proj.bg]||'#5E81AC'):'#81A1C1';
+      tlHtml+=`<div class="ov-up-row">
+        <div class="ov-up-dot" style="background:${stroke};"></div>
+        <div class="ov-up-nm">${t.name}</div>
+        <div class="ov-up-btn" onclick="openSubSheet('${t.id}')">编辑</div>
+      </div>`;
+    });
+    tlHtml+=`</div>`;
+  }
+  const scroll=document.getElementById('ov-tl-scroll');
+  if(scroll){scroll.innerHTML=tlHtml;if(isToday)setTimeout(()=>{scroll.scrollTop=Math.max(0,(nowH-7)*40-40);},60);}
+}
+
+function ovCalNavTo(delta,dStr){
+  const ref=new Date(OV_CAL.y,OV_CAL.m-1,OV_CAL.d);
+  ref.setDate(ref.getDate()+delta);
+  OV_CAL.y=ref.getFullYear();OV_CAL.m=ref.getMonth()+1;OV_CAL.d=ref.getDate();
+  renderOvDateNav();renderOvTimeline(dStr);renderOvTasks(dStr);
+}
+
+function renderOvTasks(ds){
+  const tasks=loadTasks(),projs=loadProjects();
+  const dayTasks=tasks.filter(t=>t.date===ds);
+  const c=document.getElementById('ov-tasks-body');if(!c)return;
+  let h='';
+  const projIds=[...new Set(dayTasks.filter(t=>t.projectId).map(t=>t.projectId))];
+  projIds.forEach(pid=>{
+    const proj=projs.find(p=>p.id===pid);if(!proj)return;
+    const pts=dayTasks.filter(t=>t.projectId===pid);
+    const done=pts.filter(t=>t.status==='done').length;
+    const stroke=PROJ_STROKE[proj.bg]||'#5E81AC';
+    h+=`<div class="ov-tg">
+      <div class="ov-tg-hd">
+        <div class="ov-tg-pdot" style="background:${stroke};"></div>
+        <div class="ov-tg-nm" style="color:${stroke};">${proj.name}</div>
+        <div class="ov-tg-bar"><div class="ov-tg-fill" style="width:${pts.length?Math.round(done/pts.length*100):0}%;background:${stroke};"></div></div>
+        <div class="ov-tg-pct">${done}/${pts.length}</div>
+      </div>`;
+    pts.forEach(t=>{
+      const isDone=t.status==='done';
+      const stLabel=t.status==='doing'?'<div class="ov-t-st ov-t-doing">进行中</div>':t.status==='blocked'?'<div class="ov-t-st ov-t-blocked">阻塞</div>':'';
+      h+=`<div class="ov-t-row">
+        <div class="ov-t-chk${isDone?' on':''}" onclick="toggleSubDone('${t.id}');renderOvTasks('${ds}')"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <div class="ov-t-info">
+          <div class="ov-t-name${isDone?' done':''}" onclick="openSubSheet('${t.id}')">${t.name}</div>
+          <div class="ov-t-meta">${t.timeSlot?`<div class="ov-t-time">${t.timeSlot}</div>`:''}${stLabel}</div>
+        </div>
+      </div>`;
     });
     h+=`</div>`;
-  }
-  h+=`</div>`;
-  return h;
+  });
+  const loose=dayTasks.filter(t=>!t.projectId);
+  loose.forEach(t=>{
+    const isDone=t.status==='done';
+    h+=`<div class="ov-t-row">
+      <div class="ov-t-chk${isDone?' on':''}" onclick="toggleSubDone('${t.id}');renderOvTasks('${ds}')"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+      <div class="ov-t-info"><div class="ov-t-name${isDone?' done':''}" onclick="openSubSheet('${t.id}')">${t.name}</div></div>
+    </div>`;
+  });
+  h+=`<div class="ov-t-add" onclick="quickAddTaskOv()"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>添加任务</div>`;
+  c.innerHTML=h||`<div style="padding:.875rem;font-size:12px;color:var(--ink2);">今日无任务</div>`;
 }
 
-function quickAddTaskOv(){
-  const today=getTodayStr();
-  quickAddSub(today,'');
+let OV_POMO_CIRC=326.7;
+
+function sizeOvPomoRing(){
+  const card=document.querySelector('.ov-pomo-card');if(!card)return;
+  const body=card.querySelector('.ov-pomo-body');if(!body)return;
+  const bh=body.offsetHeight,bw=body.offsetWidth;
+  const size=Math.min(Math.floor(bh*0.42),bw-20,145);if(size<40)return;
+  const svg=document.getElementById('ov-pring-svg');if(!svg)return;
+  svg.setAttribute('width',size);svg.setAttribute('height',size);
+  const cx=size/2,cy=size/2,r=size/2-6;
+  const circ=2*Math.PI*r;OV_POMO_CIRC=circ;
+  document.querySelectorAll('#ov-pring-svg circle').forEach(c=>{
+    c.setAttribute('cx',cx);c.setAttribute('cy',cy);c.setAttribute('r',r);c.setAttribute('stroke-width','7');
+  });
+  const arc=document.getElementById('ov-pring-arc');
+  if(arc)arc.setAttribute('stroke-dasharray',String(circ));
+  updateOvPomoCard();
 }
 
-function updateOvPomoEntry(){
-  const timeEl=document.getElementById('ov-pomo-time');
-  const lblEl=document.getElementById('ov-pomo-lbl');
-  const badgeEl=document.getElementById('ov-pomo-badge');
-  const arcEl=document.getElementById('ov-pomo-ring-arc');
-  if(!timeEl)return;
+function updateOvPomoCard(){
   const secs=POMO.currentSecs||(pomoGetFocusMin()*60);
   const mm=Math.floor(secs/60),ss=secs%60;
-  timeEl.textContent=`${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
+  const timeEl=document.getElementById('ov-pomo-time2');
+  if(timeEl)timeEl.textContent=`${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
   const state=POMO.state||'idle';
+  const ptxt=document.getElementById('ov-pomo-ptxt');
+  if(ptxt)ptxt.textContent=state==='idle'?'点击开始':(POMO.isRest?'休息中':'专注中');
+  const badge=document.getElementById('ov-pomo-badge2');
   const labels={idle:'准备开始',focus:'专注中',rest:'休息中','paused-focus':'已暂停','paused-rest':'已暂停'};
-  if(badgeEl)badgeEl.textContent=labels[state]||state;
-  if(lblEl)lblEl.textContent=state==='idle'?'点击进入专注模式':(POMO.isRest?'休息时间':'专注中');
+  if(badge)badge.textContent=labels[state]||state;
+  // Ring
   const total=POMO.totalSecs||(pomoGetFocusMin()*60);
-  const ratio=total?POMO.currentSecs/total:1;
-  const C=2*Math.PI*18;
-  if(arcEl)arcEl.style.strokeDashoffset=String(C*(1-ratio));
+  const ratio=total?secs/total:1;
+  const arc=document.getElementById('ov-pring-arc');
+  if(arc)arc.style.strokeDashoffset=String(OV_POMO_CIRC*(1-ratio));
+  // Buttons
+  const mainBtn=document.getElementById('ov-pomo-main-btn');
+  const skipBtn=document.getElementById('ov-pomo-skip-btn');
+  const stopBtn=document.getElementById('ov-pomo-stop-btn');
+  if(mainBtn){
+    if(state==='idle'){mainBtn.textContent='开始';if(skipBtn)skipBtn.style.display='none';if(stopBtn)stopBtn.style.display='none';}
+    else if(state.startsWith('paused')){mainBtn.textContent='继续';if(skipBtn)skipBtn.style.display='';if(stopBtn)stopBtn.style.display='';}
+    else{mainBtn.textContent='暂停';if(skipBtn)skipBtn.style.display='';if(stopBtn)stopBtn.style.display='';}
+  }
+  // Progress
+  const s=loadSettings();const goalH=s.pomoGoalHours||2;
+  const todayLog=loadFocusLog(getTodayStr());const doneH=todayLog.deepWorkHours||0;
+  const fillEl=document.getElementById('ov-pp-fill');if(fillEl)fillEl.style.width=Math.min(100,doneH/goalH*100)+'%';
+  const valEl=document.getElementById('ov-pp-val');if(valEl)valEl.textContent=`${doneH.toFixed(1)}h / ${goalH}h`;
+  // Dots
+  renderOvPomoDots();
+  // Noise sync
+  ['rain','cafe','waves','forest'].forEach(id=>{document.getElementById('ov-nb-'+id)?.classList.toggle('on',NOISE.active.has(id));});
 }
 
-function renderOverview(){
-  const wk=getWeekKey();const today=getTodayStr();const todayIdx=getTodayIdx();
-  const s=loadSettings();const tasks=loadTasks();const projs=loadProjects();
-  const mealPlan=loadMealPlan(wk);const workoutPlan=loadWorkoutPlan(wk);
-  const weekDates=getWeekDates(wk);
-  // Bottom stats
-  const wkChecks=LS.get('workoutCheck_'+wk,{});
-  const trainDays=workoutPlan?workoutPlan.days.filter((d,i)=>d.type==='training'&&wkChecks[i]).length:0;
-  const trainTarget=workoutPlan?workoutPlan.days.filter(d=>d.type==='training').length:s.workoutsPerWeek;
-  const focusArr=weekDates.map(d=>loadFocusLog(d).deepWorkHours||0).filter(h=>h>0);
-  const avgFocus=focusArr.length?(focusArr.reduce((a,b)=>a+b,0)/focusArr.length).toFixed(1):'0';
-  const habits=s.habits||[];
-  const habitRates=weekDates.map(d=>{const log=loadHabitLog(d);return habits.length?Math.round(habits.filter(h=>log[h]).length/habits.length*100):0;}).filter(r=>r>0);
-  const avgHabit=habitRates.length?Math.round(habitRates.reduce((a,b)=>a+b,0)/habitRates.length):0;
-  const exEl=document.getElementById('ov-exercise');if(exEl)exEl.textContent=`${trainDays}/${trainTarget}`;
-  const foEl=document.getElementById('ov-focus');if(foEl)foEl.textContent=`${avgFocus}h`;
-  const haEl=document.getElementById('ov-habit');if(haEl)haEl.textContent=`${avgHabit}%`;
-  // Pomo entry
-  updateOvPomoEntry();
-  // Day calendar
-  renderOvCal();
-  // Meal mini
-  let mealMini='';
-  if(mealPlan&&mealPlan.days[todayIdx]){
-    const day=mealPlan.days[todayIdx];
-    ['breakfast','lunch','dinner'].forEach(mt=>{
-      const m=day.meals[mt];if(!m||!m.name)return;
-      mealMini+=`<div style="padding:2px 0;border-bottom:.5px solid var(--line2);"><span style="font-size:9px;color:var(--ink3);">${MEAL_NAMES_ZH[mt]}</span><br><span style="font-size:11px;">${m.name}</span></div>`;
-    });
+function renderOvPomoDots(){
+  const total=POMO.totalPomos||4,done=POMO.donePomos||0,current=POMO.pomoIdx||0;
+  let h='';
+  for(let i=0;i<total*2-1;i++){
+    if(i%2===1){h+=`<div class="ov-ps rest"></div>`;continue;}
+    const pi=i/2;
+    const cls=pi<done?'done':pi===current&&POMO.state!=='idle'?'active':'';
+    h+=`<div class="ov-ps ${cls}"></div>`;
   }
-  const mmEl=document.getElementById('ov-meal-mini');if(mmEl)mmEl.innerHTML=mealMini||`<span style="color:var(--ink3);font-size:11px;">暂无计划</span>`;
-  // Workout mini
-  let wkMini='';
-  if(workoutPlan&&workoutPlan.days[todayIdx]){
-    const w=workoutPlan.days[todayIdx];
-    wkMini=`<div style="font-size:11px;">${w.name}</div><div style="font-size:9px;color:var(--ink3);margin-top:2px;">${w.type==='rest'?'休息日':'训练日'}${w.duration?' · '+w.duration+'min':''}</div>`;
-  }
-  const wmEl=document.getElementById('ov-workout-mini');if(wmEl)wmEl.innerHTML=wkMini||`<span style="color:var(--ink3);font-size:11px;">暂无计划</span>`;
-  // In-progress mini
-  const doingTasks=tasks.filter(t=>t.status!=='done').sort((a,b)=>(b.date||b.createdAt||'').localeCompare(a.date||a.createdAt||'')).slice(0,5);
-  let doingHtml='';
-  doingTasks.forEach(t=>{
-    const proj=projs.find(p=>p.id===t.projectId);
-    const dot=proj?`<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${proj.bg};margin-right:4px;flex-shrink:0;"></span>`:'';
-    doingHtml+=`<div style="display:flex;align-items:center;padding:2px 0;overflow:hidden;">${dot}<span style="font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${t.name}</span></div>`;
+  const el=document.getElementById('ov-pomo-seq');if(el)el.innerHTML=h;
+}
+
+function renderOvWorkout(){
+  const wk=getWeekKey(),todayIdx=getTodayIdx();
+  const plan=loadWorkoutPlan(wk);
+  const c=document.getElementById('ov-wk-list');if(!c)return;
+  if(!plan||!plan.days[todayIdx]){c.innerHTML='<div style="padding:.5rem .875rem;font-size:12px;color:var(--ink2);">暂无计划</div>';return;}
+  const day=plan.days[todayIdx];
+  if(day.type==='rest'){c.innerHTML='<div style="padding:.875rem;text-align:center;font-size:12px;color:var(--ink2);">🌿 今日休息</div>';return;}
+  const exs=day.exercises||[];
+  let h=exs.map((ex,i)=>`<div class="ov-b-row">
+    <div class="ov-wk-num">${String(i+1).padStart(2,'0')}</div>
+    <div class="ov-b-nm">${ex.name}</div>
+    <div class="ov-wk-sets">${ex.sets}×${ex.reps}</div>
+    <div class="ov-b-chk" onclick="event.stopPropagation();this.classList.toggle('on')"><svg width="7" height="7" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+  </div>`).join('');
+  c.innerHTML=h||`<div style="padding:.5rem .875rem;font-size:12px;color:var(--ink2);">${day.name}</div>`;
+}
+
+function renderOvDiet(){
+  const wk=getWeekKey(),todayIdx=getTodayIdx();
+  const plan=loadMealPlan(wk);
+  const c=document.getElementById('ov-diet-list');if(!c)return;
+  if(!plan||!plan.days[todayIdx]){c.innerHTML='<div style="padding:.5rem .875rem;font-size:12px;color:var(--ink2);">暂无计划</div>';return;}
+  const day=plan.days[todayIdx];
+  const slots=[{key:'breakfast',label:'早'},{key:'lunch',label:'午'},{key:'dinner',label:'晚'}];
+  let h='';
+  slots.forEach(sl=>{
+    const m=day.meals[sl.key];if(!m||!m.name)return;
+    h+=`<div class="ov-b-row">
+      <div class="ov-meal-type">${sl.label}</div>
+      <div class="ov-b-nm">${m.name}</div>
+      ${m.calories?`<div class="ov-b-sub">${m.calories}</div>`:''}
+      <div class="ov-b-chk" onclick="event.stopPropagation();this.classList.toggle('on')"><svg width="7" height="7" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+    </div>`;
   });
-  const dmEl=document.getElementById('ov-doing-mini');if(dmEl)dmEl.innerHTML=doingHtml||`<span style="color:var(--ink3);font-size:11px;">暂无未完成任务</span>`;
-  // Habits mini
+  c.innerHTML=h||`<div style="padding:.5rem .875rem;font-size:12px;color:var(--ink2);">暂无餐食</div>`;
+}
+
+function renderOvHabits(){
+  const today=getTodayStr(),s=loadSettings(),habits=s.habits||[];
   const habitLog=loadHabitLog(today);
-  let habMini='';
-  habits.forEach(h=>{
-    const done=habitLog[h]||false;
-    habMini+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:2px 0;" onclick="toggleHabit('${esc(h)}')">
-      <span style="font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;">${h}</span>
-      <div class="hchk${done?' on':''}" style="width:14px;height:14px;flex-shrink:0;"><svg width="8" height="8" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3L10 3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  const c=document.getElementById('ov-hab-list');if(!c)return;
+  let h=habits.map(hb=>{
+    const done=habitLog[hb]||false;
+    return`<div class="ov-b-row${done?' dn':''}" onclick="toggleHabitOv('${esc(hb)}')">
+      <div class="ov-b-sq${done?' on':''}"><svg width="7" height="7" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+      <div class="ov-b-nm">${hb}</div>
     </div>`;
+  }).join('');
+  c.innerHTML=h||`<div style="padding:.5rem .875rem;font-size:12px;color:var(--ink2);">在设置页配置习惯</div>`;
+}
+
+function toggleHabitOv(name){toggleHabit(name);renderOvHabits();}
+
+function renderOverview(){
+  const ds=`${OV_CAL.y}-${String(OV_CAL.m).padStart(2,'0')}-${String(OV_CAL.d).padStart(2,'0')}`;
+  renderOvDateNav();
+  renderOvGantt();
+  renderOvTimeline(ds);
+  renderOvTasks(ds);
+  updateOvPomoCard();
+  renderOvWorkout();
+  renderOvDiet();
+  renderOvHabits();
+  applyOvCustomizations();
+}
+
+// ── OVERVIEW CUSTOMIZATION ──
+const OV_CARD_COLORS=JSON.parse(localStorage.getItem('ov_card_colors')||'{}');
+const NORD_PALETTE=['#2E3440','#3B4252','#434C5E','#4C566A','#D8DEE9','#E5E9F0','#ECEFF4',
+  '#8FBCBB','#88C0D0','#81A1C1','#5E81AC','#BF616A','#D08770','#EBCB8B','#A3BE8C','#B48EAD','#ffffff'];
+
+function openCardColorPicker(cardSel,evt){
+  document.getElementById('ov-palette-pop')?.remove();
+  const pop=document.createElement('div');
+  pop.id='ov-palette-pop';pop.className='ov-palette';
+  NORD_PALETTE.forEach(col=>{
+    const btn=document.createElement('div');
+    btn.className='ov-palette-color'+(OV_CARD_COLORS[cardSel]===col?' sel':'');
+    btn.style.background=col;
+    btn.onclick=e=>{e.stopPropagation();setCardColor(cardSel,col);pop.remove();};
+    pop.appendChild(btn);
   });
-  const hmEl=document.getElementById('ov-habit-mini');if(hmEl)hmEl.innerHTML=habMini||`<span style="color:var(--ink3);font-size:11px;">在设置页配置习惯</span>`;
-  // Today's tasks (with date=today)
-  const todayTasks=tasks.filter(t=>t.date===today&&t.status!=='done').sort((a,b)=>(a.timeSlot||'zzz').localeCompare(b.timeSlot||'zzz'));
-  let ttHtml='';
-  todayTasks.forEach(t=>{
-    const proj=projs.find(p=>p.id===t.projectId);
-    const dot=proj?`<div style="width:7px;height:7px;border-radius:50%;background:${proj.bg};flex-shrink:0;"></div>`:'';
-    ttHtml+=`<div style="display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:.5px solid var(--line2);">
-      ${dot}
-      <span style="font-size:12px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${t.timeSlot?`<span style="font-size:9px;color:var(--brand);font-family:monospace;">${t.timeSlot} </span>`:''}${t.name}</span>
-      <div class="sub-chk${t.status==='done'?' on':''}" onclick="event.stopPropagation();toggleSubDone('${t.id}')"><svg width="9" height="9" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3L10 3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    </div>`;
+  const tBtn=document.createElement('div');
+  tBtn.className='ov-palette-color';tBtn.style.cssText='background:transparent;border:1.5px dashed var(--line);';
+  tBtn.title='默认';
+  tBtn.onclick=e=>{e.stopPropagation();setCardColor(cardSel,null);pop.remove();};
+  pop.appendChild(tBtn);
+  const rect=evt.target.getBoundingClientRect();
+  pop.style.cssText=`position:fixed;top:${rect.bottom+4}px;right:${window.innerWidth-rect.right}px;`;
+  document.body.appendChild(pop);
+  setTimeout(()=>document.addEventListener('click',()=>pop.remove(),{once:true}),50);
+}
+
+function setCardColor(cardSel,color){
+  if(color)OV_CARD_COLORS[cardSel]=color;else delete OV_CARD_COLORS[cardSel];
+  localStorage.setItem('ov_card_colors',JSON.stringify(OV_CARD_COLORS));
+  applyOvCustomizations();
+}
+
+function applyOvCustomizations(){
+  const cards={'ov-date-card':'.ov-date-card','ov-gantt-card':'.ov-gantt-card',
+    'ov-tl-card':'.ov-tl-card','ov-tasks-card':'.ov-tasks-card',
+    'ov-pomo-card':'.ov-pomo-card','ov-wk-card':'.ov-wk-card',
+    'ov-diet-card':'.ov-diet-card','ov-hab-card':'.ov-hab-card'};
+  Object.entries(cards).forEach(([key,sel])=>{
+    const el=document.querySelector(sel);if(!el)return;
+    el.style.background=OV_CARD_COLORS[key]||'';
   });
-  const ttEl=document.getElementById('ov-today-tasks');if(ttEl)ttEl.innerHTML=ttHtml||`<div class="empty-small" style="padding:.25rem 0;">今日无安排任务</div>`;
+  const bgLayer=document.getElementById('ov-bg-layer');
+  if(bgLayer){
+    const img=localStorage.getItem('ov_bg_image');
+    const opacity=parseFloat(localStorage.getItem('ov_bg_opacity')||'0.3');
+    bgLayer.style.backgroundImage=img?`url(${img})`:'none';
+    bgLayer.style.opacity=img?String(opacity):'0';
+  }
+}
+
+// Drag-resize handles
+function initDashResize(){
+  const dash=document.getElementById('panel-overview');if(!dash)return;
+  const saved=JSON.parse(localStorage.getItem('ov_grid_sizes')||'{}');
+  if(saved.col1)dash.style.setProperty('--ov-col1',saved.col1);
+  if(saved.row1)dash.style.setProperty('--ov-row1',saved.row1);
+  if(saved.row3)dash.style.setProperty('--ov-row3',saved.row3);
+  // Remove old handles before re-adding
+  dash.querySelectorAll('.ov-rh').forEach(h=>h.remove());
+  createResizeHandle(dash,'col1','col');
+  createResizeHandle(dash,'row1','row');
+  createResizeHandle(dash,'row3','row');
+  setTimeout(()=>positionResizeHandles(dash),60);
+}
+
+function createResizeHandle(dash,which,type){
+  const h=document.createElement('div');
+  h.className=`ov-rh ${type}`;h.dataset.which=which;
+  dash.appendChild(h);
+  let dragging=false,startPos=0,startVal=0;
+  h.addEventListener('mousedown',e=>{
+    dragging=true;startPos=(type==='col'?e.clientX:e.clientY);
+    const cur=getComputedStyle(dash).getPropertyValue(`--ov-${which}`).trim();
+    startVal=parseInt(cur)||256;
+    document.body.style.cursor=type==='col'?'col-resize':'row-resize';
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove',e=>{
+    if(!dragging)return;
+    const delta=(type==='col'?e.clientX:e.clientY)-startPos;
+    const minV=type==='col'?120:44,maxV=type==='col'?480:300;
+    const newVal=Math.max(minV,Math.min(maxV,startVal+delta));
+    dash.style.setProperty(`--ov-${which}`,newVal+'px');
+    positionResizeHandles(dash);
+    if(which==='ov-row2-affected')sizeOvPomoRing();
+  });
+  document.addEventListener('mouseup',()=>{
+    if(!dragging)return;dragging=false;document.body.style.cursor='';
+    const saved=JSON.parse(localStorage.getItem('ov_grid_sizes')||'{}');
+    saved[which]=getComputedStyle(dash).getPropertyValue(`--ov-${which}`).trim();
+    localStorage.setItem('ov_grid_sizes',JSON.stringify(saved));
+    sizeOvPomoRing();
+  });
+}
+
+function positionResizeHandles(dash){
+  const dashRect=dash.getBoundingClientRect();
+  const col1card=dash.querySelector('.ov-date-card');
+  const row1card=dash.querySelector('.ov-gantt-card');
+  const row3card=dash.querySelector('.ov-wk-card');
+  if(col1card){const r=col1card.getBoundingClientRect();const h=dash.querySelector('[data-which="col1"]');if(h){h.style.left=(r.right-dashRect.left-3)+'px';h.style.top='0';h.style.bottom='0';}}
+  if(row1card){const r=row1card.getBoundingClientRect();const h=dash.querySelector('[data-which="row1"]');if(h){h.style.top=(r.bottom-dashRect.top-3)+'px';h.style.left='0';h.style.right='0';}}
+  if(row3card){const r=row3card.getBoundingClientRect();const h=dash.querySelector('[data-which="row3"]');if(h){h.style.top=(r.top-dashRect.top-3)+'px';h.style.left='0';h.style.right='0';}}
+}
+
+// Background image customization
+function openOvCustomize(){
+  const existing=document.getElementById('ov-customize-panel');
+  if(existing){existing.remove();return;}
+  const bgImg=localStorage.getItem('ov_bg_image');
+  const bgOpacity=localStorage.getItem('ov_bg_opacity')||'0.3';
+  const panel=document.createElement('div');
+  panel.id='ov-customize-panel';
+  panel.style.cssText='position:fixed;top:50px;right:12px;background:var(--surface,white);border:.5px solid var(--line);border-radius:10px;padding:1rem;box-shadow:0 4px 20px rgba(0,0,0,.15);z-index:500;width:220px;';
+  panel.innerHTML=`<div style="font-size:12px;font-weight:500;margin-bottom:.625rem;color:var(--ink);">页面个性化</div>
+    <div style="font-size:10px;color:var(--ink2);margin-bottom:4px;">背景图片</div>
+    <label style="display:flex;align-items:center;gap:6px;background:var(--surface2,#f5f5f5);border-radius:6px;padding:6px 8px;cursor:pointer;margin-bottom:6px;border:.5px solid var(--line);">
+      <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M1 10V4a1 1 0 011-1h10a1 1 0 011 1v6a1 1 0 01-1 1H2a1 1 0 01-1-1z" stroke="currentColor" stroke-width="1.2"/><circle cx="4.5" cy="6.5" r="1" fill="currentColor"/><path d="M1 9l3-2.5 2 2 2-3 3 3.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span style="font-size:11px;color:var(--ink2);">上传图片</span>
+      <input type="file" accept="image/*" style="display:none" onchange="loadBgImage(event)">
+    </label>
+    ${bgImg?`<div style="font-size:10px;color:var(--ink2);margin-bottom:4px;">透明度</div>
+    <input type="range" min="0.05" max="1" step="0.05" value="${bgOpacity}" oninput="setBgOpacity(this.value)" style="width:100%;margin-bottom:8px;">
+    <button onclick="clearBgImage()" style="font-size:11px;color:var(--red,#BF616A);background:none;border:.5px solid var(--red,#BF616A);border-radius:4px;padding:4px 10px;cursor:pointer;width:100%;">清除背景</button>`:''}`;
+  document.body.appendChild(panel);
+  setTimeout(()=>document.addEventListener('click',e=>{if(!panel.contains(e.target)&&!e.target.closest('.ov-customize-btn'))panel.remove();},{once:true}),100);
+}
+
+function loadBgImage(evt){
+  const file=evt.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{localStorage.setItem('ov_bg_image',e.target.result);applyOvCustomizations();document.getElementById('ov-customize-panel')?.remove();};
+  reader.readAsDataURL(file);
+}
+
+function setBgOpacity(val){
+  localStorage.setItem('ov_bg_opacity',val);
+  const bgLayer=document.getElementById('ov-bg-layer');if(bgLayer)bgLayer.style.opacity=val;
+}
+
+function clearBgImage(){
+  localStorage.removeItem('ov_bg_image');applyOvCustomizations();document.getElementById('ov-customize-panel')?.remove();
 }
 
 function renderRightPanel(){
