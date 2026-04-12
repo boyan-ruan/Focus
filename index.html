@@ -584,11 +584,15 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
 .ov-pp-lbl{display:flex;justify-content:space-between;font-size:9px;color:var(--ov-txt3,rgba(255,255,255,.28));margin-top:3px;}
 .ov-pp-val{color:var(--ov-txt2,#81A1C1);}
 .ov-noise-row{display:flex;gap:3px;justify-content:center;width:100%;}
-.ov-nb{flex:1;padding:4px 0;border-radius:4px;font-size:10px;border:.5px solid var(--ov-border,rgba(255,255,255,.1));background:transparent;color:var(--ov-txt3,rgba(255,255,255,.35));cursor:pointer;display:flex;align-items:center;justify-content:center;gap:3px;font-family:"DM Sans","Noto Sans SC",sans-serif;touch-action:manipulation;}
+.ov-nb{flex:1;padding:7px 0;border-radius:4px;font-size:10px;border:.5px solid var(--ov-border,rgba(255,255,255,.1));background:transparent;color:var(--ov-txt3,rgba(255,255,255,.35));cursor:pointer;display:flex;align-items:center;justify-content:center;gap:3px;font-family:"DM Sans","Noto Sans SC",sans-serif;touch-action:manipulation;}
 .ov-nb:hover{background:var(--ov-surface,rgba(255,255,255,.06));color:var(--ov-txt2,rgba(255,255,255,.6));}
 .ov-nb.on{background:rgba(94,129,172,.25);border-color:rgba(94,129,172,.5);color:#81A1C1;}
 .ov-pomo-btns{display:flex;gap:4px;width:100%;}
-.ov-pb-btn{flex:1;padding:6px 0;border-radius:4px;font-size:11px;font-weight:500;border:none;cursor:pointer;font-family:"DM Sans","Noto Sans SC",sans-serif;touch-action:manipulation;}
+.ov-pb-btn{flex:1;padding:9px 0;border-radius:5px;font-size:12px;font-weight:500;border:none;cursor:pointer;font-family:"DM Sans","Noto Sans SC",sans-serif;touch-action:manipulation;}
+/* Volume row */
+.ov-vol-row{display:flex;align-items:center;gap:5px;width:100%;padding-top:2px;}
+.ov-vol-row input[type=range]{flex:1;height:2px;cursor:pointer;accent-color:var(--brand);}
+.ov-vol-icon{font-size:10px;color:var(--ov-txt3,rgba(255,255,255,.28));flex-shrink:0;}
 .ov-pb-main{background:var(--brand);color:#fff;}
 .ov-pb-main:hover{background:#4a6d96;}
 .ov-pb-sec{background:rgba(255,255,255,.08);color:rgba(255,255,255,.45);border:.5px solid rgba(255,255,255,.1);}
@@ -825,18 +829,22 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
             <div class="ov-pp-lbl"><span>今日进度</span><span class="ov-pp-val" id="ov-pp-val">0h / 2h</span></div>
           </div>
           <div class="ov-noise-row">
+            <button class="ov-nb" id="ov-nb-tides"  onclick="toggleNoise('tides')"  title="潮汐">
+              <svg width="13" height="13" viewBox="0 0 18 18" fill="none"><path d="M1 11c2.5-3.5 4.5 2 7.5-1s4.5-3.5 7.5 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M1 8c2.5-3 4.5 1.5 7.5-1s4.5-3 7.5.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" opacity=".45"/></svg>
+            </button>
             <button class="ov-nb" id="ov-nb-rain"   onclick="toggleNoise('rain')"   title="雨声">
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 10a5 5 0 1110 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M5 13l-.5 1.5M8 13v2M11 13l.5 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
             </button>
             <button class="ov-nb" id="ov-nb-cafe"   onclick="toggleNoise('cafe')"   title="咖啡馆">
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 7h8v5a3 3 0 01-3 3H6a3 3 0 01-3-3V7z" stroke="currentColor" stroke-width="1.4"/><path d="M11 9h1a2 2 0 010 4h-1" stroke="currentColor" stroke-width="1.4"/><path d="M6 4c0-1.5 2-1.5 2-3M9 4c0-1.5 2-1.5 2-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
             </button>
-            <button class="ov-nb" id="ov-nb-waves"  onclick="toggleNoise('waves')"  title="海浪">
-              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M1 9c1.5-2 3-2 4.5 0s3 2 4.5 0S13 7 15 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M1 12.5c1.5-2 3-2 4.5 0s3 2 4.5 0 2.5-2 4.5 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-            </button>
             <button class="ov-nb" id="ov-nb-forest" onclick="toggleNoise('forest')" title="森林">
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2L3 10h10L8 2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 6L4 13h8L8 6z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 13v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
             </button>
+          </div>
+          <div class="ov-vol-row">
+            <span class="ov-vol-icon">🔈</span>
+            <input type="range" min="0" max="1" step="0.05" id="ov-noise-vol" oninput="setNoiseVol(this.value)" style="flex:1;height:2px;cursor:pointer;accent-color:var(--brand);">
           </div>
           <div class="ov-pomo-btns">
             <button class="ov-pb-btn ov-pb-main" id="ov-pomo-main-btn" onclick="pomoMainAction()">开始</button>
@@ -1214,6 +1222,11 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
               <input type="number" id="s-rest" class="s-num" min="1" max="30">
               <span class="hint">分钟</span>
             </div></div>
+          <div class="srow"><label class="slabel">提示音量</label>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <input type="range" id="s-soundvol" min="0" max="1" step="0.05" style="width:90px;" oninput="setPomSoundVol(this.value)">
+              <span class="hint" id="d-soundvol">—</span>
+            </div></div>
           <div class="srow"><label class="slabel">核心习惯 <span class="hint">（最多 8 项）</span></label></div>
           <div id="habits-editor"></div>
           <button class="add-habit-btn" id="add-habit-btn" onclick="addHabitItem()">+ 添加习惯</button>
@@ -1267,11 +1280,13 @@ button,[onclick]{touch-action:manipulation;-webkit-tap-highlight-color:transpare
       </div>
       <div class="pomo-fs-noise-row">
         <button class="pomo-fs-nb" id="pfs-nb-tides" onclick="toggleNoise('tides');pomoFsUpdateNoise()" title="潮汐"><svg width="13" height="13" viewBox="0 0 18 18" fill="none"><path d="M1 11c2.5-3.5 4.5 2 7.5-1s4.5-3.5 7.5 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M1 8c2.5-3 4.5 1.5 7.5-1s4.5-3 7.5.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" opacity=".45"/></svg></button>
-        <button class="pomo-fs-nb" id="pfs-nb-waves" onclick="toggleNoise('waves');pomoFsUpdateNoise()" title="海浪"><svg width="13" height="13" viewBox="0 0 18 18" fill="none"><path d="M1 12c1.5-2.5 3 1.5 5 0s3.5-3 5-.5 2 2.5 3 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
         <button class="pomo-fs-nb" id="pfs-nb-rain" onclick="toggleNoise('rain');pomoFsUpdateNoise()" title="雨声"><svg width="13" height="13" viewBox="0 0 18 18" fill="none"><path d="M3 5c0-2.5 3.5-4 7-2.5s4 5 1.5 6.5H4C1.5 7.5 3 5 3 5z" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M5 11l-1 4M9 11l-1 4M13 11l-1 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
         <button class="pomo-fs-nb" id="pfs-nb-cafe" onclick="toggleNoise('cafe');pomoFsUpdateNoise()" title="咖啡馆"><svg width="13" height="13" viewBox="0 0 18 18" fill="none"><path d="M4 7h9l-1.5 7H5.5L4 7z" stroke="currentColor" stroke-width="1.3"/><path d="M13 9h2a2 2 0 010 4h-2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
         <button class="pomo-fs-nb" id="pfs-nb-forest" onclick="toggleNoise('forest');pomoFsUpdateNoise()" title="森林"><svg width="13" height="13" viewBox="0 0 18 18" fill="none"><path d="M9 2l4 6H5L9 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M9 8l5 8H4L9 8z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></button>
-        <button class="pomo-fs-nb" id="pfs-nb-fireplace" onclick="toggleNoise('fireplace');pomoFsUpdateNoise()" title="壁炉"><svg width="13" height="13" viewBox="0 0 18 18" fill="none"><rect x="2" y="10" width="14" height="6" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 10V7a4 4 0 018 0v3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:7px;margin-top:6px;opacity:.6;">
+        <span style="font-size:12px;color:rgba(255,255,255,.6);">🔈</span>
+        <input type="range" min="0" max="1" step="0.05" id="pfs-noise-vol" oninput="setNoiseVol(this.value)" style="width:100px;height:2px;cursor:pointer;accent-color:rgba(255,255,255,.6);">
       </div>
     </div>
   </div>
@@ -1636,7 +1651,7 @@ function renderOvGantt(){
 function renderOvTimeline(ds){
   const SLOTS=['07','08','09','10','11','12','13','14','15','16','17','18','19','20','21'];
   const projs=loadProjects(),tasks=loadTasks();
-  const dayTasks=tasks.filter(t=>t.date===ds);
+  const dayTasks=tasks.filter(t=>taskOnDay(t,ds));
   const nowH=new Date().getHours();
   const today=getTodayStr();
   const isToday=ds===today;
@@ -1674,7 +1689,7 @@ function renderOvTimeline(ds){
     const sep=ts.split(/[–\-]/);const start=parseSlotH(sep[0]);const end=sep[1]?parseSlotH(sep[1]):null;
     return(start!==null)?{start,end:end||start+1}:null;
   };
-  const scheduledTasks=dayTasks.filter(t=>parseSlot(t.timeSlot));
+  const scheduledTasks=dayTasks.filter(t=>t.date===ds&&parseSlot(t.timeSlot));
   let tlHtml='';
   SLOTS.forEach(sl=>{
     const h=parseInt(sl);
@@ -1691,7 +1706,7 @@ function renderOvTimeline(ds){
         const bg=proj?proj.bg:'rgba(94,129,172,.12)';
         const slot=parseSlot(t.timeSlot);
         const spanH=slot?slot.end-slot.start:1;
-        tlHtml+=`<div class="ov-tl-block" style="background:${bg};min-height:${Math.max(1,spanH)*26}px" onclick="openSubSheet('${t.id}')">
+        tlHtml+=`<div class="ov-tl-block" style="background:${bg};min-height:${Math.max(1,spanH)*40}px" onclick="openSubSheet('${t.id}')">
           <div class="ov-tl-bname" style="color:${stroke};">${t.name}</div>
           <div class="ov-tl-btime" style="color:${stroke};">${t.timeSlot}</div>
         </div>`;
@@ -1702,9 +1717,9 @@ function renderOvTimeline(ds){
     tlHtml+=`</div></div>`;
   });
   // Unscheduled
-  const unplan=dayTasks.filter(t=>!parseSlot(t.timeSlot));
+  const unplan=dayTasks.filter(t=>!(t.date===ds&&parseSlot(t.timeSlot)));
   if(unplan.length){
-    tlHtml+=`<div class="ov-tl-unplan"><div class="ov-up-lbl">未排期</div>`;
+    tlHtml+=`<div class="ov-tl-unplan"><div class="ov-up-lbl">全天</div>`;
     unplan.forEach(t=>{
       const proj=projs.find(p=>p.id===t.projectId);
       const stroke=proj?(PROJ_STROKE[proj.bg]||'#5E81AC'):'#81A1C1';
@@ -1758,7 +1773,7 @@ function _ovTaskRow(t,ds){
 
 function renderOvTasks(ds){
   const tasks=loadTasks(),projs=loadProjects();
-  const dayTasks=tasks.filter(t=>t.date===ds);
+  const dayTasks=tasks.filter(t=>taskOnDay(t,ds));
   const c=document.getElementById('ov-tasks-body');if(!c)return;
   let h='';
   const projIds=[...new Set(dayTasks.filter(t=>t.projectId).map(t=>t.projectId))];
@@ -1800,7 +1815,7 @@ function sizeOvPomoRing(){
   // Only resize SVG element — keep viewBox coords (cx=60,cy=60,r=52) fixed so ring stays centered
   const body=document.querySelector('.ov-pomo-card .ov-pomo-body');if(!body)return;
   const bh=body.offsetHeight,bw=body.offsetWidth;
-  const size=Math.min(Math.floor(bh*0.42),bw-20,145);if(size<40)return;
+  const size=Math.min(Math.floor(bh*0.58),bw-16,185);if(size<40)return;
   const svg=document.getElementById('ov-pring-svg');if(!svg)return;
   svg.setAttribute('width',size);svg.setAttribute('height',size);
   // OV_POMO_CIRC stays 326.7 (2π×52), no cx/cy/r changes needed
@@ -1840,7 +1855,8 @@ function updateOvPomoCard(){
   // Dots
   renderOvPomoDots();
   // Noise sync
-  ['rain','cafe','waves','forest'].forEach(id=>{document.getElementById('ov-nb-'+id)?.classList.toggle('on',NOISE.active.has(id));});
+  ['tides','rain','cafe','forest'].forEach(id=>{document.getElementById('ov-nb-'+id)?.classList.toggle('on',NOISE.active.has(id));});
+  const nvEl=document.getElementById('ov-noise-vol');if(nvEl)nvEl.value=NOISE.vol;
 }
 
 function renderOvPomoDots(){
@@ -2753,7 +2769,7 @@ function renderWeekView(){
   h+=`</div></div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-top:2px;">`;
   days.forEach(d=>{
     const ds=d.toISOString().substring(0,10);
-    const dayTasks=tasks.filter(t=>t.date===ds);
+    const dayTasks=tasks.filter(t=>taskOnDay(t,ds));
     h+=`<div style="display:flex;flex-direction:column;gap:2px;">`;
     dayTasks.slice(0,3).forEach(t=>{
       const proj=projs.find(p=>p.id===t.projectId);
@@ -2772,7 +2788,7 @@ function renderDayView(){
   const SLOTS=['07','08','09','10','11','12','13','14','15','16','17','18','19','20','21'];
   const ds=`${CAL.y}-${String(CAL.m).padStart(2,'0')}-${String(CAL.d).padStart(2,'0')}`;
   const projs=loadProjects();const tasks=loadTasks();
-  const dayTasks=tasks.filter(t=>t.date===ds);
+  const dayTasks=tasks.filter(t=>taskOnDay(t,ds));
   let h=`<div style="padding:0 .625rem .625rem;">`;
   h+=`<div style="font-size:11px;font-weight:500;margin-bottom:5px;">${CAL.m}月${CAL.d}日</div>`;
   // project pills (all-day)
@@ -2823,7 +2839,7 @@ function renderDayView(){
   });
 
   // Task blocks (absolutely positioned to span correct hours)
-  const timedTasks = dayTasks.filter(t => parseSlot(t.timeSlot));
+  const timedTasks = dayTasks.filter(t => t.date===ds && parseSlot(t.timeSlot));
   timedTasks.forEach(t => {
     const slot = parseSlot(t.timeSlot);
     const topPx = (slot.start - FIRST_H) * ROW_H;
@@ -2839,10 +2855,10 @@ function renderDayView(){
   h += `</div>`;
 
   // Unscheduled / all-day tasks
-  const unplan = dayTasks.filter(t => !parseSlot(t.timeSlot));
+  const unplan = dayTasks.filter(t => !(t.date===ds && parseSlot(t.timeSlot)));
   if(unplan.length){
     h += `<div style="margin-top:6px;border-top:.5px solid var(--line2);padding-top:5px;">`;
-    h += `<div style="font-size:8px;color:var(--ink2);margin-bottom:3px;">未排期</div>`;
+    h += `<div style="font-size:8px;color:var(--ink2);margin-bottom:3px;">全天</div>`;
     unplan.forEach(t=>{
       const proj=projs.find(p=>p.id===t.projectId);
       const bg=proj?proj.bg:'var(--surface)';const stroke=proj?(PROJ_STROKE[proj.bg]||'#5E81AC'):'var(--ink2)';
@@ -2928,7 +2944,7 @@ function renderSubRow(t,proj){
 
 function renderLooseTasks(tasks){
   const projs=loadProjects();
-  let h=`<div class="proj-card"><div class="proj-hd" style="cursor:default;"><div class="pj-name" style="color:var(--ink2);">其他任务</div></div><div class="pj-body open">`;
+  let h=`<div class="proj-card"><div class="proj-hd" style="cursor:default;"><div class="pj-name" style="color:var(--ink2);">零散任务</div></div><div class="pj-body open">`;
   tasks.forEach(t=>{h+=renderSubRow(t,null);});
   h+=`<div class="pj-add-row" onclick="openNewSubSheet('','')">
     <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>添加零散任务
@@ -3020,6 +3036,7 @@ function deleteProjConfirm(pid){
 
 // ── SUBTASK SHEET ──
 function openNewSubSheet(projId,date){
+  _nsProjId=projId||null;
   const projs=loadProjects();
   const projPills=projs.map(p=>{const stroke=PROJ_STROKE[p.bg]||'#5E81AC';return`<div style="padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500;background:${p.bg};color:${stroke};cursor:pointer;border:1.5px solid transparent;" onclick="selSubProj('${p.id}',this)">${p.name}</div>`;}).join('');
   const today=getTodayStr();
@@ -3028,9 +3045,10 @@ function openNewSubSheet(projId,date){
     <div class="form-group"><label class="form-label">任务名称</label><input type="text" id="ns-name" class="s-input" placeholder="任务描述…"></div>
     <div class="form-group"><label class="form-label">所属 Project</label><div style="display:flex;gap:6px;flex-wrap:wrap;" id="ns-projs">${projPills}</div></div>
     <div class="form-row">
-      <div class="form-half form-group"><label class="form-label">分配日期</label><input type="date" id="ns-date" class="s-input" value="${date||today}"></div>
-      <div class="form-half form-group"><label class="form-label">时段（选填）</label><input type="text" id="ns-time" class="s-input" placeholder="14:00–16:00"></div>
+      <div class="form-half form-group"><label class="form-label">开始日期</label><input type="date" id="ns-date" class="s-input" value="${date||today}"></div>
+      <div class="form-half form-group"><label class="form-label">结束日期（跨天）</label><input type="date" id="ns-enddate" class="s-input"></div>
     </div>
+    <div class="form-group"><label class="form-label">时段（选填）</label><input type="text" id="ns-time" class="s-input" placeholder="14:00–16:00"></div>
     <div class="sheet-actions">
       <button class="sheet-btn sheet-btn-secondary" onclick="closeSheet()">取消</button>
       <button class="sheet-btn sheet-btn-primary" onclick="saveNewSub()">添加</button>
@@ -3054,6 +3072,7 @@ function saveNewSub(){
     id:Date.now().toString(36)+Math.random().toString(36).slice(2),
     name,projectId:_nsProjId||null,
     date:document.getElementById('ns-date').value,
+    endDate:document.getElementById('ns-enddate')?.value||'',
     timeSlot:document.getElementById('ns-time').value.trim(),
     steps:[],status:'todo',createdAt:new Date().toISOString()
   };
@@ -3086,9 +3105,12 @@ function openSubSheet(sid){
     <div class="form-group"><label class="form-label">所属 Project</label><div style="display:flex;gap:6px;flex-wrap:wrap;" id="ns-projs">${projPillsEdit}</div></div>
     <div class="form-row">
       <div class="form-half form-group"><label class="form-label">状态</label><select id="ss-status" class="s-select" style="width:100%;">${statusOpts}</select></div>
-      <div class="form-half form-group"><label class="form-label">日期</label><input type="date" id="ss-date" class="s-input" value="${t.date||''}"></div>
+      <div class="form-half form-group"><label class="form-label">开始日期</label><input type="date" id="ss-date" class="s-input" value="${t.date||''}"></div>
     </div>
-    <div class="form-group"><label class="form-label">时段</label><input type="text" id="ss-time" class="s-input" placeholder="14:00–16:00" value="${t.timeSlot||''}"></div>
+    <div class="form-row">
+      <div class="form-half form-group"><label class="form-label">结束日期（跨天）</label><input type="date" id="ss-enddate" class="s-input" value="${t.endDate||''}"></div>
+      <div class="form-half form-group"><label class="form-label">时段</label><input type="text" id="ss-time" class="s-input" placeholder="14:00–16:00" value="${t.timeSlot||''}"></div>
+    </div>
     <div id="ss-steps">${stepsHtml}</div>
     <div style="display:flex;align-items:center;gap:7px;padding:.5rem 0;border-top:.5px solid var(--line2);margin-top:.25rem;">
       <svg width="11" height="11" viewBox="0 0 12 12" fill="none" style="color:var(--brand);flex-shrink:0;"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -3133,6 +3155,7 @@ function saveSubEdit(sid){
   t.projectId=_nsProjId;
   t.status=document.getElementById('ss-status').value;
   t.date=document.getElementById('ss-date').value;
+  t.endDate=document.getElementById('ss-enddate')?.value||'';
   t.timeSlot=document.getElementById('ss-time').value.trim();
   saveTasks(tasks);closeSheet();renderCalendar();renderDiscTaskList();showToast('已保存');
   if(document.getElementById('panel-overview')?.classList.contains('active'))renderOverview();
@@ -3205,13 +3228,15 @@ const POMO = {
   sessionStarted: false,
   soundOn: true,
   audioCtx: null,
+  soundVol: parseFloat(localStorage.getItem('pomo_sound_vol')||'0.25'),
 };
 
 function pomoGetFocusMin(){return parseInt(loadSettings().pomodoroMinutes)||25;}
 function pomoGetRestMin(){return parseInt(loadSettings().restMinutes)||5;}
 
 // ── AMBIENT NOISE (real recorded samples via fetch + AudioBuffer loop) ──
-const NOISE = { ctx: null, nodes: {}, buffers: {}, active: new Set(), pomoPaused: false };
+const NOISE = { ctx: null, nodes: {}, buffers: {}, active: new Set(), pomoPaused: false,
+  vol: parseFloat(localStorage.getItem('noise_vol')||'0.8') };
 
 // CC-licensed natural recordings, all CORS-open on raw.githubusercontent.com
 const NOISE_URLS = {
@@ -3252,7 +3277,7 @@ async function noiseStart(id){
     gain.gain.value = 0;
     src.connect(gain); gain.connect(ctx.destination);
     src.start();
-    gain.gain.setTargetAtTime(0.8, ctx.currentTime, 0.6);
+    gain.gain.setTargetAtTime(NOISE.vol, ctx.currentTime, 0.6);
     NOISE.nodes[id] = { src, gain };
     if(btn) btn.style.opacity = '';
     if(!NOISE.pomoPaused && ctx.state==='suspended') ctx.resume();
@@ -3276,6 +3301,22 @@ function toggleNoise(id){
   else { NOISE.active.add(id); noiseStart(id); }
   const btn = document.getElementById('noise-'+id);
   if(btn) btn.classList.toggle('on', NOISE.active.has(id));
+}
+function setNoiseVol(v){
+  NOISE.vol=parseFloat(v);localStorage.setItem('noise_vol',v);
+  const ctx=NOISE.ctx;if(!ctx)return;
+  Object.values(NOISE.nodes).forEach(n=>{if(n?.gain)n.gain.gain.setTargetAtTime(NOISE.vol,ctx.currentTime,0.1);});
+  // Sync all volume sliders
+  ['ov-noise-vol','pfs-noise-vol'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=v;});
+}
+function setPomSoundVol(v){
+  POMO.soundVol=parseFloat(v);localStorage.setItem('pomo_sound_vol',v);
+  const d=document.getElementById('d-soundvol');if(d)d.textContent=Math.round(parseFloat(v)*100)+'%';
+}
+// Task cross-day helper
+function taskOnDay(t,ds){
+  if(t.endDate&&t.endDate!==t.date)return t.date<=ds&&t.endDate>=ds;
+  return t.date===ds;
 }
 
 // Sync with pomo — suspend/resume entire AudioContext
@@ -3424,7 +3465,6 @@ function pomoMainAction(){
 }
 
 function pomoStartFocus(){
-  if(POMO.tomoComplete>=POMO.goalTomos){pomoShowComplete();return;}
   POMO.isRest=false;POMO.state='focus';POMO.sessionStarted=true;
   POMO.currentSecs=pomoGetFocusMin()*60;POMO.totalSecs=POMO.currentSecs;
   pomoSetPhaseUI();pomoStartTick();noisePomResume();
@@ -3457,7 +3497,7 @@ function pomoPhaseEnd(){
     const today=getTodayStr();const log=loadFocusLog(today);log.pomodoroCount=POMO.tomoComplete;
     log.deepWorkHours=parseFloat((POMO.totalFocusSecs/3600).toFixed(1));saveFocusLog(today,log);
     renderRightPanel();
-    if(POMO.tomoComplete>=POMO.goalTomos){pomoShowComplete();return;}
+    if(POMO.tomoComplete===POMO.goalTomos)showToast(`🎉 目标达成！已完成 ${POMO.tomoComplete} 个番茄`);
     setTimeout(()=>pomoStartRest(),200);
   }else{
     pomoPlaySound('rest-end');pomoSendNotif('休息结束 ⏰','准备开始下一个番茄钟');
@@ -3486,7 +3526,7 @@ function pomoSkip(){
     POMO.tomoComplete++;POMO.totalFocusSecs+=(pomoGetFocusMin()*60-POMO.currentSecs);
     pomoRenderDots();pomoUpdateProgress();pomoUpdateTodayStat();
     const today=getTodayStr();const log=loadFocusLog(today);log.pomodoroCount=POMO.tomoComplete;saveFocusLog(today,log);
-    if(POMO.tomoComplete>=POMO.goalTomos){pomoShowComplete();return;}
+    if(POMO.tomoComplete===POMO.goalTomos)showToast(`🎉 目标达成！已完成 ${POMO.tomoComplete} 个番茄`);
     pomoStartRest();
   }else{pomoStartFocus();}
   pomoBuildSeqPills();
@@ -3519,7 +3559,7 @@ function pomoSetPhaseUI(){
   if(stopBtn)stopBtn.style.display='flex';
   if(!POMO.isRest){
     if(badge)badge.className='pomo-phase-badge focus';
-    if(bt){bt.innerHTML='<div class="phase-blink"></div>';bt.innerHTML+=`第 ${POMO.tomoComplete+1} / ${POMO.goalTomos} 个`;}
+    if(bt){bt.innerHTML='<div class="phase-blink"></div>';bt.innerHTML+=POMO.tomoComplete>=POMO.goalTomos?`+${POMO.tomoComplete-POMO.goalTomos+1} 超额`:`第 ${POMO.tomoComplete+1} / ${POMO.goalTomos} 个`;}
     if(pm){pm.textContent='专注中';pm.className='pomo-phase-mini';}
     if(mainBtn){mainBtn.className='pomo-btn pb-main';}
     if(lbl)lbl.textContent='暂停';
@@ -3637,10 +3677,11 @@ function pomoFsRenderDots(){
 }
 
 function pomoFsUpdateNoise(){
-  ['tides','waves','rain','cafe','forest','fireplace'].forEach(id=>{
+  ['tides','rain','cafe','forest'].forEach(id=>{
     const btn=document.getElementById('pfs-nb-'+id);
     if(btn)btn.classList.toggle('on',NOISE.active.has(id));
   });
+  const volEl=document.getElementById('pfs-noise-vol');if(volEl)volEl.value=NOISE.vol;
 }
 
 function pomoShowComplete(){
@@ -3661,7 +3702,7 @@ function pomoPlaySound(type){
         o.connect(g);g.connect(ctx.destination);o.type='sine';
         o.frequency.value=i===0?880:1046;
         g.gain.setValueAtTime(0,ctx.currentTime+delay);
-        g.gain.linearRampToValueAtTime(0.3,ctx.currentTime+delay+0.01);
+        g.gain.linearRampToValueAtTime(POMO.soundVol,ctx.currentTime+delay+0.01);
         g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+delay+0.5);
         o.start(ctx.currentTime+delay);o.stop(ctx.currentTime+delay+0.55);
       });
@@ -3669,7 +3710,7 @@ function pomoPlaySound(type){
       const o=ctx.createOscillator();const g=ctx.createGain();
       o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.value=523;
       g.gain.setValueAtTime(0,ctx.currentTime);
-      g.gain.linearRampToValueAtTime(0.25,ctx.currentTime+0.01);
+      g.gain.linearRampToValueAtTime(POMO.soundVol,ctx.currentTime+0.01);
       g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.7);
       o.start(ctx.currentTime);o.stop(ctx.currentTime+0.75);
     }
@@ -3766,6 +3807,8 @@ function renderSettings(){
   document.getElementById('s-equipment').value=s.equipment||'gym';
   document.getElementById('s-fitnesslevel').value=s.fitnessLevel||2;
   document.getElementById('s-focusgoal').value=s.focusGoalHours||2;
+  const svEl=document.getElementById('s-soundvol');if(svEl){svEl.value=POMO.soundVol;document.getElementById('d-soundvol').textContent=Math.round(POMO.soundVol*100)+'%';}
+  const nvEl2=document.getElementById('ov-noise-vol');if(nvEl2)nvEl2.value=NOISE.vol;
   document.getElementById('s-pomodoro').value=s.pomodoroMinutes||25;
   document.getElementById('s-rest').value=s.restMinutes||5;
   updateBMR();
